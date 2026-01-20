@@ -100,19 +100,39 @@ pixi run python test_matcher.py --matcher all
 
 Using `assets/ref.png` and `assets/tgt.png`:
 
-| Matcher | Matches | Inliers | Time (s) | Accuracy |
-|---------|---------|---------|----------|----------|
-| eloftr | 1145 | 1124 | 0.098 | 98.2% |
-| edm | 1790 | 1781 | 0.036 | 99.5% |
-| clidd-u128 | 865 | 666 | 0.014 | 77.0% |
-| superpoint-lightglue-subpx | 502 | 480 | 0.068 | 95.6% |
-| xfeat | 830 | 143 | 0.013 | 17.2% |
+| Model | Matches | Inliers | Time (s) | Accuracy |
+| :--- | :---: | :---: | :---: | :---: |
+| **edm** | 1790 | 1781 | 0.035 | 99.5% |
+| **eloftr** | 1145 | 1124 | 0.100 | 98.2% |
+| **xfeat-lightglue-subpx** | 780 | 707 | 0.034 | 90.6% |
+| **xfeat-lightglue** | 780 | 703 | 0.016 | 90.1% |
+| **clidd-u128** | 865 | 666 | 0.014 | 77.0% |
+| **clidd-e128** | 806 | 580 | 0.011 | 72.0% |
+| **gim-lightglue** | 564 | 559 | 0.093 | 99.1% |
+| **clidd-g128** | 741 | 508 | 0.011 | 68.6% |
+| **superpoint-lightglue-subpx** | 502 | 480 | 0.071 | 95.6% |
+| **superpoint-lightglue** | 502 | 474 | 0.057 | 94.4% |
+| **xfeat-star** | 615 | 454 | 0.018 | 73.8% |
+| **clidd-l64** | 846 | 424 | 0.006 | 50.1% |
+| **clidd-m64** | 801 | 336 | 0.006 | 41.9% |
+| **liftfeat** | 778 | 278 | 0.037 | 35.7% |
+| **clidd-s64** | 744 | 231 | 0.005 | 31.0% |
+| **clidd-n64** | 720 | 194 | 0.004 | 26.9% |
+| **orb-nn** | 600 | 164 | 0.023 | 27.3% |
+| **clidd-t64** | 708 | 164 | 0.005 | 23.2% |
+| **xfeat-subpx** | 830 | 150 | 0.031 | 18.1% |
+| **xfeat** | 830 | 143 | 0.012 | 17.2% |
+| **sift-nn** | 507 | 85 | 0.089 | 16.8% |
+| **sift-lightglue** | 110 | 48 | 0.137 | 43.6% |
+| **clidd-a48** | 762 | 23 | 0.007 | 3.0% |
+
+> **Note:** Tests were run on CUDA. Sorted by Inliers count.
 
 ## 🏗️ Project Structure
 
 ```
 deep-matching-wrapper/
-├── matcher/                 # Matcher implementations
+├── matcher/                # Matcher implementations
 │   ├── base_matcher.py     # Base class with unified API
 │   ├── xfeat/              # XFeat wrapper
 │   ├── liftfeat/           # LiftFeat wrapper
