@@ -75,8 +75,13 @@ class BaseMatcher(torch.nn.Module):
         # Take as input a pair of images (not a batch)
         if isinstance(img0, (str, Path)):
             img0 = BaseMatcher.load_image(img0)
+        elif isinstance(img0, np.ndarray):
+            img0 = torch.from_numpy(img0).permute(2, 0, 1).float() / 255.0
+
         if isinstance(img1, (str, Path)):
             img1 = BaseMatcher.load_image(img1)
+        elif isinstance(img1, np.ndarray):
+            img1 = torch.from_numpy(img1).permute(2, 0, 1).float() / 255.0
 
         assert isinstance(img0, torch.Tensor)
         assert isinstance(img1, torch.Tensor)

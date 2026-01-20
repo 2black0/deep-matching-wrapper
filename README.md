@@ -78,27 +78,27 @@ This will check:
 
 ## 🚀 Usage
 
-### Basic Testing
+### Single Image Matching
 
 Test a single matcher:
 
 ```bash
-pixi run python test_matcher.py --matcher xfeat
+pixi run python demo_matcher.py --matcher xfeat
 ```
 
 Test with custom images:
 
 ```bash
-pixi run python test_matcher.py --matcher eloftr --img1 path/to/img1.png --img2 path/to/img2.png
+pixi run python demo_matcher.py --matcher eloftr --img1 path/to/img1.png --img2 path/to/img2.png
 ```
 
 Test all matchers:
 
 ```bash
-pixi run python test_matcher.py --matcher all
+pixi run python demo_matcher.py --matcher all
 ```
 
-### Available Arguments
+#### Available Arguments
 
 ```
 --matcher MATCHER  Matcher name (xfeat, xfeat-star, xfeat-lightglue, liftfeat, gim-lightglue, edm, orb-nn, sift-nn, sift-lightglue, superpoint-lightglue, xfeat-subpx, xfeat-lightglue-subpx, superpoint-lightglue-subpx, clidd-a48, clidd-n64, clidd-t64, clidd-s64, clidd-m64, clidd-l64, clidd-g128, clidd-e128, clidd-u128, eloftr) or 'all'
@@ -106,7 +106,7 @@ pixi run python test_matcher.py --matcher all
 --img2 IMG2        Path to second image (default: assets/tgt.png)
 ```
 
-## 📊 Example Results
+#### 📊 Example Results
 
 Using `assets/ref.png` and `assets/tgt.png`:
 
@@ -140,6 +140,14 @@ Using `assets/ref.png` and `assets/tgt.png`:
 
 Benchmark on HPatches and MegaDepth-1500 dataset can be found detailed in [HPatches Result](docs/HPATCH_RESULT.md) and [MegaDepth Result](docs/MEGADEPTH_RESULT.md).
 
+### Real-time Matching
+
+Run real-time matching using your webcam:
+
+```bash
+pixi run python demo_realtime.py --matcher xfeat --cam 0
+```
+
 ## 🏗️ Project Structure
 
 ```
@@ -155,7 +163,9 @@ deep-matching-wrapper/
 │   ├── eloftr/             # EfficientLoFTR wrapper
 │   ├── subpx/              # Subpixel refinement wrapper
 │   └── handcrafted.py      # ORB/SIFT wrapper
-├── test_matcher.py         # Main testing script
+├── demo_matcher.py         # Main demo script
+├── check_matcher.py        # Check supported matchers script
+├── demo_realtime.py        # Real-time matcher demo
 ├── assets/                 # Test images
 ├── scripts/                # Utility scripts
 └── pixi.toml               # Pixi dependency configuration
