@@ -29,6 +29,7 @@ nvidia-ml-py = "*"
 psutil = "*"
 onnx = "*"
 tabulate = "*"
+onnxscript = "*"
 
 [pypi-dependencies]
 huggingface-hub = "*"
@@ -36,6 +37,7 @@ omegaconf = "*"
 yacs = "*"
 einops = "*"
 safetensors = "*"
+onnx-simplifier = "*"
 
 [feature.gpu.system-requirements]
 cuda = "12.0" 
