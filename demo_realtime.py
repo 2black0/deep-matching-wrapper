@@ -362,8 +362,9 @@ class MatchingDemo:
         
         # Prepare for drawMatches (scaled keypoint size)
         keypoint_size = max(1, int(5 * self.args.scale))
-        kp1 = [cv2.KeyPoint(p[0], p[1], keypoint_size) for p in inlier_pts1]
-        kp2 = [cv2.KeyPoint(p[0], p[1], keypoint_size) for p in inlier_pts2]
+        # Fix: Cast to float explicitly to handle matchers returning int64 (like LiftFeat)
+        kp1 = [cv2.KeyPoint(float(p[0]), float(p[1]), keypoint_size) for p in inlier_pts1]
+        kp2 = [cv2.KeyPoint(float(p[0]), float(p[1]), keypoint_size) for p in inlier_pts2]
         matches = [cv2.DMatch(i, i, 0) for i in range(len(kp1))]
 
         # If it's a dense matcher, we might want to sample if there are too many points

@@ -28,6 +28,7 @@ matplotlib = "*"
 nvidia-ml-py = "*"
 psutil = "*"
 onnx = "*"
+tabulate = "*"
 
 [pypi-dependencies]
 huggingface-hub = "*"
