@@ -169,7 +169,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.output_path is None:
-        args.output_path = f"outputs/hpatch-{args.matcher}"
+        args.output_path = f"outputs/hpatch/{args.matcher}"
     os.makedirs(args.output_path, exist_ok=True)
     
     # Init Matcher

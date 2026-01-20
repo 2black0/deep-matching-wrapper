@@ -110,7 +110,7 @@ pixi run python demo_matcher.py --matcher all
 
 Using `assets/ref.png` and `assets/tgt.png`:
 
-| Model                          | Matches | Inliers | Time (s) | Accuracy |
+| Model                          | Matches | Inliers | Time (s) |  Ratio   |
 | :----------------------------- | :-----: | :-----: | :------: | :------: |
 | **edm**                        |  1790   |  1781   |  0.035   |  99.5%   |
 | **eloftr**                     |  1145   |  1124   |  0.100   |  98.2%   |

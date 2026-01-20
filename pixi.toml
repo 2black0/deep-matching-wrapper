@@ -25,6 +25,16 @@ poselib = "*"
 ipykernel = "*"
 pandas = "*"
 matplotlib = "*"
+nvidia-ml-py = "*"
+psutil = "*"
+onnx = "*"
+
+[pypi-dependencies]
+huggingface-hub = "*"
+omegaconf = "*"
+yacs = "*"
+einops = "*"
+safetensors = "*"
 
 [feature.gpu.system-requirements]
 cuda = "12.0" 
@@ -45,10 +55,3 @@ onnxruntime = "*"
 [environments]
 default = ["gpu"]
 cpu = ["cpu"]
-
-[pypi-dependencies]
-huggingface-hub = "*"
-omegaconf = ">=2.3.0, <3"
-yacs = "*"
-einops = "*"
-safetensors = "*"

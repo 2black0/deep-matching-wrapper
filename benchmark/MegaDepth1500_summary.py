@@ -78,19 +78,18 @@ def main():
     
     extracted_rows = []
     
-    if not os.path.exists(outputs_dir):
-        print(f"ERROR: Directory '{outputs_dir}' not found!")
+    # Update to scan outputs/megadepth
+    megadepth_dir = os.path.join(outputs_dir, 'megadepth')
+    
+    if not os.path.exists(megadepth_dir):
+        print(f"ERROR: Directory '{megadepth_dir}' not found!")
         return
 
-    items = sorted(os.listdir(outputs_dir))
+    items = sorted(os.listdir(megadepth_dir))
     
     for item in items:
-        # Filter for megadepth folders or just check all results.txt?
-        # User request says: "data2 di outputs/megadepth-*/results.txt"
-        if not item.startswith("megadepth-"):
-            continue
-            
-        item_path = os.path.join(outputs_dir, item)
+        # scan subfolders in outputs/megadepth/
+        item_path = os.path.join(megadepth_dir, item)
         
         if os.path.isdir(item_path):
             result_file = os.path.join(item_path, "results.txt")
@@ -100,6 +99,10 @@ def main():
                 row_data = parse_results_file(result_file)
                 
                 if row_data:
+                    # Ensure Matcher name is set from folder name if not in file or just as fallback
+                    if "Matcher" not in row_data or not row_data["Matcher"]:
+                        row_data["Matcher"] = item
+                        
                     ordered_row = []
                     for h in headers:
                         ordered_row.append(row_data.get(h, ""))

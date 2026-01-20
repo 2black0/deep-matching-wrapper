@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     # Determine output path
     if args.output_path is None:
-        args.output_path = f"outputs/megadepth-{args.matcher}"
+        args.output_path = f"outputs/megadepth/{args.matcher}"
     
     os.makedirs(args.output_path, exist_ok=True)
     

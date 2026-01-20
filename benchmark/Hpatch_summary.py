@@ -99,29 +99,33 @@ def main():
     
     extracted_rows = []
     
-    # Cek apakah folder outputs ada
-    if not os.path.exists(outputs_dir):
-        print(f"ERROR: Directory '{outputs_dir}' not found!")
+    # Update to scan outputs/hpatch
+    hpatch_dir = os.path.join(outputs_dir, 'hpatch')
+    
+    if not os.path.exists(hpatch_dir):
+        print(f"ERROR: Directory '{hpatch_dir}' not found!")
         return
 
-    items = sorted(os.listdir(outputs_dir))
+    items = sorted(os.listdir(hpatch_dir))
     
     for item in items:
-        item_path = os.path.join(outputs_dir, item)
+        # scan subfolders in outputs/hpatch/
+        item_path = os.path.join(hpatch_dir, item)
         
-        # Cek apakah ini direktori
         if os.path.isdir(item_path):
             result_file = os.path.join(item_path, "results.txt")
             
-            # Cek keberadaan results.txt
             if os.path.exists(result_file):
                 print(f"Processing: {item}")
                 row_data = parse_results_file(result_file)
                 
                 if row_data:
+                    # Ensure Matcher name is set from folder name if not in file or just as fallback
+                    if "Matcher" not in row_data or not row_data["Matcher"]:
+                        row_data["Matcher"] = item
+                        
                     ordered_row = []
                     for h in headers:
-                        # Ambil data sesuai header, kosongkan jika tidak ada
                         ordered_row.append(row_data.get(h, ""))
                     extracted_rows.append(ordered_row)
 
