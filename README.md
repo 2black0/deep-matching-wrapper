@@ -5,18 +5,18 @@ A unified, minimal-dependency wrapper for state-of-the-art deep learning image m
 ## 🎯 Supported Matchers
 
 ### Dense Matchers (Detector-Free)
-- **EfficientLoFTR** (`eloftr`) - Efficient Local Feature Transformer for dense matching
-- **EDM** (`edm`) - Explicit Dense Matching
-- **LiftFeat** (`liftfeat`) - Feature boosting wrapper
+- **EfficientLoFTR** (`eloftr`) - Efficient LoFTR: Semi-Dense Local Feature Matching with Sparse-Like Speed
+- **EDM** (`edm`) - Efficient Deep Feature Matching
+- **LiftFeat** (`liftfeat`) - 3D Geometry-Aware Local Feature Matching
 
 ### Sparse Matchers (Feature-Based)
-- **XFeat** (`xfeat`, `xfeat-star`, `xfeat-lightglue`) - Fast and accurate sparse matching
-- **SuperPoint + LightGlue** (`superpoint-lightglue`) - Classical combination with LightGlue
-- **GIM** (`gim-lightglue`) - SuperPoint+LightGlue finetuned on 100h of data
-- **CLIDD** (`clidd-a48`, `clidd-n64`, `clidd-t64`, `clidd-s64`, `clidd-m64`, `clidd-l64`, `clidd-g128`, `clidd-e128`, `clidd-u128`) - Lightweight Feature Matching (9 variants)
+- **XFeat** (`xfeat`, `xfeat-star`, `xfeat-lightglue`) - Accelerated Features for Lightweight Image Matching
+- **SuperPoint + LightGlue** (`superpoint-lightglue`) - Self-Supervised Interest Point Detection and Description with Local Feature Matching at Light Speed
+- **GIM** (`gim-lightglue`) - Learning Generalizable Image Matcher From Internet Videos
+- **CLIDD** (`clidd-a48`, `clidd-n64`, `clidd-t64`, `clidd-s64`, `clidd-m64`, `clidd-l64`, `clidd-g128`, `clidd-e128`, `clidd-u128`) - Cross-Layer Independent Deformable Description for Efficient and Discriminative Local Feature Representation (9 variants)
 
 ### Subpixel Refinement
-- **Keypt2Subpx** (`xfeat-subpx`, `xfeat-lightglue-subpx`, `superpoint-lightglue-subpx`) - Keypoint to subpixel refinement
+- **Keypt2Subpx** (`xfeat-subpx`, `xfeat-lightglue-subpx`, `superpoint-lightglue-subpx`) - Learning to Make Keypoints Sub-Pixel Accurate
 
 ### Handcrafted Features
 - **ORB** (`orb-nn`) - ORB features with nearest neighbor matching
@@ -91,7 +91,7 @@ pixi run python test_matcher.py --matcher all
 ### Available Arguments
 
 ```
---matcher MATCHER   Matcher name (see supported matchers above) or 'all'
+--matcher MATCHER  Matcher name (xfeat, xfeat-star, xfeat-lightglue, liftfeat, gim-lightglue, edm, orb-nn, sift-nn, sift-lightglue, superpoint-lightglue, xfeat-subpx, xfeat-lightglue-subpx, superpoint-lightglue-subpx, clidd-a48, clidd-n64, clidd-t64, clidd-s64, clidd-m64, clidd-l64, clidd-g128, clidd-e128, clidd-u128, eloftr) or 'all'
 --img1 IMG1        Path to first image (default: assets/ref.png)
 --img2 IMG2        Path to second image (default: assets/tgt.png)
 ```
@@ -146,7 +146,7 @@ deep-matching-wrapper/
 ├── test_matcher.py         # Main testing script
 ├── assets/                 # Test images
 ├── scripts/                # Utility scripts
-└── pixi.toml              # Pixi dependency configuration
+└── pixi.toml               # Pixi dependency configuration
 ```
 
 ## 🙏 Credits
