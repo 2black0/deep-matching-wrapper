@@ -1,0 +1,20 @@
+
+==================== Testing superpoint-lightglue ====================
+Running superpoint-lightglue on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 502 (int)
+  Inliers: 496 (int)
+  Ratio: 0.99 (float)
+  All Keypoints0: [[735.046875 335.046875],[108.484375 85.828125]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[553.015625 275.671875],[530.359375 428.015625]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[ 0.02895586 -0.04907062 -0.02209614 -0.0219601 ]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  All Descriptors1: [[ 0.00680392 -0.13117415  0.04110152  0.06516314]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  Matched Keypoints0: [[535.828125 283.484375],[735.046875 512.390625]], ... (numpy.ndarray, dtype=float32, shape=(502, 2))
+  Matched Keypoints1: [[503.796875 286.609375],[584.265625 405.359375]], ... (numpy.ndarray, dtype=float32, shape=(502, 2))
+
+Time: 51 ms
+=======================================================

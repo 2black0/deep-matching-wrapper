@@ -1,0 +1,20 @@
+
+==================== Testing clidd-l64 ====================
+Running clidd-l64 on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 846 (int)
+  Inliers: 432 (int)
+  Ratio: 0.51 (float)
+  All Keypoints0: [[385.0 371.875],[267.0 369.7916564941406]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[245.0 300.0],[324.0 464.58331298828125]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[ 0.14143263 -0.11737531  0.14120385 -0.15683986]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 64))
+  All Descriptors1: [[-0.09080644 -0.05974007 -0.0237616   0.05976466]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 64))
+  Matched Keypoints0: [[385.0 371.875],[267.0 369.7916564941406]], ... (numpy.ndarray, dtype=float32, shape=(846, 2))
+  Matched Keypoints1: [[440.0 322.9166564941406],[71.0 27.083332061767578]], ... (numpy.ndarray, dtype=float32, shape=(846, 2))
+
+Time: 6 ms
+=======================================================

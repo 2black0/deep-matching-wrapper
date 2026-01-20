@@ -1,0 +1,20 @@
+
+==================== Testing liftfeat ====================
+Running liftfeat on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 0 (int)
+  Total Keypoints1: 0 (int)
+  Matched Keypoints: 778 (int)
+  Inliers: 309 (int)
+  Ratio: 0.40 (float)
+  All Keypoints0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Keypoints1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Descriptors0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Descriptors1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  Matched Keypoints0: [[199 5],[750 5]], ... (numpy.ndarray, dtype=int64, shape=(778, 2))
+  Matched Keypoints1: [[514 7],[48 6]], ... (numpy.ndarray, dtype=int64, shape=(778, 2))
+
+Time: 34 ms
+=======================================================

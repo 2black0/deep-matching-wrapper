@@ -1,0 +1,20 @@
+
+==================== Testing superpoint-lightglue-subpx ====================
+Running superpoint-lightglue-subpx on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 502 (int)
+  Inliers: 496 (int)
+  Ratio: 0.99 (float)
+  All Keypoints0: [[735.046875 335.046875],[108.484375 85.828125]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[553.015625 275.671875],[530.359375 428.015625]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[ 0.02895586 -0.04907062 -0.02209614 -0.0219601 ]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  All Descriptors1: [[ 0.00680392 -0.13117415  0.04110152  0.06516314]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  Matched Keypoints0: [[536.1581420898438 283.8160095214844],[734.6591796875 512.4674682617188]], ... (numpy.ndarray, dtype=float32, shape=(502, 2))
+  Matched Keypoints1: [[503.45977783203125 287.1109313964844],[584.5147094726562 405.73272705078125]], ... (numpy.ndarray, dtype=float32, shape=(502, 2))
+
+Time: 62 ms
+=======================================================

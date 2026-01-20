@@ -1,0 +1,20 @@
+
+==================== Testing orb-nn ====================
+Running orb-nn on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 600 (int)
+  Inliers: 165 (int)
+  Ratio: 0.28 (float)
+  All Keypoints0: [[221.0 436.0],[375.0 420.0]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[447.0 319.0],[417.0 404.0]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[221 193 239  71]...], ... (numpy.ndarray, dtype=uint8, shape=(2048, 32))
+  All Descriptors1: [[ 48 198 124 237]...], ... (numpy.ndarray, dtype=uint8, shape=(2048, 32))
+  Matched Keypoints0: [[452.8743591308594 365.7831115722656],[684.2881469726562 495.1758117675781]], ... (numpy.ndarray, dtype=float32, shape=(600, 2))
+  Matched Keypoints1: [[465.0 323.0],[560.4000244140625 393.6000061035156]], ... (numpy.ndarray, dtype=float32, shape=(600, 2))
+
+Time: 20 ms
+=======================================================

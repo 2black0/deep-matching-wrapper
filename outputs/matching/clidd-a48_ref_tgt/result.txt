@@ -1,0 +1,20 @@
+
+==================== Testing clidd-a48 ====================
+Running clidd-a48 on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 762 (int)
+  Inliers: 72 (int)
+  Ratio: 0.09 (float)
+  All Keypoints0: [[350.0 440.6249694824219],[106.0 393.75]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[332.0 522.9166259765625],[757.0 248.9583282470703]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[ 0.2361088   0.11820181  0.11313811 -0.01990793]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 48))
+  All Descriptors1: [[ 0.254904    0.03678746 -0.01030779 -0.16825287]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 48))
+  Matched Keypoints0: [[658.0 509.3749694824219],[358.0 191.66665649414062]], ... (numpy.ndarray, dtype=float32, shape=(762, 2))
+  Matched Keypoints1: [[435.0 373.95831298828125],[506.0 314.58331298828125]], ... (numpy.ndarray, dtype=float32, shape=(762, 2))
+
+Time: 4 ms
+=======================================================

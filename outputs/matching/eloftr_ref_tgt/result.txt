@@ -1,0 +1,20 @@
+
+==================== Testing eloftr ====================
+Running eloftr on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 0 (int)
+  Total Keypoints1: 0 (int)
+  Matched Keypoints: 1145 (int)
+  Inliers: 1128 (int)
+  Ratio: 0.99 (float)
+  All Keypoints0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Keypoints1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Descriptors0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  All Descriptors1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
+  Matched Keypoints0: [[109.5 19.270832061767578],[164.5 19.270832061767578]], ... (numpy.ndarray, dtype=float32, shape=(1145, 2))
+  Matched Keypoints1: [[349.6055908203125 170.29876708984375],[367.55267333984375 170.22500610351562]], ... (numpy.ndarray, dtype=float32, shape=(1145, 2))
+
+Time: 109 ms
+=======================================================

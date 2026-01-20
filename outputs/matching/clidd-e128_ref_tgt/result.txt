@@ -1,0 +1,20 @@
+
+==================== Testing clidd-e128 ====================
+Running clidd-e128 on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 806 (int)
+  Inliers: 581 (int)
+  Ratio: 0.72 (float)
+  All Keypoints0: [[546.0 392.70831298828125],[350.0 440.6249694824219]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[412.0 32.291664123535156],[757.0 247.91665649414062]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[-0.02523942  0.10557161 -0.11630823  0.13181701]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  All Descriptors1: [[ 0.09847134 -0.03587146 -0.11253956 -0.07959136]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  Matched Keypoints0: [[350.0 440.6249694824219],[502.0 370.83331298828125]], ... (numpy.ndarray, dtype=float32, shape=(806, 2))
+  Matched Keypoints1: [[425.0 348.95831298828125],[485.0 326.0416564941406]], ... (numpy.ndarray, dtype=float32, shape=(806, 2))
+
+Time: 10 ms
+=======================================================

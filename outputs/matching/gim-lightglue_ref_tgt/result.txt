@@ -1,0 +1,20 @@
+
+==================== Testing gim-lightglue ====================
+Running gim-lightglue on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 564 (int)
+  Inliers: 560 (int)
+  Ratio: 0.99 (float)
+  All Keypoints0: [[437.5 269.5],[327.5 188.5]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[596.5 439.5],[322.5 364.5]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[-0.08164879 -0.04332683 -0.08112691  0.07238827]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  All Descriptors1: [[ 0.0744009  -0.04527332  0.05298555  0.06977917]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 256))
+  Matched Keypoints0: [[747.5 570.5],[716.5 464.5]], ... (numpy.ndarray, dtype=float32, shape=(564, 2))
+  Matched Keypoints1: [[588.5 434.5],[577.5 381.5]], ... (numpy.ndarray, dtype=float32, shape=(564, 2))
+
+Time: 81 ms
+=======================================================

@@ -1,0 +1,20 @@
+
+==================== Testing sift-nn ====================
+Running sift-nn on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 507 (int)
+  Inliers: 85 (int)
+  Ratio: 0.17 (float)
+  All Keypoints0: [[488.8091735839844 319.6312561035156],[358.2972717285156 546.846435546875]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[796.3048095703125 402.3075256347656],[795.9727172851562 239.81602478027344]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[ 35. 106.  15.  16.]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  All Descriptors1: [[ 5. 13. 41. 52.]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  Matched Keypoints0: [[225.89401245117188 283.2912902832031],[91.73036193847656 139.05477905273438]], ... (numpy.ndarray, dtype=float32, shape=(507, 2))
+  Matched Keypoints1: [[385.62628173828125 281.7279968261719],[385.62628173828125 281.7279968261719]], ... (numpy.ndarray, dtype=float32, shape=(507, 2))
+
+Time: 78 ms
+=======================================================

@@ -1,0 +1,20 @@
+
+==================== Testing clidd-u128 ====================
+Running clidd-u128 on cuda
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 2048 (int)
+  Total Keypoints1: 2048 (int)
+  Matched Keypoints: 865 (int)
+  Inliers: 667 (int)
+  Ratio: 0.77 (float)
+  All Keypoints0: [[284.0 459.3749694824219],[539.0 331.25]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Keypoints1: [[412.0 32.291664123535156],[501.0 309.375]], ... (numpy.ndarray, dtype=float32, shape=(2048, 2))
+  All Descriptors0: [[-0.00613793  0.00310127 -0.19545047 -0.07974346]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  All Descriptors1: [[ 0.07576194  0.2183675   0.06876668 -0.08452487]...], ... (numpy.ndarray, dtype=float32, shape=(2048, 128))
+  Matched Keypoints0: [[284.0 459.3749694824219],[539.0 331.25]], ... (numpy.ndarray, dtype=float32, shape=(865, 2))
+  Matched Keypoints1: [[401.0 352.08331298828125],[501.0 309.375]], ... (numpy.ndarray, dtype=float32, shape=(865, 2))
+
+Time: 13 ms
+=======================================================
