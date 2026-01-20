@@ -144,7 +144,7 @@ Using `assets/ref.png` and `assets/tgt.png`:
 | **sift-lightglue**             |   110   |   48    |  0.137   |  43.6%   |
 | **clidd-a48**                  |   762   |   23    |  0.007   |   3.0%   |
 
-> **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti. Sorted by Inliers count.
+> **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti, i7-14700K CPU with 32GB DDR4 Memory. Sorted by Inliers count.
 
 Benchmark on HPatches, MegaDepth-1500 dataset and realtime with webcam can be found detailed in:
 
