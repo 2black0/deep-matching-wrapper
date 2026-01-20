@@ -138,7 +138,7 @@ Using `assets/ref.png` and `assets/tgt.png`:
 
 > **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti. Sorted by Inliers count.
 
-Benchmark on HPatches and MegaDepth-1500 dataset can be found detailed in [HPatches Result](docs/HPATCHES_RESULT.md) and [MegaDepth Result](docs/MEGADEPTH_RESULT.md).
+Benchmark on HPatches and MegaDepth-1500 dataset can be found detailed in [HPatches Result](docs/HPATCH_RESULT.md) and [MegaDepth Result](docs/MEGADEPTH_RESULT.md).
 
 ## 🏗️ Project Structure
 
