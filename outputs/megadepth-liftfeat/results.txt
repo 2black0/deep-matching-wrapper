@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: liftfeat (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:07:33.020059
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 42.11
+AUC @ 10 deg: 56.24
+AUC @ 20 deg: 67.79
+----------------------------------------
+Time Statistics (ms):
+Min: 23.38 ms
+Max: 235.63 ms
+Avg: 32.96 ms
+========================================
+Parameters:
+{
+    "matcher": "liftfeat",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-liftfeat",
+    "device": "cuda",
+    "max": null
+}

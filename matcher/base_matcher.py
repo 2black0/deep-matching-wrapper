@@ -157,3 +157,118 @@ class BaseMatcher(torch.nn.Module):
         
         if all_desc1.size > 0:
              assert all_desc1.ndim == 2
+
+
+# ============================================================================
+# Matcher Registry
+# ============================================================================
+
+# List of all available matchers
+AVAILABLE_MATCHERS = [
+    # XFeat variants
+    "xfeat", "xfeat-star", "xfeat-lightglue",
+    # LiftFeat
+    "liftfeat",
+    # GIM (SuperPoint+LightGlue finetuned)
+    "gim-lightglue",
+    # EDM
+    "edm",
+    # Handcrafted features
+    "orb-nn", "sift-nn", "sift-lightglue",
+    # SuperPoint + LightGlue
+    "superpoint-lightglue",
+    # Subpixel refinement variants
+    "xfeat-subpx", "xfeat-lightglue-subpx", "superpoint-lightglue-subpx",
+    # CLIDD variants
+    "clidd-a48", "clidd-n64", "clidd-t64", "clidd-s64", 
+    "clidd-m64", "clidd-l64", "clidd-g128", "clidd-e128", "clidd-u128",
+    # EfficientLoFTR
+    "eloftr",
+]
+
+# Alias for compatibility with benchmark scripts
+available_models = AVAILABLE_MATCHERS
+
+
+def get_matcher(name: str, device: str = None, **kwargs):
+    """
+    Factory function to get a matcher instance by name.
+    
+    Args:
+        name: Name of the matcher (case-insensitive)
+        device: Device to run on ('cuda' or 'cpu')
+        **kwargs: Additional arguments passed to matcher constructor
+        
+    Returns:
+        BaseMatcher instance
+        
+    Raises:
+        ValueError: If matcher name is not recognized
+    """
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    name = name.lower()
+    
+    # XFeat variants
+    if "xfeat" in name:
+        from matcher.xfeat import XFeatMatcher
+        
+        if name == "xfeat":
+            return XFeatMatcher(device=device, mode='xfeat', **kwargs)
+        elif name == "xfeat-star":
+            return XFeatMatcher(device=device, mode='xfeat-star', **kwargs)
+        elif name == "xfeat-lightglue":
+            return XFeatMatcher(device=device, mode='xfeat-lightglue', **kwargs)
+        elif name == "xfeat-subpx":
+            from matcher.subpx import Keypt2SubpxMatcher
+            return Keypt2SubpxMatcher(device=device, mode='xfeat-subpx', **kwargs)
+        elif name == "xfeat-lightglue-subpx":
+            from matcher.subpx import Keypt2SubpxMatcher
+            return Keypt2SubpxMatcher(device=device, mode='xfeat-lightglue-subpx', **kwargs)
+    
+    # LiftFeat
+    elif "liftfeat" in name:
+        from matcher.liftfeat import LiftFeatMatcher
+        return LiftFeatMatcher(device=device, **kwargs)
+    
+    # GIM (SuperPoint+LightGlue)
+    elif "gim" in name:
+        from matcher.gim import GIMMatcher
+        return GIMMatcher(device=device, **kwargs)
+    
+    # SuperPoint + LightGlue
+    elif "superpoint-lightglue" in name and "subpx" not in name:
+        from matcher.lightglue import SuperPointLightGlueMatcher
+        return SuperPointLightGlueMatcher(device=device, **kwargs)
+    
+    # Subpixel refinement (SuperPoint variant)
+    elif "superpoint-lightglue" in name and "subpx" in name:
+        from matcher.subpx import Keypt2SubpxMatcher
+        return Keypt2SubpxMatcher(device=device, mode='superpoint-lightglue-subpx', **kwargs)
+    
+    # EDM
+    elif "edm" in name:
+        from matcher.edm import EDMMatcher
+        return EDMMatcher(device=device, **kwargs)
+    
+    # CLIDD variants
+    elif "clidd" in name:
+        from matcher.clidd import CLIDDMatcher
+        return CLIDDMatcher(device=device, model_name=name, **kwargs)
+    
+    # EfficientLoFTR
+    elif "eloftr" in name or "efficient-loftr" in name:
+        from matcher.eloftr import EfficientLoFTRMatcher
+        return EfficientLoFTRMatcher(device=device, **kwargs)
+    
+    # Handcrafted features
+    elif "orb" in name or "sift" in name:
+        from matcher.handcrafted import HandcraftedMatcher
+        return HandcraftedMatcher(device=device, method=name, **kwargs)
+    
+    else:
+        raise ValueError(
+            f"Unknown matcher: '{name}'. "
+            f"Available matchers: {', '.join(AVAILABLE_MATCHERS)}"
+        )

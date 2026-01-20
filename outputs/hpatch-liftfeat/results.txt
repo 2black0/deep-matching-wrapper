@@ -1,0 +1,67 @@
+HPatches Evaluation Results
+========================================
+Matcher: liftfeat
+Outlier: cv-magsac
+Data: /home/ardyseto/dataset/hpatches-sequences-release
+Pairs: 540
+Date: 2026-01-20T11:41:43.995042
+----------------------------------------
+Subset: Total (540 pairs)
+  AUC (GlueFactory):
+    AUC@1: 21.31
+    AUC@3: 52.71
+    AUC@5: 64.50
+    AUC@10: 75.57
+  MHA (LiftFeat):
+    MHA@3: 78.33%
+    MHA@5: 84.44%
+    MHA@7: 86.48%
+  MMA (Matching):
+    MEAN_MMA@3: 65.01%
+    MEAN_MMA@5: 76.30%
+    MEAN_MMA@7: 81.35%
+----------------------------------------
+Subset: Illumination (260 pairs)
+  AUC (GlueFactory):
+    AUC@1: 33.96
+    AUC@3: 72.00
+    AUC@5: 82.71
+    AUC@10: 91.24
+  MHA (LiftFeat):
+    MHA@3: 97.69%
+    MHA@5: 99.23%
+    MHA@7: 99.23%
+  MMA (Matching):
+    MEAN_MMA@3: 76.10%
+    MEAN_MMA@5: 88.07%
+    MEAN_MMA@7: 93.59%
+----------------------------------------
+Subset: Viewpoint (280 pairs)
+  AUC (GlueFactory):
+    AUC@1: 9.74
+    AUC@3: 34.96
+    AUC@5: 47.76
+    AUC@10: 61.15
+  MHA (LiftFeat):
+    MHA@3: 60.36%
+    MHA@5: 70.71%
+    MHA@7: 74.64%
+  MMA (Matching):
+    MEAN_MMA@3: 54.72%
+    MEAN_MMA@5: 65.37%
+    MEAN_MMA@7: 69.98%
+----------------------------------------
+Timing (ms):
+  Min: 8.47
+  Max: 248.39
+  Avg: 11.64
+========================================
+Parameters:
+{
+    "matcher": "liftfeat",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/hpatches-sequences-release",
+    "resize": 480,
+    "output_path": "outputs/hpatch-liftfeat",
+    "device": "cuda"
+}

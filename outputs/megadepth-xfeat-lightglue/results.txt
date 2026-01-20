@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: xfeat-lightglue (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T11:57:41.643976
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 47.61
+AUC @ 10 deg: 63.44
+AUC @ 20 deg: 76.06
+----------------------------------------
+Time Statistics (ms):
+Min: 12.55 ms
+Max: 298.65 ms
+Avg: 19.30 ms
+========================================
+Parameters:
+{
+    "matcher": "xfeat-lightglue",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-xfeat-lightglue",
+    "device": "cuda",
+    "max": null
+}

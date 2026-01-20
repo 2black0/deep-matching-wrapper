@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: clidd-g128 (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:50:45.700119
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 54.77
+AUC @ 10 deg: 68.96
+AUC @ 20 deg: 79.43
+----------------------------------------
+Time Statistics (ms):
+Min: 8.63 ms
+Max: 230.37 ms
+Avg: 11.46 ms
+========================================
+Parameters:
+{
+    "matcher": "clidd-g128",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-clidd-g128",
+    "device": "cuda",
+    "max": null
+}

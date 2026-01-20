@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: xfeat (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T11:52:04.988547
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 35.89
+AUC @ 10 deg: 50.45
+AUC @ 20 deg: 63.04
+----------------------------------------
+Time Statistics (ms):
+Min: 11.12 ms
+Max: 279.57 ms
+Avg: 14.55 ms
+========================================
+Parameters:
+{
+    "matcher": "xfeat",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-xfeat",
+    "device": "cuda",
+    "max": null
+}

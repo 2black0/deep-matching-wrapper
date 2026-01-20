@@ -21,6 +21,10 @@ tqdm = "*"
 numpy = "*"
 triton = "*"
 kornia = "*"
+poselib = "*"
+ipykernel = "*"
+pandas = "*"
+matplotlib = "*"
 
 [feature.gpu.system-requirements]
 cuda = "12.0" 

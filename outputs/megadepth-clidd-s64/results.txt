@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: clidd-s64 (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:45:41.362275
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 49.05
+AUC @ 10 deg: 62.88
+AUC @ 20 deg: 73.59
+----------------------------------------
+Time Statistics (ms):
+Min: 5.46 ms
+Max: 244.39 ms
+Avg: 7.15 ms
+========================================
+Parameters:
+{
+    "matcher": "clidd-s64",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-clidd-s64",
+    "device": "cuda",
+    "max": null
+}

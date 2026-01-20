@@ -5,20 +5,24 @@ A unified, minimal-dependency wrapper for state-of-the-art deep learning image m
 ## 🎯 Supported Matchers
 
 ### Dense Matchers (Detector-Free)
+
 - **EfficientLoFTR** (`eloftr`) - Efficient LoFTR: Semi-Dense Local Feature Matching with Sparse-Like Speed
 - **EDM** (`edm`) - Efficient Deep Feature Matching
 - **LiftFeat** (`liftfeat`) - 3D Geometry-Aware Local Feature Matching
 
 ### Sparse Matchers (Feature-Based)
+
 - **XFeat** (`xfeat`, `xfeat-star`, `xfeat-lightglue`) - Accelerated Features for Lightweight Image Matching
 - **SuperPoint + LightGlue** (`superpoint-lightglue`) - Self-Supervised Interest Point Detection and Description with Local Feature Matching at Light Speed
 - **GIM** (`gim-lightglue`) - Learning Generalizable Image Matcher From Internet Videos
 - **CLIDD** (`clidd-a48`, `clidd-n64`, `clidd-t64`, `clidd-s64`, `clidd-m64`, `clidd-l64`, `clidd-g128`, `clidd-e128`, `clidd-u128`) - Cross-Layer Independent Deformable Description for Efficient and Discriminative Local Feature Representation (9 variants)
 
 ### Subpixel Refinement
+
 - **Keypt2Subpx** (`xfeat-subpx`, `xfeat-lightglue-subpx`, `superpoint-lightglue-subpx`) - Learning to Make Keypoints Sub-Pixel Accurate
 
 ### Handcrafted Features
+
 - **ORB** (`orb-nn`) - ORB features with nearest neighbor matching
 - **SIFT** (`sift-nn`, `sift-lightglue`) - SIFT features with NN or LightGlue matching
 
@@ -47,12 +51,14 @@ This will symlink your system OpenCV to the pixi environment.
 **Option B: Use Pixi's OpenCV**
 
 Add to `pixi.toml`:
+
 ```toml
 [dependencies]
 opencv = "*"
 ```
 
 Then run:
+
 ```bash
 pixi install
 ```
@@ -64,6 +70,7 @@ pixi run bash scripts/check.sh
 ```
 
 This will check:
+
 - Python environment
 - PyTorch CUDA availability
 - OpenCV installation
@@ -74,16 +81,19 @@ This will check:
 ### Basic Testing
 
 Test a single matcher:
+
 ```bash
 pixi run python test_matcher.py --matcher xfeat
 ```
 
 Test with custom images:
+
 ```bash
 pixi run python test_matcher.py --matcher eloftr --img1 path/to/img1.png --img2 path/to/img2.png
 ```
 
 Test all matchers:
+
 ```bash
 pixi run python test_matcher.py --matcher all
 ```
@@ -100,33 +110,35 @@ pixi run python test_matcher.py --matcher all
 
 Using `assets/ref.png` and `assets/tgt.png`:
 
-| Model | Matches | Inliers | Time (s) | Accuracy |
-| :--- | :---: | :---: | :---: | :---: |
-| **edm** | 1790 | 1781 | 0.035 | 99.5% |
-| **eloftr** | 1145 | 1124 | 0.100 | 98.2% |
-| **xfeat-lightglue-subpx** | 780 | 707 | 0.034 | 90.6% |
-| **xfeat-lightglue** | 780 | 703 | 0.016 | 90.1% |
-| **clidd-u128** | 865 | 666 | 0.014 | 77.0% |
-| **clidd-e128** | 806 | 580 | 0.011 | 72.0% |
-| **gim-lightglue** | 564 | 559 | 0.093 | 99.1% |
-| **clidd-g128** | 741 | 508 | 0.011 | 68.6% |
-| **superpoint-lightglue-subpx** | 502 | 480 | 0.071 | 95.6% |
-| **superpoint-lightglue** | 502 | 474 | 0.057 | 94.4% |
-| **xfeat-star** | 615 | 454 | 0.018 | 73.8% |
-| **clidd-l64** | 846 | 424 | 0.006 | 50.1% |
-| **clidd-m64** | 801 | 336 | 0.006 | 41.9% |
-| **liftfeat** | 778 | 278 | 0.037 | 35.7% |
-| **clidd-s64** | 744 | 231 | 0.005 | 31.0% |
-| **clidd-n64** | 720 | 194 | 0.004 | 26.9% |
-| **orb-nn** | 600 | 164 | 0.023 | 27.3% |
-| **clidd-t64** | 708 | 164 | 0.005 | 23.2% |
-| **xfeat-subpx** | 830 | 150 | 0.031 | 18.1% |
-| **xfeat** | 830 | 143 | 0.012 | 17.2% |
-| **sift-nn** | 507 | 85 | 0.089 | 16.8% |
-| **sift-lightglue** | 110 | 48 | 0.137 | 43.6% |
-| **clidd-a48** | 762 | 23 | 0.007 | 3.0% |
+| Model                          | Matches | Inliers | Time (s) | Accuracy |
+| :----------------------------- | :-----: | :-----: | :------: | :------: |
+| **edm**                        |  1790   |  1781   |  0.035   |  99.5%   |
+| **eloftr**                     |  1145   |  1124   |  0.100   |  98.2%   |
+| **xfeat-lightglue-subpx**      |   780   |   707   |  0.034   |  90.6%   |
+| **xfeat-lightglue**            |   780   |   703   |  0.016   |  90.1%   |
+| **clidd-u128**                 |   865   |   666   |  0.014   |  77.0%   |
+| **clidd-e128**                 |   806   |   580   |  0.011   |  72.0%   |
+| **gim-lightglue**              |   564   |   559   |  0.093   |  99.1%   |
+| **clidd-g128**                 |   741   |   508   |  0.011   |  68.6%   |
+| **superpoint-lightglue-subpx** |   502   |   480   |  0.071   |  95.6%   |
+| **superpoint-lightglue**       |   502   |   474   |  0.057   |  94.4%   |
+| **xfeat-star**                 |   615   |   454   |  0.018   |  73.8%   |
+| **clidd-l64**                  |   846   |   424   |  0.006   |  50.1%   |
+| **clidd-m64**                  |   801   |   336   |  0.006   |  41.9%   |
+| **liftfeat**                   |   778   |   278   |  0.037   |  35.7%   |
+| **clidd-s64**                  |   744   |   231   |  0.005   |  31.0%   |
+| **clidd-n64**                  |   720   |   194   |  0.004   |  26.9%   |
+| **orb-nn**                     |   600   |   164   |  0.023   |  27.3%   |
+| **clidd-t64**                  |   708   |   164   |  0.005   |  23.2%   |
+| **xfeat-subpx**                |   830   |   150   |  0.031   |  18.1%   |
+| **xfeat**                      |   830   |   143   |  0.012   |  17.2%   |
+| **sift-nn**                    |   507   |   85    |  0.089   |  16.8%   |
+| **sift-lightglue**             |   110   |   48    |  0.137   |  43.6%   |
+| **clidd-a48**                  |   762   |   23    |  0.007   |   3.0%   |
 
 > **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti. Sorted by Inliers count.
+
+Benchmark on HPatches and MegaDepth-1500 dataset can be found detailed in [HPatches Result](docs/HPATCHES_RESULT.md) and [MegaDepth Result](docs/MEGADEPTH_RESULT.md).
 
 ## 🏗️ Project Structure
 
@@ -177,6 +189,7 @@ This project wraps various open-source implementations. Please refer to each ori
 ## 🔧 Development
 
 Built with:
+
 - **[Pixi](https://pixi.sh/)** - Fast, reproducible development environment
 - **[PyTorch](https://pytorch.org/)** - Deep learning framework
 - **Python 3.10+**

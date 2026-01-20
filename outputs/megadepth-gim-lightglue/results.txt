@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: gim-lightglue (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:10:47.339428
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 51.43
+AUC @ 10 deg: 67.93
+AUC @ 20 deg: 80.38
+----------------------------------------
+Time Statistics (ms):
+Min: 81.14 ms
+Max: 293.28 ms
+Avg: 90.55 ms
+========================================
+Parameters:
+{
+    "matcher": "gim-lightglue",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-gim-lightglue",
+    "device": "cuda",
+    "max": null
+}

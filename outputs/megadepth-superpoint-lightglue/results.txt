@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: superpoint-lightglue (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:24:45.640635
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 54.67
+AUC @ 10 deg: 70.34
+AUC @ 20 deg: 81.86
+----------------------------------------
+Time Statistics (ms):
+Min: 43.84 ms
+Max: 291.73 ms
+Avg: 57.35 ms
+========================================
+Parameters:
+{
+    "matcher": "superpoint-lightglue",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-superpoint-lightglue",
+    "device": "cuda",
+    "max": null
+}

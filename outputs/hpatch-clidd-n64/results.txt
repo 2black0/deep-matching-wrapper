@@ -1,0 +1,67 @@
+HPatches Evaluation Results
+========================================
+Matcher: clidd-n64
+Outlier: cv-magsac
+Data: /home/ardyseto/dataset/hpatches-sequences-release
+Pairs: 540
+Date: 2026-01-20T11:47:30.131712
+----------------------------------------
+Subset: Total (540 pairs)
+  AUC (GlueFactory):
+    AUC@1: 28.40
+    AUC@3: 60.34
+    AUC@5: 70.27
+    AUC@10: 78.98
+  MHA (LiftFeat):
+    MHA@3: 82.96%
+    MHA@5: 86.67%
+    MHA@7: 87.78%
+  MMA (Matching):
+    MEAN_MMA@3: 69.79%
+    MEAN_MMA@5: 76.14%
+    MEAN_MMA@7: 78.85%
+----------------------------------------
+Subset: Illumination (260 pairs)
+  AUC (GlueFactory):
+    AUC@1: 36.56
+    AUC@3: 73.49
+    AUC@5: 83.78
+    AUC@10: 91.87
+  MHA (LiftFeat):
+    MHA@3: 97.31%
+    MHA@5: 99.62%
+    MHA@7: 100.00%
+  MMA (Matching):
+    MEAN_MMA@3: 79.35%
+    MEAN_MMA@5: 87.01%
+    MEAN_MMA@7: 90.55%
+----------------------------------------
+Subset: Viewpoint (280 pairs)
+  AUC (GlueFactory):
+    AUC@1: 21.00
+    AUC@3: 48.29
+    AUC@5: 57.88
+    AUC@10: 67.14
+  MHA (LiftFeat):
+    MHA@3: 69.64%
+    MHA@5: 74.64%
+    MHA@7: 76.43%
+  MMA (Matching):
+    MEAN_MMA@3: 60.91%
+    MEAN_MMA@5: 66.04%
+    MEAN_MMA@7: 67.98%
+----------------------------------------
+Timing (ms):
+  Min: 2.81
+  Max: 228.02
+  Avg: 4.55
+========================================
+Parameters:
+{
+    "matcher": "clidd-n64",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/hpatches-sequences-release",
+    "resize": 480,
+    "output_path": "outputs/hpatch-clidd-n64",
+    "device": "cuda"
+}

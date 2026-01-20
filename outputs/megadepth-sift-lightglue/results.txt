@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: sift-lightglue (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:22:19.292299
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 25.92
+AUC @ 10 deg: 37.10
+AUC @ 20 deg: 47.88
+----------------------------------------
+Time Statistics (ms):
+Min: 65.46 ms
+Max: 282.54 ms
+Avg: 116.23 ms
+========================================
+Parameters:
+{
+    "matcher": "sift-lightglue",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-sift-lightglue",
+    "device": "cuda",
+    "max": null
+}

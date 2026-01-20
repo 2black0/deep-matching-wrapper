@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: orb-nn (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:14:43.694745
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 11.95
+AUC @ 10 deg: 21.11
+AUC @ 20 deg: 33.23
+----------------------------------------
+Time Statistics (ms):
+Min: 11.20 ms
+Max: 266.51 ms
+Avg: 19.78 ms
+========================================
+Parameters:
+{
+    "matcher": "orb-nn",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-orb-nn",
+    "device": "cuda",
+    "max": null
+}

@@ -1,0 +1,30 @@
+Evaluation Results
+========================================
+Matcher: eloftr (Outlier: cv-magsac)
+Pairs: 1500
+Date: 2026-01-20T12:01:00.154326
+----------------------------------------
+AUC Metrics:
+AUC @  5 deg: 65.65
+AUC @ 10 deg: 78.51
+AUC @ 20 deg: 87.33
+----------------------------------------
+Time Statistics (ms):
+Min: 75.75 ms
+Max: 347.23 ms
+Avg: 103.68 ms
+========================================
+Parameters:
+{
+    "matcher": "eloftr",
+    "outlier": "cv-magsac",
+    "data_root": "/home/ardyseto/dataset/megadepth_test_1500",
+    "json_file": "/home/ardyseto/dataset/megadepth_1500.json",
+    "resize": 832,
+    "estimator": "poselib",
+    "ransac_th": 1.0,
+    "robustness": 1,
+    "output_path": "outputs/megadepth-eloftr",
+    "device": "cuda",
+    "max": null
+}
