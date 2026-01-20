@@ -116,7 +116,7 @@ pixi run python demo_realtime.py --matcher xfeat
 
 ## 📊 Benchmark Result
 
-> **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti, i7-14700K CPU with 32GB DDR4 Memory. Sorted by Inliers count.
+> **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti, i7-14700K CPU with 32GB DDR4 Memory.
 
 Benchmark result can be found detailed in:
 
