@@ -106,7 +106,15 @@ pixi run python demo_matcher.py --matcher all
 --img2 IMG2        Path to second image (default: assets/tgt.png)
 ```
 
-#### 📊 Example Results
+### Real-time Matching
+
+Run real-time matching using your webcam:
+
+```bash
+pixi run python demo_realtime.py --matcher xfeat
+```
+
+## 📊 Example Results
 
 Using `assets/ref.png` and `assets/tgt.png`:
 
@@ -138,15 +146,11 @@ Using `assets/ref.png` and `assets/tgt.png`:
 
 > **Note:** Tests were run on CUDA with NVIDIA GeForce RTX 4060 Ti. Sorted by Inliers count.
 
-Benchmark on HPatches and MegaDepth-1500 dataset can be found detailed in [HPatches Result](docs/HPATCH_RESULT.md) and [MegaDepth Result](docs/MEGADEPTH_RESULT.md).
+Benchmark on HPatches, MegaDepth-1500 dataset and realtime with webcam can be found detailed in:
 
-### Real-time Matching
-
-Run real-time matching using your webcam:
-
-```bash
-pixi run python demo_realtime.py --matcher xfeat --cam 0
-```
+- [HPatches Result](docs/HPATCH_RESULT.md)
+- [MegaDepth Result](docs/MEGADEPTH_RESULT.md)
+- [Realtime Result](docs/REALTIME_RESULT.md)
 
 ## 🏗️ Project Structure
 
