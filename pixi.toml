@@ -1,0 +1,50 @@
+[workspace]
+authors = ["Ardy Seto Priambodo <2black0@gmail.com>"]
+channels = ["conda-forge"]
+name = "deep-matching-wrapper"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[activation]
+env = { PYTHONNOUSERSITE = "1", LD_LIBRARY_PATH = "$CONDA_PREFIX/lib" }
+
+[tasks]
+check = "bash scripts/check.sh"
+test-torch = "python scripts/test_torch_cuda.py"
+test-onnx = "python scripts/test_ort_cuda.py"
+clean-libs = "bash scripts/clean_env.sh"
+link-opencv = { cmd = "bash scripts/link_opencv.sh", depends-on = ["clean-libs"] }
+
+[dependencies]
+python = "3.10.*"
+tqdm = "*"
+numpy = "*"
+triton = "*"
+kornia = "*"
+
+[feature.gpu.system-requirements]
+cuda = "12.0" 
+
+[feature.gpu.dependencies]
+cuda-version = "12.*" 
+pytorch-gpu = "*"
+torchvision = "*"
+
+[feature.gpu.pypi-dependencies]
+onnxruntime-gpu = "*" 
+
+[feature.cpu.dependencies]
+pytorch-cpu = "*"
+torchvision = "*"
+onnxruntime = "*"
+
+[environments]
+default = ["gpu"]
+cpu = ["cpu"]
+
+[pypi-dependencies]
+huggingface-hub = "*"
+omegaconf = ">=2.3.0, <3"
+yacs = "*"
+einops = "*"
+safetensors = "*"
