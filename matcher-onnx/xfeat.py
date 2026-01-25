@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 from base_matcher import BaseMatcher
-from _ort import ort_providers
+from _ort import create_session, ort_providers
 
 
 def _softmax(x: np.ndarray, axis: int):
@@ -245,15 +245,6 @@ class XFeatONNXMatcher(BaseMatcher):
         else:
             self.finematcher_path = None
 
-        try:
-            import onnxruntime as ort
-        except ImportError as e:
-            raise ImportError(
-                "onnxruntime is required for matcher-onnx. Install with 'pip install onnxruntime' "
-                "(CPU) or 'pip install onnxruntime-gpu' (CUDA)."
-            ) from e
-
-        providers = ort_providers(self.device)
         if self.mode == "star":
             self.backbone_sess = None
             self.backbone_sess_by_size: dict[tuple[int, int], ort.InferenceSession] = {}
@@ -262,14 +253,12 @@ class XFeatONNXMatcher(BaseMatcher):
                 if not m:
                     raise ValueError(f"Cannot infer backbone size from filename: {p.name}")
                 key = (int(m.group(1)), int(m.group(2)))
-                self.backbone_sess_by_size[key] = ort.InferenceSession(str(p), providers=providers)
+                self.backbone_sess_by_size[key] = create_session(str(p), self.device)
             self.lg_sess = None
-            self.fm_sess = ort.InferenceSession(str(self.finematcher_path), providers=providers)
+            self.fm_sess = create_session(str(self.finematcher_path), self.device)
         else:
-            self.backbone_sess = ort.InferenceSession(str(self.backbone_path), providers=providers)
-            self.lg_sess = (
-                ort.InferenceSession(str(self.lightglue_path), providers=providers) if self.lightglue_path else None
-            )
+            self.backbone_sess = create_session(str(self.backbone_path), self.device)
+            self.lg_sess = create_session(str(self.lightglue_path), self.device) if self.lightglue_path else None
             self.fm_sess = None
 
     def _forward(self, img0: np.ndarray, img1: np.ndarray):

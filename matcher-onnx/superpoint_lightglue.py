@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from base_matcher import BaseMatcher
-from _ort import ort_providers
+from _ort import create_session
 
 
 def _dilate(x: np.ndarray, radius: int):
@@ -127,16 +127,13 @@ class SuperPointLightGlueONNXMatcher(BaseMatcher):
             raise FileNotFoundError(f"Missing LightGlue ONNX weights: {self.lg_weights_path}")
 
         try:
-            import onnxruntime as ort
+            self.sp_sess = create_session(str(self.sp_weights_path), self.device)
+            self.lg_sess = create_session(str(self.lg_weights_path), self.device)
         except ImportError as e:
             raise ImportError(
                 "onnxruntime is required for matcher-onnx. Install with 'pip install onnxruntime' "
                 "(CPU) or 'pip install onnxruntime-gpu' (CUDA)."
             ) from e
-
-        providers = ort_providers(self.device)
-        self.sp_sess = ort.InferenceSession(str(self.sp_weights_path), providers=providers)
-        self.lg_sess = ort.InferenceSession(str(self.lg_weights_path), providers=providers)
 
     def _forward(self, img0: np.ndarray, img1: np.ndarray):
         W, H = self.size

@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from base_matcher import BaseMatcher
-from _ort import ort_providers
+from _ort import create_session
 
 
 def _softmax(x: np.ndarray, axis: int = 1):
@@ -132,14 +132,12 @@ class LiftFeatONNXMatcher(BaseMatcher):
         self.weights_path = weights_path_p
 
         try:
-            import onnxruntime as ort
+            self.session = create_session(str(self.weights_path), self.device)
         except ImportError as e:
             raise ImportError(
                 "onnxruntime is required for matcher-onnx. Install with 'pip install onnxruntime' "
                 "(CPU) or 'pip install onnxruntime-gpu' (CUDA)."
             ) from e
-
-        self.session = ort.InferenceSession(str(self.weights_path), providers=ort_providers(self.device))
 
     def _forward(self, img0: np.ndarray, img1: np.ndarray):
         W, H = self.size

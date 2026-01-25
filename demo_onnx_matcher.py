@@ -29,6 +29,7 @@ def test_matcher(
     img1_path: Path | None = None,
     output_enabled: bool = False,
     device: str = "cpu",
+    dtype: str = "fp32",
 ):
     log_lines: list[str] = []
 
@@ -39,7 +40,7 @@ def test_matcher(
     try:
         log(f"\n==================== Testing {matcher_name} (onnx) ====================")
 
-        matcher = get_matcher(matcher_name, device=device)
+        matcher = get_matcher(matcher_name, device=device, dtype=dtype)
 
         if img0_path and img1_path:
             log(f"Loading images: {img0_path} and {img1_path}")
@@ -123,7 +124,7 @@ def test_matcher(
         if output_enabled and img0_path and img1_path:
             stem1 = img0_path.stem
             stem2 = img1_path.stem
-            output_dir = Path(f"outputs/matching-onnx/{matcher_name}_{stem1}_{stem2}")
+            output_dir = Path(f"outputs/matching-onnx/{matcher_name}_{dtype}_{stem1}_{stem2}")
             output_dir.mkdir(parents=True, exist_ok=True)
 
             (output_dir / "result.txt").write_text("\n".join(log_lines))
@@ -167,6 +168,7 @@ if __name__ == "__main__":
     parser.add_argument("--img1", type=str, default="assets/ref.png")
     parser.add_argument("--img2", type=str, default="assets/tgt.png")
     parser.add_argument("--device", choices=["cpu", "cuda"], default="cpu")
+    parser.add_argument("--dtype", choices=["fp32", "fp16"], default="fp32")
     parser.add_argument("--output", type=str, choices=["yes", "no"], default="no")
     args = parser.parse_args()
 
@@ -182,6 +184,6 @@ if __name__ == "__main__":
     if args.matcher == "all":
         print("Running all ONNX matchers...")
         for m in AVAILABLE_MATCHERS:
-            test_matcher(m, img1_path, img2_path, output_yes, device=args.device)
+            test_matcher(m, img1_path, img2_path, output_yes, device=args.device, dtype=args.dtype)
     else:
-        test_matcher(args.matcher, img1_path, img2_path, output_yes, device=args.device)
+        test_matcher(args.matcher, img1_path, img2_path, output_yes, device=args.device, dtype=args.dtype)
