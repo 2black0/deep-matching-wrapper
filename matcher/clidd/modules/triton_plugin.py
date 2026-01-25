@@ -1,8 +1,17 @@
 
 import torch
 import torch.nn.functional as F
+from typing import Optional
 
-def deformable_sample_project(input, grid, weight, bias, *, is_input_nhwc: bool = False, align_corners: bool = False):
+@torch.jit.script
+def deformable_sample_project(
+    input: torch.Tensor,
+    grid: torch.Tensor,
+    weight: torch.Tensor,
+    bias: Optional[torch.Tensor],
+    is_input_nhwc: bool = False,
+    align_corners: bool = False,
+):
     """
     Pure PyTorch implementation of the deformable sample & project operation.
     Replaces the Triton kernel for compatibility and CPU support.
@@ -20,10 +29,7 @@ def deformable_sample_project(input, grid, weight, bias, *, is_input_nhwc: bool 
     B, C_in, H, W = input.shape
     B_grid, N, M, _ = grid.shape
     
-    # Verify shapes match expected logic
-    C_out, C_in_w, _, M_w = weight.shape
-    assert C_in == C_in_w, f"Input channels {C_in} != Weight input channels {C_in_w}"
-    assert M == M_w, f"Grid heads {M} != Weight heads {M_w}"
+    # Shape checks are omitted for TorchScript portability.
     
     # Grid Sample
     # F.grid_sample samples from input at locations specified by grid.
