@@ -159,24 +159,27 @@ class FeatureBooster(nn.Module):
 
     def __init__(self, config, dropout=False, p=0.1, use_kenc=True, use_normal=True, use_cross=True):
         super().__init__()
-        self.config = {**self.default_config, **config}
+
+        # Keep the merged config as a local variable (TorchScript does not like
+        # heterogeneous Python dict attributes on modules).
+        cfg = {**self.default_config, **config}
         self.use_kenc = use_kenc
         self.use_cross = use_cross
         self.use_normal = use_normal
 
-        if use_kenc:
-            self.kenc = KeypointEncoder(self.config['keypoint_dim'], self.config['descriptor_dim'], self.config['keypoint_encoder'], dropout=dropout)
+        self.l2_normalization = bool(cfg.get('l2_normalization', True))
 
-        if use_normal:
-            self.nenc = NormalEncoder(self.config['normal_dim'], self.config['descriptor_dim'], self.config['normal_encoder'], dropout=dropout)
+        # Always register submodules so TorchScript can compile both branches
+        # (even when a particular encoder is disabled via flags).
+        self.kenc = KeypointEncoder(cfg['keypoint_dim'], cfg['descriptor_dim'], cfg['keypoint_encoder'], dropout=dropout)
+        self.nenc = NormalEncoder(cfg['normal_dim'], cfg['descriptor_dim'], cfg['normal_encoder'], dropout=dropout)
 
-        if self.config.get('descriptor_encoder', False):
-            self.denc = DescriptorEncoder(self.config['descriptor_dim'], self.config['descriptor_encoder'], dropout=dropout)
+        if cfg.get('descriptor_encoder', False):
+            self.denc = DescriptorEncoder(cfg['descriptor_dim'], cfg['descriptor_encoder'], dropout=dropout)
         else:
             self.denc = None
 
-        if self.use_cross:
-            self.attn_proj = AttentionalNN(feature_dim=self.config['descriptor_dim'], layer_num=self.config['Attentional_layers'], dropout=dropout)
+        self.attn_proj = AttentionalNN(feature_dim=cfg['descriptor_dim'], layer_num=cfg['Attentional_layers'], dropout=dropout)
 
         # self.final_proj = nn.Linear(self.config['descriptor_dim'], self.config['output_dim'])
 
@@ -185,15 +188,15 @@ class FeatureBooster(nn.Module):
 
         # self.layer_norm = nn.LayerNorm(self.config['descriptor_dim'], eps=1e-6)
 
-        if self.config.get('last_activation', False):
-            if self.config['last_activation'].lower() == 'relu':
+        if cfg.get('last_activation', False):
+            if cfg['last_activation'].lower() == 'relu':
                 self.last_activation = nn.ReLU()
-            elif self.config['last_activation'].lower() == 'sigmoid':
+            elif cfg['last_activation'].lower() == 'sigmoid':
                 self.last_activation = nn.Sigmoid()
-            elif self.config['last_activation'].lower() == 'tanh':
+            elif cfg['last_activation'].lower() == 'tanh':
                 self.last_activation = nn.Tanh()
             else:
-                raise Exception('Not supported activation "%s".' % self.config['last_activation'])
+                raise Exception('Not supported activation "%s".' % cfg['last_activation'])
         else:
             self.last_activation = None
 
@@ -227,7 +230,7 @@ class FeatureBooster(nn.Module):
         if self.last_activation is not None:
             desc = self.last_activation(desc)
         # L2 normalization
-        if self.config['l2_normalization']:
+        if self.l2_normalization:
             desc = F.normalize(desc, dim=-1)
 
         return desc
