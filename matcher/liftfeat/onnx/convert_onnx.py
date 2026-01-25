@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import argparse
 import sys
 from pathlib import Path
@@ -19,10 +20,10 @@ class LiftFeatExport(nn.Module):
         self.model.eval()
 
     def _unfold2d_onnx(self, x, ws=8):
+        # Match LiftFeatSPModel._unfold2d ordering exactly.
         B, C, H, W = x.shape
-        # Ops Unfold untuk mengambil patch 8x8 
-        x = x.unfold(2, ws, ws).unfold(3, ws, ws)
-        return x.contiguous().view(B, C * ws * ws, H // ws, W // ws)
+        x = x.unfold(2, ws, ws).unfold(3, ws, ws).reshape(B, C, H // ws, W // ws, ws**2)
+        return x.permute(0, 1, 4, 2, 3).reshape(B, -1, H // ws, W // ws)
 
     def forward(self, x):
         B, C_in, H, W = x.shape
@@ -43,12 +44,14 @@ class LiftFeatExport(nn.Module):
         refined_descs_v = self.model.feature_boost(des_v, kpts_v, norm_v)
         refined_descs_map = refined_descs_v.view(B, h_feat, w_feat, -1).permute(0, 3, 1, 2)
 
-        # Heatmap Reconstruction (Softmax + Reshape) 
-        scores_raw = torch.softmax(kpt_map, dim=1)[:, :64]
-        heatmap = scores_raw.view(B, 8, 8, h_feat, w_feat).permute(0, 3, 1, 4, 2).reshape(B, 1, h_feat*8, w_feat*8)
+        # Match matcher/liftfeat/modules/liftfeat_wrapper.py behavior:
+        # normalize the descriptor map BEFORE sampling/interpolation.
+        refined_descs_map = F.normalize(refined_descs_map, p=2, dim=1)
 
-        # Pastikan output kembali ke FP32 untuk kompatibilitas wrapper luar
-        return heatmap.float(), refined_descs_map.float()
+        # Export logits instead of post-softmax heatmap.
+        # This avoids small numerical/layout mismatches between ORT and PyTorch in
+        # softmax/reshape, and lets the demo compute heatmap exactly like the wrapper.
+        return kpt_map.float(), refined_descs_map.float()
 
 def main():
     parser = argparse.ArgumentParser()
@@ -73,7 +76,7 @@ def main():
     print(f"--- Exporting LiftFeat as {args.dtype} ---")
     torch.onnx.export(
         model, dummy_input, str(output_path),
-        input_names=['image'], output_names=['heatmap', 'descriptors_map'],
+        input_names=['image'], output_names=['kpt_logits', 'descriptors_map'],
         opset_version=18, do_constant_folding=True
     )
 

@@ -11,7 +11,7 @@ from matcher.clidd.modules.model import Model
 from matcher.clidd.modules.clidd_wrapper import CLIDD
 
 class CLIDDExport(nn.Module):
-    def __init__(self, cfg_name, weights_path, top_k=1024):
+    def __init__(self, cfg_name, weights_path, top_k=1024, radius=2, score_thresh=-5.0, border=4):
         super().__init__()
         cfg_params = CLIDD.cfgs[cfg_name]
         self.model = Model(**cfg_params)
@@ -21,7 +21,9 @@ class CLIDDExport(nn.Module):
         self.model.eval()
 
         self.top_k = top_k
-        self.radius = 2
+        self.radius = radius
+        self.score_thresh = float(score_thresh)
+        self.border = int(border)
         self.mp = nn.MaxPool2d(kernel_size=self.radius * 2 + 1, stride=1, padding=self.radius)
 
     def forward(self, x):
@@ -29,16 +31,33 @@ class CLIDDExport(nn.Module):
         # Pastikan size memiliki tipe yang sama dengan x untuk menghindari cast error
         size = torch.tensor([W, H], dtype=x.dtype, device=x.device)
 
-        # 1. Jalankan backbone
-        dense_features, raw_scores = self.model(x) 
+        # 1. Backbone
+        # Model returns: raw_desc (tuple of feature maps) and raw_detect (B,1,H,W)
+        raw_desc, raw_detect = self.model(x)
 
-        # 2. Proses deteksi (Scores & Top-K)
-        # Kita biarkan tetap dalam dtype x (FP16/FP32) agar konsisten dengan weights
-        is_max = (raw_scores == self.mp(raw_scores))
-        mask = is_max.to(x.dtype)
-        refined_scores = raw_scores * mask
-        
-        flat_scores = refined_scores.view(B, -1)
+        # 2. Detection (match matcher/clidd/modules/clidd_wrapper.py)
+        # NMS maxima
+        is_max = raw_detect == self.mp(raw_detect)
+
+        # Remove borders (same 4px suppression as wrapper)
+        if self.border > 0:
+            b = self.border
+            border_mask = torch.ones_like(is_max, dtype=torch.bool)
+            border_mask[..., :, :b] = False
+            border_mask[..., :, -b:] = False
+            border_mask[..., :b, :] = False
+            border_mask[..., -b:, :] = False
+            is_max = is_max & border_mask
+
+        # Score threshold
+        is_good = raw_detect > self.score_thresh
+        valid = (is_max & is_good)
+
+        # IMPORTANT: do not multiply by 0 (would promote non-max to 0 and break topk if scores are negative).
+        neg_inf = torch.full_like(raw_detect, -1e8)
+        refined = torch.where(valid, raw_detect, neg_inf)
+
+        flat_scores = refined.view(B, -1)
         scores, indices = torch.topk(flat_scores, k=self.top_k, dim=1)
 
         # 3. Koordinat (Keypoints)
@@ -48,20 +67,22 @@ class CLIDDExport(nn.Module):
         kpts = torch.stack([x_coords, y], dim=-1) 
 
         # 4. Feature Sampling
-        # Norm_kpts harus kembali ke dtype x sebelum masuk ke model.sample (Einsum)
+        # Model.sample expects kpts in [-1,1] with shape (B,N,1,2)
         norm_kpts = (kpts + 0.5) / size.to(torch.float32) * 2 - 1
         norm_kpts = norm_kpts.unsqueeze(2).to(x.dtype)
 
-        # model.sample sekarang menerima input yang konsisten dengan bobot model (FP16 atau FP32)
-        descriptors = self.model.sample(list(dense_features), norm_kpts)
+        descriptors = self.model.sample(list(raw_desc), norm_kpts)
 
-        # Pastikan kpts dikembalikan ke FP32 untuk konsistensi output wrapper
-        return kpts, scores, descriptors.to(torch.float32)
+        # Output in float32 for downstream convenience
+        return kpts.to(torch.float32), scores.to(torch.float32), descriptors.to(torch.float32)
 
 def main():
     parser = argparse.ArgumentParser(description='CLIDD Flexible ONNX Export Script')
     parser.add_argument('--weights', type=str, required=True, help='Model name (e.g., A48, U128)')
     parser.add_argument('--topk', type=int, default=1024, help='Number of keypoints')
+    parser.add_argument('--radius', type=int, default=2, help='NMS radius (MaxPool)')
+    parser.add_argument('--score-thresh', type=float, default=-5.0, help='Detection threshold on raw score map')
+    parser.add_argument('--border', type=int, default=4, help='Border suppression in pixels')
     parser.add_argument('--size', nargs=2, type=int, default=[640, 480], help='Width Height')
     parser.add_argument('--dtype', type=str, choices=['FP32', 'FP16'], default='FP32', help='Output data type')
     args = parser.parse_args()
@@ -74,7 +95,14 @@ def main():
     output_onnx = current_dir.parent / "weights" / f"clidd_{cfg_name.lower()}_{args.dtype.lower()}_{W}x{H}.onnx"
 
     print(f"--- Exporting CLIDD {cfg_name} as {args.dtype} ---")
-    model = CLIDDExport(cfg_name, str(weights_file), top_k=args.topk)
+    model = CLIDDExport(
+        cfg_name,
+        str(weights_file),
+        top_k=args.topk,
+        radius=args.radius,
+        score_thresh=args.score_thresh,
+        border=args.border,
+    )
     model.eval()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
