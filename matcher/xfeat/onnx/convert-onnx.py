@@ -22,7 +22,7 @@ class XFeatBackboneExport(nn.Module):
       - reliability:     (B,  1, H/8, W/8) reliability map
     """
 
-    def __init__(self, weights_path: str):
+    def __init__(self, weights_path: str, normalize_desc: bool = True):
         super().__init__()
         from matcher.xfeat.modules.model import XFeatModel
 
@@ -30,10 +30,12 @@ class XFeatBackboneExport(nn.Module):
         state = torch.load(weights_path, map_location="cpu")
         self.net.load_state_dict(state)
         self.net.eval()
+        self.normalize_desc = bool(normalize_desc)
 
     def forward(self, image: torch.Tensor):
         feats, kpt_logits, reliability = self.net(image)
-        feats = F.normalize(feats, dim=1)
+        if self.normalize_desc:
+            feats = F.normalize(feats, dim=1)
         return feats.float(), kpt_logits.float(), reliability.float()
 
 
@@ -133,17 +135,63 @@ class LighterGlueExport(nn.Module):
         return scores.float()
 
 
-def export_xfeat(args) -> Path:
-    weights_dir = Path(__file__).parent.parent / "weights"
+class FineMatcherExport(nn.Module):
+    """Export the XFeat fine matcher head used by `match_xfeat_star`.
+
+    This is the MLP `XFeatModel.fine_matcher` that predicts an 8x8 (64-bin)
+    offset distribution from concatenated descriptor pairs.
+
+    Input:
+      - pairs: (B, N, 128) float
+
+    Output:
+      - offsets: (B, N, 64) float (logits)
+    """
+
+    def __init__(self, weights_path: str):
+        super().__init__()
+        from matcher.xfeat.modules.model import XFeatModel
+
+        net = XFeatModel()
+        state = torch.load(weights_path, map_location="cpu")
+        net.load_state_dict(state)
+        net.eval()
+        self.fine_matcher = net.fine_matcher
+
+    def forward(self, pairs: torch.Tensor):
+        B, N, C = pairs.shape
+        x = pairs.reshape(B * N, C)
+        y = self.fine_matcher(x)
+        return y.reshape(B, N, -1).float()
+
+
+def _repo_root() -> Path:
+    # matcher/xfeat/onnx/convert-onnx.py -> repo root
+    return Path(__file__).resolve().parents[3]
+
+
+def _pt_weights_dir() -> Path:
+    return Path(__file__).parent.parent / "weights"
+
+
+def _onnx_out_dir() -> Path:
+    out_dir = _repo_root() / "matcher-onnx" / "weights" / "xfeat"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return out_dir
+
+
+def export_backbone(args, *, normalize_desc: bool = True, name_suffix: str = "") -> Path:
+    weights_dir = _pt_weights_dir()
     weights_path = weights_dir / "xfeat.pt"
     if not weights_path.exists():
         raise FileNotFoundError(f"Missing weights: {weights_path}")
 
     W, H = args.size
-    out_path = weights_dir / f"xfeat_backbone_{args.dtype.lower()}_{W}x{H}.onnx"
+    suffix = f"_{name_suffix}" if name_suffix else ""
+    out_path = _onnx_out_dir() / f"xfeat_backbone{suffix}_{args.dtype.lower()}_{W}x{H}.onnx"
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = XFeatBackboneExport(str(weights_path)).to(device).eval()
+    model = XFeatBackboneExport(str(weights_path), normalize_desc=normalize_desc).to(device).eval()
 
     if args.dtype == "FP16":
         model = model.half()
@@ -165,13 +213,13 @@ def export_xfeat(args) -> Path:
 
 
 def export_lightglue(args) -> Path:
-    weights_dir = Path(__file__).parent.parent / "weights"
+    weights_dir = _pt_weights_dir()
     weights_path = weights_dir / "xfeat-lighterglue.pt"
     if not weights_path.exists():
         raise FileNotFoundError(f"Missing weights: {weights_path}")
 
     n = int(args.num_kpts)
-    out_path = weights_dir / f"xfeat_lighterglue_{args.dtype.lower()}_k{n}.onnx"
+    out_path = _onnx_out_dir() / f"xfeat_lighterglue_{args.dtype.lower()}_k{n}.onnx"
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = LighterGlueExport(str(weights_path)).to(device).eval()
@@ -206,20 +254,80 @@ def export_lightglue(args) -> Path:
     return out_path
 
 
+def export_finematcher(args) -> Path:
+    weights_dir = _pt_weights_dir()
+    weights_path = weights_dir / "xfeat.pt"
+    if not weights_path.exists():
+        raise FileNotFoundError(f"Missing weights: {weights_path}")
+
+    out_path = _onnx_out_dir() / f"xfeat_finematcher_{args.dtype.lower()}.onnx"
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = FineMatcherExport(str(weights_path)).to(device).eval()
+
+    n = int(args.num_kpts)
+    if args.dtype == "FP16":
+        model = model.half()
+        dummy = torch.randn(1, n, 128, device=device, dtype=torch.float16)
+    else:
+        dummy = torch.randn(1, n, 128, device=device, dtype=torch.float32)
+
+    # Use the new torch.export-based exporter (dynamo=True) to avoid the
+    # TorchScript-based exporter deprecation warning.
+    from torch.export import Dim
+
+    num_pairs = Dim("num_pairs", min=1)
+    dynamic_shapes = {"pairs": {1: num_pairs}}
+
+    torch.onnx.export(
+        model,
+        dummy,
+        str(out_path),
+        input_names=["pairs"],
+        output_names=["offset_logits"],
+        opset_version=18,
+        do_constant_folding=True,
+        dynamo=True,
+        dynamic_shapes=dynamic_shapes,
+    )
+
+    return out_path
+
+
 def main():
     parser = argparse.ArgumentParser(description="XFeat / LighterGlue ONNX export")
-    parser.add_argument("--matcher", choices=["xfeat", "lightglue"], required=True)
+    parser.add_argument(
+        "--matcher",
+        choices=["xfeat", "xfeat-star", "xfeat-lightglue"],
+        required=True,
+        help="Export target. Note: xfeat-star exports backbone + fine matcher head.",
+    )
     parser.add_argument("--dtype", choices=["FP32", "FP16"], default="FP32")
     parser.add_argument("--size", nargs=2, type=int, default=[640, 480], help="Width Height")
-    parser.add_argument("--num-kpts", type=int, default=1024, help="Only used for lightglue export")
+    parser.add_argument(
+        "--num-kpts",
+        type=int,
+        default=1024,
+        help="Used for lightglue export (padding) and finematcher dummy batch size.",
+    )
     args = parser.parse_args()
 
+    exported: list[Path] = []
     if args.matcher == "xfeat":
-        out_path = export_xfeat(args)
-    else:
-        out_path = export_lightglue(args)
+        # Sparse pipeline uses L2-normalized descriptor map.
+        exported.append(export_backbone(args, normalize_desc=True))
+    elif args.matcher == "xfeat-lightglue":
+        # LighterGlue expects normalized descriptors.
+        exported.append(export_backbone(args, normalize_desc=True))
+        exported.append(export_lightglue(args))
+    elif args.matcher == "xfeat-star":
+        # Star pipeline uses dense descriptors without L2 normalization.
+        # We export a separate backbone variant for this.
+        exported.append(export_backbone(args, normalize_desc=False, name_suffix="star"))
+        exported.append(export_finematcher(args))
 
-    print(f"Exported: {out_path}")
+    for p in exported:
+        print(f"Exported: {p}")
 
 
 if __name__ == "__main__":

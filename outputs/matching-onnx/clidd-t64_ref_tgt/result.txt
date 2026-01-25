@@ -1,0 +1,19 @@
+
+==================== Testing clidd-t64 (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 407 (int)
+  Inliers: 81 (int)
+  Ratio: 0.20 (float)
+  All Keypoints0: [[538.75 331.25],[421.25 418.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[560.0 386.25],[411.25 32.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[-0.08775579  0.19581364  0.01204425 -0.00255836]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[-0.11355391  0.10693441  0.15047842 -0.04404755]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[538.75 331.25],[421.25 418.75]], ... (numpy.ndarray, dtype=float32, shape=(407, 2))
+  Matched Keypoints1: [[503.75 297.5],[783.75 397.5]], ... (numpy.ndarray, dtype=float32, shape=(407, 2))
+
+Time: 21 ms
+=======================================================

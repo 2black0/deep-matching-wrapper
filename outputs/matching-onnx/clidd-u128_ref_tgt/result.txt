@@ -1,0 +1,19 @@
+
+==================== Testing clidd-u128 (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 448 (int)
+  Inliers: 261 (int)
+  Ratio: 0.58 (float)
+  All Keypoints0: [[602.5 168.75],[503.75 281.25]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[515.0 218.75],[556.25 386.25]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.10614653 -0.08039867  0.05373749 -0.05416935]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 128))
+  All Descriptors1: [[-0.07439371  0.1693786   0.10392104 -0.06663274]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 128))
+  Matched Keypoints0: [[503.75 281.25],[538.75 331.25]], ... (numpy.ndarray, dtype=float32, shape=(448, 2))
+  Matched Keypoints1: [[488.75 286.25],[501.25 308.75]], ... (numpy.ndarray, dtype=float32, shape=(448, 2))
+
+Time: 28 ms
+=======================================================
