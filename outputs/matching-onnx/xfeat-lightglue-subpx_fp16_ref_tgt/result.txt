@@ -1,0 +1,4 @@
+matcher: xfeat-lightglue-subpx_fp16_ref_tgt
+num_matches: 171
+num_inliers: 142
+base_latency_ms: 34.0

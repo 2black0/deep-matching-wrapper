@@ -1,0 +1,4 @@
+matcher: superpoint-lightglue-subpx_fp16_ref_tgt
+num_matches: 260
+num_inliers: 257
+base_latency_ms: 1947.7

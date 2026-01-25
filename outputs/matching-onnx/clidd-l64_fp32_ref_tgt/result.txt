@@ -15,5 +15,5 @@ Results:
   Matched Keypoints0: [[538.75 331.25],[562.5 327.5]], ... (numpy.ndarray, dtype=float32, shape=(467, 2))
   Matched Keypoints1: [[501.25 310.0],[511.25 308.75]], ... (numpy.ndarray, dtype=float32, shape=(467, 2))
 
-Time: 21 ms
+Time: 18 ms
 =======================================================

@@ -151,8 +151,30 @@ def _discover_available_matchers() -> list[str]:
         for cfg in sorted(cfgs):
             out.append(f"clidd-{cfg}")
 
+    # SubPX (Keypt2Subpx) refiners
+    subpx_dir = weights_root / "subpx"
+    if subpx_dir.exists():
+        has_k2s_xfeat = any(subpx_dir.glob("k2s_xfeat_refiner_*.onnx"))
+        has_k2s_splg = any(subpx_dir.glob("k2s_splg_refiner_*.onnx"))
+
+        if has_k2s_xfeat and "xfeat" in out:
+            out.append("xfeat-subpx")
+        if has_k2s_xfeat and "xfeat-lightglue" in out:
+            out.append("xfeat-lightglue-subpx")
+        if has_k2s_splg and "superpoint-lightglue" in out:
+            out.append("superpoint-lightglue-subpx")
+
     # Stable ordering
-    primary = ["xfeat", "xfeat-star", "xfeat-lightglue", "liftfeat", "superpoint-lightglue"]
+    primary = [
+        "xfeat",
+        "xfeat-star",
+        "xfeat-lightglue",
+        "xfeat-subpx",
+        "xfeat-lightglue-subpx",
+        "superpoint-lightglue",
+        "superpoint-lightglue-subpx",
+        "liftfeat",
+    ]
     ordered = [m for m in primary if m in out] + [m for m in out if m.startswith("clidd-")]
     return ordered
 
@@ -174,6 +196,14 @@ def get_matcher(name: str, device: str | None = None, **kwargs):
         from xfeat import XFeatONNXMatcher
 
         return XFeatONNXMatcher(device=device, mode="lightglue", **kwargs)
+    if name == "xfeat-subpx":
+        from subpx import SubPXONNXMatcher
+
+        return SubPXONNXMatcher(device=device, mode="xfeat-subpx", **kwargs)
+    if name == "xfeat-lightglue-subpx":
+        from subpx import SubPXONNXMatcher
+
+        return SubPXONNXMatcher(device=device, mode="xfeat-lightglue-subpx", **kwargs)
     if name == "liftfeat":
         from liftfeat import LiftFeatONNXMatcher
 
@@ -182,6 +212,10 @@ def get_matcher(name: str, device: str | None = None, **kwargs):
         from superpoint_lightglue import SuperPointLightGlueONNXMatcher
 
         return SuperPointLightGlueONNXMatcher(device=device, **kwargs)
+    if name == "superpoint-lightglue-subpx":
+        from subpx import SubPXONNXMatcher
+
+        return SubPXONNXMatcher(device=device, mode="superpoint-lightglue-subpx", **kwargs)
     if name.startswith("clidd-"):
         from clidd import CLIDDONNXMatcher
 
