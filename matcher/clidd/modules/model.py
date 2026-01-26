@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from typing import List
 
 from .modules import BasicLayer, ResNetLayer
 from .triton_plugin import deformable_sample_project
@@ -50,14 +51,16 @@ class Model(nn.Module):
 
         desc = (x1, x2, x3)
 
-        feat = self.conv2(x2) + F.interpolate(self.conv3(x3), scale_factor=4, mode='bilinear', align_corners=False)
-        feat = self.conv1(x1) + F.interpolate(feat, scale_factor=4, mode='bilinear', align_corners=False)
+        # Use float scale_factor for TorchScript compatibility.
+        feat = self.conv2(x2) + F.interpolate(self.conv3(x3), scale_factor=4.0, mode='bilinear', align_corners=False)
+        feat = self.conv1(x1) + F.interpolate(feat, scale_factor=4.0, mode='bilinear', align_corners=False)
         
         score = self.score_head(feat)
         
         return desc, score
     
-    def sample(self, dense, kpts, *, align_corners=False):
+    # TorchScript does not support keyword-only args.
+    def sample(self, dense: List[torch.Tensor], kpts: torch.Tensor, align_corners: bool = False):
         H, W = dense[0].shape[-2:]
         H = H * 2
         W = W * 2
@@ -86,5 +89,5 @@ class Model(nn.Module):
         desc = deformable_sample_project(dense[0], kpts + offset_1, weight_post1, None, is_input_nhwc=is_input_nhwc, align_corners=align_corners) + \
                deformable_sample_project(dense[1], kpts + offset_2, weight_post2, None, is_input_nhwc=is_input_nhwc, align_corners=align_corners) + \
                deformable_sample_project(dense[2], kpts + offset_3, weight_post3, bias_post, is_input_nhwc=is_input_nhwc, align_corners=align_corners)
-        return F.normalize(desc, 2, -1)
+        return F.normalize(desc, 2.0, -1)
     

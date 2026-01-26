@@ -38,16 +38,20 @@ class NonMaxSuppression(torch.nn.Module):
         pad = kernel_size // 2
         local_max = nn.MaxPool2d(kernel_size=kernel_size, stride=1, padding=pad)(x)
         pos = (x == local_max) & (x > threshold)
+        # Each k is (1,H,W) (channel,y,x). We drop channel and flip to (x,y).
         pos_batched = [k.nonzero()[..., 1:].flip(-1) for k in pos]
 
-        pad_val = max([len(x) for x in pos_batched])
-        pos = torch.zeros((B, pad_val, 2), dtype=torch.long, device=x.device)
+        # This wrapper is only used with B=1; avoid padding with zeros that would
+        # introduce many fake keypoints at (0,0).
+        if B == 1:
+            return pos_batched[0].unsqueeze(0)
 
-        # Pad kpts and build (B, N, 2) tensor
-        for b in range(len(pos_batched)):
-            pos[b, : len(pos_batched[b]), :] = pos_batched[b]
+        pad_val = max([len(p) for p in pos_batched])
+        out = torch.zeros((B, pad_val, 2), dtype=torch.long, device=x.device)
+        for b in range(B):
+            out[b, : len(pos_batched[b]), :] = pos_batched[b]
 
-        return pos
+        return out
 
     def forward(self, score):
         pos = self.NMS(score, self.rep_thr)
@@ -146,7 +150,8 @@ class LiftFeat(nn.Module):
         scores = self.sampler(heatmap, kpts.unsqueeze(0), _H1, _W1)
         scores = scores.squeeze(0).reshape(-1)
         descs = self.sampler(descs_map, kpts.unsqueeze(0), _H1, _W1)
-        descs = torch.nn.functional.normalize(descs, p=2, dim=1)
+        # Normalize each descriptor vector (channel dimension).
+        descs = torch.nn.functional.normalize(descs, p=2.0, dim=2)
         descs = descs.squeeze(0)
 
         return {"descriptors": descs, "keypoints": kpts, "scores": scores}

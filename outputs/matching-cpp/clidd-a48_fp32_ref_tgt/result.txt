@@ -1,0 +1,13 @@
+model: clidd-a48
+device: cuda
+dtype: fp32
+topk: 2048
+num_kpts0: 2048
+num_kpts1: 2048
+num_matches: 762
+num_inliers: 72
+ratio: 0.0944882
+ms_infer_per_img: 4.10692
+ms_match: 0.72748
+ms_ransac: 0.614568
+time_total_ms: 10.0614

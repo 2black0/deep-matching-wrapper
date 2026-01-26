@@ -1,0 +1,19 @@
+
+==================== Testing xfeat (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 63 (int)
+  Inliers: 23 (int)
+  Ratio: 0.37 (float)
+  All Keypoints0: [[332.5 292.5],[70.0 113.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[685.0 573.75],[670.0 497.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.13118224  0.02851344  0.10701562 -0.14612411]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[ 0.07171232  0.08364385 -0.02743433  0.06572038]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[568.75 280.0],[303.75 481.25]], ... (numpy.ndarray, dtype=float32, shape=(63, 2))
+  Matched Keypoints1: [[511.25 283.75],[260.0 315.0]], ... (numpy.ndarray, dtype=float32, shape=(63, 2))
+
+Time: 20 ms
+=======================================================

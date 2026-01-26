@@ -1,0 +1,19 @@
+
+==================== Testing superpoint-lightglue (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 258 (int)
+  Inliers: 252 (int)
+  Ratio: 0.98 (float)
+  All Keypoints0: [[393.75 438.75],[317.5 491.25]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[530.0 427.5],[625.0 387.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.00638726 -0.01753258 -0.02455496  0.05377995]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 256))
+  All Descriptors1: [[0.07154781 0.01690835 0.03013979 0.01228792]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 256))
+  Matched Keypoints0: [[317.5 491.25],[428.75 342.5]], ... (numpy.ndarray, dtype=float32, shape=(258, 2))
+  Matched Keypoints1: [[415.0 368.75],[455.0 311.25]], ... (numpy.ndarray, dtype=float32, shape=(258, 2))
+
+Time: 70 ms
+=======================================================

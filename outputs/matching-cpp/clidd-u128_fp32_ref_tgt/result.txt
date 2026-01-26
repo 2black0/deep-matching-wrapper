@@ -1,0 +1,13 @@
+model: clidd-u128
+device: cuda
+dtype: fp32
+topk: 2048
+num_kpts0: 2048
+num_kpts1: 2048
+num_matches: 864
+num_inliers: 666
+ratio: 0.770833
+ms_infer_per_img: 9.9425
+ms_match: 0.787021
+ms_ransac: 0.540429
+time_total_ms: 22.1156

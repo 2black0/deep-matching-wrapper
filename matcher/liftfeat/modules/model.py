@@ -126,7 +126,7 @@ class UpsampleLayer(nn.Module):
         self.leaky_relu = nn.LeakyReLU(0.1)
 
     def forward(self, x):
-        x = F.interpolate(x, scale_factor=2, mode="bilinear", align_corners=False)
+        x = F.interpolate(x, scale_factor=2.0, mode="bilinear", align_corners=False)
         x = self.leaky_relu(self.bn(self.conv(x)))
 
         return x
@@ -204,22 +204,22 @@ class DepthHead(nn.Module):
         self.leaky_relu = nn.LeakyReLU(0.1)
         
     def forward(self, x):
-        x0 = F.interpolate(x, scale_factor=2,mode='bilinear',align_corners=False)
+        x0 = F.interpolate(x, scale_factor=2.0,mode='bilinear',align_corners=False)
         x1 = self.upsampleDa(x)
         x1 = torch.cat([x0,x1],dim=1)
         x1 = self.leaky_relu(self.bnDepa(self.convDepa(x1)))
         
-        x1_0 = F.interpolate(x1,scale_factor=2,mode='bilinear',align_corners=False)
+        x1_0 = F.interpolate(x1,scale_factor=2.0,mode='bilinear',align_corners=False)
         x2 = self.upsampleDb(x1)
         x2 = torch.cat([x1_0,x2],dim=1)
         x2 = self.leaky_relu(self.bnDepb(self.convDepb(x2)))
         
-        x2_0 = F.interpolate(x2,scale_factor=2,mode='bilinear',align_corners=False)
+        x2_0 = F.interpolate(x2,scale_factor=2.0,mode='bilinear',align_corners=False)
         x3 = self.upsampleDc(x2)
         x3 = torch.cat([x2_0,x3],dim=1)
         x = self.leaky_relu(self.bnDepc(self.convDepc(x3)))
         
-        x = F.normalize(x,p=2,dim=1)
+        x = F.normalize(x,p=2.0,dim=1)
         return x
     
 
@@ -346,13 +346,18 @@ class LiftFeatSPModel(nn.Module):
         x = self.conv_fusion34(x3)
         return x
     
-    def _unfold2d(self, x, ws = 2):
+    def _unfold2d(self, x: torch.Tensor, ws: int = 2) -> torch.Tensor:
         """
             Unfolds tensor in 2D with desired ws (window size) and concat the channels
         """
-        B, C, H, W = x.shape
-        x = x.unfold(2,  ws , ws).unfold(3, ws,ws).reshape(B, C, H//ws, W//ws, ws**2)
-        return x.permute(0, 1, 4, 2, 3).reshape(B, -1, H//ws, W//ws)
+        B = int(x.size(0))
+        C = int(x.size(1))
+        H = int(x.size(2))
+        W = int(x.size(3))
+        ws2 = ws * ws
+        x = x.unfold(2, ws, ws).unfold(3, ws, ws)
+        x = x.reshape(B, C, H // ws, W // ws, ws2)
+        return x.permute(0, 1, 4, 2, 3).reshape(B, -1, H // ws, W // ws)
 
 
     def forward1(self, x):

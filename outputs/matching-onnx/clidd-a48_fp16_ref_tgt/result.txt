@@ -1,0 +1,19 @@
+
+==================== Testing clidd-a48 (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 457 (int)
+  Inliers: 15 (int)
+  Ratio: 0.03 (float)
+  All Keypoints0: [[350.0 441.25],[380.0 161.25]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[756.25 248.75],[331.25 522.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.14929199  0.08520508  0.20422363 -0.15539551]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
+  All Descriptors1: [[ 0.17370605  0.11419678  0.11419678 -0.08508301]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
+  Matched Keypoints0: [[385.0 371.25],[433.75 387.5]], ... (numpy.ndarray, dtype=float32, shape=(457, 2))
+  Matched Keypoints1: [[37.5 548.75],[160.0 150.0]], ... (numpy.ndarray, dtype=float32, shape=(457, 2))
+
+Time: 25 ms
+=======================================================

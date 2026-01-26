@@ -1,0 +1,19 @@
+
+==================== Testing liftfeat (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1033 (int)
+  Total Keypoints1: 565 (int)
+  Matched Keypoints: 160 (int)
+  Inliers: 23 (int)
+  Ratio: 0.14 (float)
+  All Keypoints0: [[2.5 0.0],[65.0 0.0]], ... (numpy.ndarray, dtype=float32, shape=(1033, 2))
+  All Keypoints1: [[2.5 0.0],[15.0 0.0]], ... (numpy.ndarray, dtype=float32, shape=(565, 2))
+  All Descriptors0: [[-0.04499946  0.2039104   0.01654475  0.0554175 ]...], ... (numpy.ndarray, dtype=float32, shape=(1033, 64))
+  All Descriptors1: [[0.05233586 0.22286163 0.11365013 0.10999369]...], ... (numpy.ndarray, dtype=float32, shape=(565, 64))
+  Matched Keypoints0: [[2.5 0.0],[125.0 0.0]], ... (numpy.ndarray, dtype=float32, shape=(160, 2))
+  Matched Keypoints1: [[15.0 0.0],[95.0 0.0]], ... (numpy.ndarray, dtype=float32, shape=(160, 2))
+
+Time: 32 ms
+=======================================================

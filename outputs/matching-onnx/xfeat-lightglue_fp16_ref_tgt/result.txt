@@ -1,0 +1,19 @@
+
+==================== Testing xfeat-lightglue (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 180 (int)
+  Inliers: 152 (int)
+  Ratio: 0.84 (float)
+  All Keypoints0: [[332.5 292.5],[70.0 113.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[685.0 573.75],[670.0 497.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.13106135  0.02822972  0.10663203 -0.14610405]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[ 0.07148357  0.08363795 -0.02726984  0.06587378]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[332.5 217.5],[116.25 72.5]], ... (numpy.ndarray, dtype=float32, shape=(180, 2))
+  Matched Keypoints1: [[423.75 257.5],[351.25 193.75]], ... (numpy.ndarray, dtype=float32, shape=(180, 2))
+
+Time: 35 ms
+=======================================================
