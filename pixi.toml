@@ -17,6 +17,7 @@ link-opencv = { cmd = "bash scripts/link_opencv.sh", depends-on = ["clean-libs"]
 
 [dependencies]
 python = "3.10.*"
+opencv = "*"
 tqdm = "*"
 numpy = "*"
 triton = "*"
@@ -30,7 +31,7 @@ psutil = "*"
 onnx = "*"
 tabulate = "*"
 onnxscript = "*"
-scipy = ">=1.15.2,<2"
+scipy = "*"
 
 [pypi-dependencies]
 huggingface-hub = "*"

@@ -32,38 +32,35 @@ A unified, minimal-dependency wrapper for state-of-the-art deep learning image m
 
 ### 1. Install Dependencies
 
+**Option A: Use Pixi's OpenCV**
+
 ```bash
 pixi install
 ```
 
-### 2. OpenCV Setup
+After finishing installation, skip Option B then proceed to step 2.
 
-**Option A: Use Custom OpenCV Build (with CUDA)**
+**Option B: Use Custom OpenCV Build (with CUDA)**
+
+> note: This option is recommended if you want to leverage GPU acceleration with OpenCV.
+> skip this step if you are okay with CPU-only OpenCV from Pixi.
+
+first comment out the `opencv` line in `pixi.toml` to avoid conflicts:
+
+```toml
+# opencv = "*"
+```
 
 If you've built OpenCV with CUDA support:
 
 ```bash
+pixi install
 pixi run link-opencv
 ```
 
 This will symlink your system OpenCV to the pixi environment.
 
-**Option B: Use Pixi's OpenCV**
-
-Add to `pixi.toml`:
-
-```toml
-[dependencies]
-opencv = "*"
-```
-
-Then run:
-
-```bash
-pixi install
-```
-
-### 3. Verify Installation
+### 2. Verify Installation
 
 ```bash
 pixi run bash scripts/check.sh
@@ -89,7 +86,7 @@ pixi run python demo_matcher.py --matcher xfeat
 Test with custom images:
 
 ```bash
-pixi run python demo_matcher.py --matcher eloftr --img1 path/to/img1.png --img2 path/to/img2.png
+pixi run python demo_matcher.py --matcher eloftr --img1 assets/ref.png --img2 assets/tgt.png
 ```
 
 Test all matchers:
