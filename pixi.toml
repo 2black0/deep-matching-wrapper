@@ -17,7 +17,7 @@ link-opencv = { cmd = "bash scripts/link_opencv.sh", depends-on = ["clean-libs"]
 
 [dependencies]
 python = "3.10.*"
-opencv = "*"
+#opencv = "*"
 tqdm = "*"
 numpy = "*"
 triton = "*"
