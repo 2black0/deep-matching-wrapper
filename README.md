@@ -126,7 +126,7 @@ Benchmark result can be found detailed in:
 
 ```
 deep-matching-wrapper/
-├── matcher/                # Matcher implementations
+├── matcher/                # Python matcher implementations
 │   ├── base_matcher.py     # Base class with unified API
 │   ├── xfeat/              # XFeat wrapper
 │   ├── liftfeat/           # LiftFeat wrapper
@@ -137,6 +137,13 @@ deep-matching-wrapper/
 │   ├── eloftr/             # EfficientLoFTR wrapper
 │   ├── subpx/              # Subpixel refinement wrapper
 │   └── handcrafted.py      # ORB/SIFT wrapper
+├── matcher-cpp/            # C++ implementations (LibTorch)
+│   ├── xfeat/              # XFeat C++ implementation
+│   ├── liftfeat/           # LiftFeat C++ implementation
+│   ├── edm/                # EDM C++ implementation
+│   ├── clidd/              # CLIDD C++ implementation
+│   ├── lightglue/          # SuperPoint-LightGlue C++ implementation
+│   └── README.md           # C++ build and usage instructions
 ├── check_matcher.py        # Check supported matchers script
 ├── demo_matcher.py         # Main demo script
 ├── demo_realtime.py        # Real-time matcher demo
@@ -146,6 +153,24 @@ deep-matching-wrapper/
 ├── scripts/                # Utility scripts
 └── pixi.toml               # Pixi dependency configuration
 ```
+
+## 🔧 C++ Implementations
+
+Several matchers have C++ implementations using LibTorch (TorchScript) for production deployment:
+
+- **XFeat** (`xfeat`, `xfeat-star`)
+- **LiftFeat** 
+- **EDM**
+- **CLIDD** (`u128`, `a48`)
+- **SuperPoint-LightGlue**
+
+C++ implementations provide:
+- ✅ No Python runtime dependency
+- ✅ Lower memory footprint
+- ✅ Easier integration into C++ projects
+- ✅ Both CPU and CUDA support
+
+See [matcher-cpp/README.md](matcher-cpp/README.md) for build instructions and usage.
 
 ## 🙏 Credits
 

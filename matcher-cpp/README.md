@@ -10,6 +10,7 @@ This directory contains C++ implementations of deep feature matchers using LibTo
 | [LiftFeat](liftfeat/) | Learned Invariant Feature Transform | - | Medium | Good |
 | [EDM](edm/) | Efficient Dense Matching | - | Medium | Best |
 | [CLIDD](clidd/) | Compact Learned Invariant Deep Descriptors | `u128`, `a48` | Fast | Good |
+| [SuperPoint-LightGlue](lightglue/) | Self-supervised keypoints with transformer matching | - | Slow | Best |
 
 ## Quick Start
 
@@ -128,7 +129,7 @@ The C++ code automatically selects the correct model based on the `--device` par
 export LIBTORCH_DIR="/home/ardyseto/libtorch"
 export CUDA_PATH="/usr/local/cuda-13.0"
 
-for matcher in xfeat liftfeat edm clidd; do
+for matcher in xfeat liftfeat edm clidd lightglue; do
   echo "Building $matcher..."
   
   cmake -S matcher-cpp/$matcher -B matcher-cpp/$matcher/build \
@@ -209,6 +210,8 @@ Test images: `assets/ref.png` (800x600) and `assets/tgt.png` (800x600)
 | CLIDD-U128 | CUDA | 864 | 666 | ~25 |
 | CLIDD-A48 | CPU | 865 | 669 | ~260 |
 | CLIDD-A48 | CUDA | 864 | 666 | ~22 |
+| SuperPoint-LightGlue | CPU | 455 | 447 | ~2304 |
+| SuperPoint-LightGlue | CUDA | 455 | 450 | ~1747 |
 
 *Note: Times measured on NVIDIA RTX 4090 / AMD Ryzen 9 7950X*
 
@@ -248,6 +251,7 @@ For detailed information about each matcher:
 - [LiftFeat](liftfeat/README.md) - Learned invariant features
 - [EDM](edm/README.md) - Dense matching
 - [CLIDD](clidd/README.md) - Compact learned descriptors
+- [SuperPoint-LightGlue](lightglue/README.md) - Self-supervised keypoints with transformer matching
 
 ## Contributing
 
