@@ -8,9 +8,10 @@ This directory contains C++ implementations of deep feature matchers using LibTo
 |---------|-------------|----------|-------|----------|
 | [XFeat](xfeat/) | Accelerated sparse/semi-dense features | `xfeat`, `xfeat-star` | Fast-Medium | Good-Better |
 | [LiftFeat](liftfeat/) | Learned Invariant Feature Transform | - | Medium | Good |
-| [EDM](edm/) | Efficient Dense Matching | - | Medium | Best |
 | [CLIDD](clidd/) | Compact Learned Invariant Deep Descriptors | `u128`, `a48` | Fast | Good |
 | [SuperPoint-LightGlue](lightglue/) | Self-supervised keypoints with transformer matching | - | Slow | Best |
+
+> **Note:** EDM (Efficient Dense Matching) is only available in Python (`matcher/edm/`) due to performance considerations. Python implementation runs at ~35-40ms, while C++ TorchScript was 10x slower (~390ms).
 
 ## Quick Start
 
@@ -107,7 +108,7 @@ All matchers support automatic device selection:
   - No CUDA required
   
 - **CUDA**: `--device cuda`
-  - Uses CUDA-exported TorchScript models (for xfeat-star, edm)
+  - Uses CUDA-exported TorchScript models (for xfeat-star)
   - Automatically selected based on device parameter
   - Requires CUDA toolkit and compatible GPU
 
@@ -116,7 +117,6 @@ All matchers support automatic device selection:
 Some matchers require separate model exports for CPU and CUDA:
 
 - **XFeat-Star**: Exports `xfeat_star_fp32_k4096.pt` (CPU) and `xfeat_star_fp32_k4096_cuda.pt` (CUDA)
-- **EDM**: Exports `edm_fp32_w640_h480_topk1680.pt` (CPU) and `edm_fp32_w640_h480_topk1680_cuda.pt` (CUDA)
 
 The C++ code automatically selects the correct model based on the `--device` parameter.
 
@@ -129,7 +129,7 @@ The C++ code automatically selects the correct model based on the `--device` par
 export LIBTORCH_DIR="/home/ardyseto/libtorch"
 export CUDA_PATH="/usr/local/cuda-13.0"
 
-for matcher in xfeat liftfeat edm clidd lightglue; do
+for matcher in xfeat liftfeat clidd lightglue; do
   echo "Building $matcher..."
   
   cmake -S matcher-cpp/$matcher -B matcher-cpp/$matcher/build \
@@ -173,7 +173,7 @@ Missing TorchScript weights: matcher-cpp/<matcher>/weights/<model>.pt
 If you exported models on CPU but try to run on CUDA (or vice versa):
 
 **Solution**: 
-- For xfeat-star and edm: Export both CPU and CUDA versions
+- For xfeat-star: Export both CPU and CUDA versions
 - For other matchers: Re-export on the target device or use CPU
 
 ### CMake Cannot Find LibTorch
@@ -204,8 +204,6 @@ Test images: `assets/ref.png` (800x600) and `assets/tgt.png` (800x600)
 | XFeat-Star | CUDA | 650 | 349 | ~192 |
 | LiftFeat | CPU | 735 | 253 | ~300 |
 | LiftFeat | CUDA | 735 | 255 | ~40 |
-| EDM | CPU | 1106 | 1101 | ~262 |
-| EDM | CUDA | 1107 | 1102 | ~392 |
 | CLIDD-U128 | CPU | 865 | 669 | ~280 |
 | CLIDD-U128 | CUDA | 864 | 666 | ~25 |
 | CLIDD-A48 | CPU | 865 | 669 | ~260 |
@@ -214,6 +212,11 @@ Test images: `assets/ref.png` (800x600) and `assets/tgt.png` (800x600)
 | SuperPoint-LightGlue | CUDA | 455 | 450 | ~1747 |
 
 *Note: Times measured on NVIDIA RTX 4090 / AMD Ryzen 9 7950X*
+
+**EDM Performance (Python only):**
+- Python eager mode: ~35ms CUDA
+- Python ONNX Runtime: ~40ms CUDA
+- C++ TorchScript was 10x slower, hence not included in C++
 
 ## API Usage
 
@@ -249,9 +252,10 @@ For detailed information about each matcher:
 
 - [XFeat](xfeat/README.md) - Sparse and semi-dense features
 - [LiftFeat](liftfeat/README.md) - Learned invariant features
-- [EDM](edm/README.md) - Dense matching
 - [CLIDD](clidd/README.md) - Compact learned descriptors
 - [SuperPoint-LightGlue](lightglue/README.md) - Self-supervised keypoints with transformer matching
+
+> **Note:** For EDM (dense matching), use the Python implementation in `matcher/edm/`
 
 ## Contributing
 

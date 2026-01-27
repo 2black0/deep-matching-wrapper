@@ -50,3 +50,6 @@ target_link_libraries(dmw_liftfeat_lib
 add_executable(demo_liftfeat demo/demo_liftfeat.cpp)
 
 target_link_libraries(demo_liftfeat PRIVATE dmw_liftfeat_lib)
+
+# Fix TBB ABI compatibility issue
+target_link_options(demo_liftfeat PRIVATE "-Wl,--allow-shlib-undefined")

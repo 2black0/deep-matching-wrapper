@@ -9,8 +9,7 @@ namespace dmw::xfeat {
 
 enum class XFeatMode {
   XFEAT,        // Sparse features + Mutual Nearest Neighbors
-  XFEAT_STAR,   // Semi-dense features + Refinement
-  XFEAT_LIGHTGLUE  // Sparse features + LightGlue matcher (note: requires separate LightGlue model)
+  XFEAT_STAR    // Semi-dense features + Refinement
 };
 
 struct XFeatConfig {
@@ -21,7 +20,6 @@ struct XFeatConfig {
   int top_k = 4096;
   float detection_threshold = 0.05f;  // For sparse detection
   float fine_conf = 0.25f;            // For xfeat-star refinement
-  float min_match_conf = 0.1f;        // For lightglue matching
   
   // Matching parameters (for XFEAT mode with MNN)
   float min_cossim = -1.0f;  // Minimum cosine similarity for matches (-1 disables threshold)

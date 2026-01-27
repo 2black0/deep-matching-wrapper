@@ -53,3 +53,6 @@ target_link_libraries(dmw_xfeat_lib
 add_executable(demo_xfeat demo/demo_xfeat.cpp)
 
 target_link_libraries(demo_xfeat PRIVATE dmw_xfeat_lib)
+
+# Fix TBB ABI issue
+target_link_options(demo_xfeat PRIVATE "-Wl,--allow-shlib-undefined")

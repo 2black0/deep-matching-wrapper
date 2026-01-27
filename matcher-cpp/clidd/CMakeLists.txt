@@ -50,3 +50,6 @@ target_link_libraries(dmw_clidd_lib
 add_executable(demo_clidd demo/demo_clidd.cpp)
 
 target_link_libraries(demo_clidd PRIVATE dmw_clidd_lib)
+
+# Fix TBB ABI compatibility issue
+target_link_options(demo_clidd PRIVATE "-Wl,--allow-shlib-undefined")

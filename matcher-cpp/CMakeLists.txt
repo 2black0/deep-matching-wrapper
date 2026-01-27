@@ -7,4 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(clidd)
 add_subdirectory(liftfeat)
-add_subdirectory(edm)
+add_subdirectory(xfeat)

@@ -53,6 +53,9 @@ class EDMTorchScript(nn.Module):
         cfg.EDM.COARSE.TOPK = int(topk)
         cfg.EDM.COARSE.MCONF_THR = float(mconf_thr)
         cfg.EDM.COARSE.BORDER_RM = int(border_rm)
+        
+        # Ensure NPE is set correctly in the config object before lowering
+        cfg.EDM.NECK.NPE = [832, 832, 1152, 1152]
 
         cfg = lower_config(cfg)
         self.net = EDM(config=cfg["edm"]).eval()
@@ -114,6 +117,10 @@ def main():
     example = torch.zeros((1, 2, int(args.h), int(args.w)), dtype=torch.float32, device=device)
     ts = torch.jit.trace(m, example, strict=False)
     ts = torch.jit.freeze(ts)
+    
+    # Apply optimization for inference (can significantly improve CUDA performance)
+    ts = torch.jit.optimize_for_inference(ts)
+    
     ts.save(str(out_path))
     print(f"Saved: {out_path}")
 

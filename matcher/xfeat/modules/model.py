@@ -115,11 +115,8 @@ class XFeatModel(nn.Module):
 			Unfolds tensor in 2D with desired ws (window size) and concat the channels
 		"""
 		B, C, H, W = x.shape
-		ws_squared = ws * ws  # Avoid ** operator which may produce float in TorchScript
-		# Direct integer division for TorchScript compatibility
 		x = x.unfold(2, ws, ws).unfold(3, ws, ws)
-		# Compute dimensions inline to avoid float conversion issues
-		x = x.reshape(B, C, -1, x.size(4), ws_squared)  # -1 infers the dimension
+		x = x.reshape(B, C, x.size(2), x.size(3), ws*ws)
 		x = x.permute(0, 1, 4, 2, 3)
 		return x.reshape(B, -1, x.size(3), x.size(4))
 

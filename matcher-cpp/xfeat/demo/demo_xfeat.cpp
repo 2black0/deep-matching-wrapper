@@ -41,14 +41,13 @@ float get_arg_f(int argc, char** argv, const std::string& key, float def) {
 void usage() {
   std::cout << "demo_xfeat --img1 <path> --img2 <path> [options]\n";
   std::cout << "Options:\n";
-  std::cout << "  --mode xfeat|xfeat-star|xfeat-lightglue (default xfeat)\n";
+  std::cout << "  --mode xfeat|xfeat-star (default xfeat)\n";
   std::cout << "  --device cpu|cuda (default cpu)\n";
   std::cout << "  --dtype fp32 (TorchScript export)\n";
   std::cout << "  --topk 4096 (must match exported .pt)\n";
   std::cout << "  --detection-threshold 0.05 (for sparse detection)\n";
   std::cout << "  --fine-conf 0.25 (for xfeat-star refinement)\n";
   std::cout << "  --min-cossim -1 (for xfeat MNN matching; -1 disables threshold)\n";
-  std::cout << "  --min-match-conf 0.1 (for xfeat-lightglue matching)\n";
   std::cout << "  --output yes|no (default no)\n";
   std::cout << "  --out <jpg_path> (optional; overrides --output)\n";
   std::cout << "  --draw-all (draw outliers too)\n";
@@ -72,8 +71,6 @@ int main(int argc, char** argv) {
     cfg.mode = dmw::xfeat::XFeatMode::XFEAT;
   } else if (mode_str == "xfeat-star") {
     cfg.mode = dmw::xfeat::XFeatMode::XFEAT_STAR;
-  } else if (mode_str == "xfeat-lightglue") {
-    cfg.mode = dmw::xfeat::XFeatMode::XFEAT_LIGHTGLUE;
   } else {
     std::cerr << "Unknown mode: " << mode_str << "\n";
     return 2;
@@ -85,7 +82,6 @@ int main(int argc, char** argv) {
   cfg.detection_threshold = get_arg_f(argc, argv, "--detection-threshold", 0.05f);
   cfg.fine_conf = get_arg_f(argc, argv, "--fine-conf", 0.25f);
   cfg.min_cossim = get_arg_f(argc, argv, "--min-cossim", -1.0f);
-  cfg.min_match_conf = get_arg_f(argc, argv, "--min-match-conf", 0.1f);
   
   const bool draw_all = has_flag(argc, argv, "--draw-all");
   const std::string out_path = get_arg(argc, argv, "--out", "");

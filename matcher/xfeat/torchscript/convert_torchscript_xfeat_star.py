@@ -196,7 +196,7 @@ class XFeatStarTorchScript(nn.Module):
 
 def main():
     p = argparse.ArgumentParser(description="XFeat-Star (semi-dense) TorchScript export for matcher-cpp (B=1)")
-    p.add_argument("--weights", type=str, default="matcher/xfeat/weights/xfeat.pt")
+    p.add_argument("--weights", type=str, default=str(ROOT / "matcher-cpp" / "xfeat" / "weights" / "xfeat.pt"))
     p.add_argument("--topk", type=int, default=4096)
     p.add_argument("--fine-conf", type=float, default=0.25)
     p.add_argument("--device", type=str, default="cpu", choices=["cpu", "cuda"], help="Device to trace on (cpu or cuda)")

@@ -89,8 +89,6 @@ struct XFeatTorchMatcher::Impl {
   torch::Dtype dtype;
   torch::jit::Module module_xfeat;
   torch::jit::Module module_xfeat_star;
-  torch::jit::Module module_xfeat_lightglue;
-  bool has_lightglue_model = false;
 
   explicit Impl(const XFeatConfig& c)
       : cfg(c),
@@ -128,28 +126,6 @@ struct XFeatTorchMatcher::Impl {
       module_xfeat_star.eval();
       module_xfeat_star.to(device);
       module_xfeat_star.to(dtype);
-    } else if (cfg.mode == XFeatMode::XFEAT_LIGHTGLUE) {
-      const std::string lg_path = base + "/xfeat_lightglue_fp32_k" + std::to_string(cfg.top_k) + ".pt";
-      if (std::filesystem::exists(lg_path)) {
-        module_xfeat_lightglue = torch::jit::load(lg_path, device);
-        module_xfeat_lightglue.eval();
-        module_xfeat_lightglue.to(device);
-        module_xfeat_lightglue.to(dtype);
-        has_lightglue_model = true;
-      } else {
-        // Fallback to sparse XFeat model if LightGlue export is missing.
-        const std::string pt_path = base + "/xfeat_fp32_k" + std::to_string(cfg.top_k) + ".pt";
-        if (!std::filesystem::exists(pt_path)) {
-          throw std::runtime_error(
-              "Missing TorchScript weights: " + pt_path +
-              ". Export with: python matcher/xfeat/torchscript/convert_torchscript_xfeat.py --topk " +
-              std::to_string(cfg.top_k));
-        }
-        module_xfeat = torch::jit::load(pt_path, device);
-        module_xfeat.eval();
-        module_xfeat.to(device);
-        module_xfeat.to(dtype);
-      }
     }
   }
 
@@ -157,15 +133,6 @@ struct XFeatTorchMatcher::Impl {
     torch::Tensor kpts;   // (N,2) float32 on device
     torch::Tensor scores; // (N,) float32 on device
     torch::Tensor desc;   // (N,64) float32 on device
-  };
-
-  struct InferLightGlueOut {
-    torch::Tensor kpts0;   // (N0,2) float32 on device
-    torch::Tensor scores0; // (N0,) float32 on device
-    torch::Tensor desc0;   // (N0,64) float32 on device
-    torch::Tensor kpts1;   // (N1,2) float32 on device
-    torch::Tensor scores1; // (N1,) float32 on device
-    torch::Tensor desc1;   // (N1,64) float32 on device
   };
 
   InferOut infer_sparse(const cv::Mat& bgr) {
@@ -186,42 +153,6 @@ struct XFeatTorchMatcher::Impl {
     out.kpts = tup->elements()[0].toTensor().to(device).to(dtype);
     out.scores = tup->elements()[1].toTensor().to(device).to(dtype);
     out.desc = tup->elements()[2].toTensor().to(device).to(dtype);
-    return out;
-  }
-
-  InferLightGlueOut infer_lightglue(const cv::Mat& bgr0, const cv::Mat& bgr1) {
-    cv::Mat rgb0 = preprocess_bgr(bgr0);
-    cv::Mat rgb1 = preprocess_bgr(bgr1);
-    const int H0 = rgb0.rows;
-    const int W0 = rgb0.cols;
-    const int H1 = rgb1.rows;
-    const int W1 = rgb1.cols;
-
-    auto t0 = torch::from_blob(rgb0.data, {H0, W0, 3}, torch::kUInt8);
-    t0 = t0.to(torch::kFloat32).div_(255.0).permute({2, 0, 1}).contiguous().unsqueeze(0).to(device);
-
-    auto t1 = torch::from_blob(rgb1.data, {H1, W1, 3}, torch::kUInt8);
-    t1 = t1.to(torch::kFloat32).div_(255.0).permute({2, 0, 1}).contiguous().unsqueeze(0).to(device);
-
-    std::vector<torch::jit::IValue> inputs;
-    inputs.emplace_back(t0);
-    inputs.emplace_back(t1);
-
-    auto out_iv = module_xfeat_lightglue.forward(inputs);
-    auto tup = out_iv.toTuple();
-    const auto& elems = tup->elements();
-    if (elems.size() < 6) {
-      throw std::runtime_error("xfeat-lightglue TorchScript expected 6 outputs, got " +
-                               std::to_string(elems.size()));
-    }
-
-    InferLightGlueOut out;
-    out.kpts0 = elems[0].toTensor().to(device).to(dtype);
-    out.scores0 = elems[1].toTensor().to(device).to(dtype);
-    out.desc0 = elems[2].toTensor().to(device).to(dtype);
-    out.kpts1 = elems[3].toTensor().to(device).to(dtype);
-    out.scores1 = elems[4].toTensor().to(device).to(dtype);
-    out.desc1 = elems[5].toTensor().to(device).to(dtype);
     return out;
   }
 
@@ -354,80 +285,6 @@ MatchResult XFeatTorchMatcher::match(const cv::Mat& img0_bgr, const cv::Mat& img
     // For xfeat-star, we don't have individual keypoint/descriptor outputs in the TorchScript model
     // These would need to be computed separately if needed
 
-  } else if (impl_->cfg.mode == XFeatMode::XFEAT_LIGHTGLUE) {
-    // Sparse features + LightGlue matching
-    // Note: Full LightGlue integration would require the LightGlue TorchScript model
-    // For now, we use sparse features + MNN as a fallback
-    if (is_cuda) torch::cuda::synchronize();
-    const auto t_inf0 = Clock::now();
-
-    torch::Tensor k0_cpu;
-    torch::Tensor k1_cpu;
-    torch::Tensor d0_cpu;
-    torch::Tensor d1_cpu;
-
-    if (impl_->has_lightglue_model) {
-      auto lg = impl_->infer_lightglue(img0_bgr, img1_bgr);
-      k0_cpu = lg.kpts0.to(torch::kCPU);
-      k1_cpu = lg.kpts1.to(torch::kCPU);
-      d0_cpu = lg.desc0.to(torch::kCPU);
-      d1_cpu = lg.desc1.to(torch::kCPU);
-    } else {
-      auto o0 = impl_->infer_sparse(img0_bgr);
-      auto o1 = impl_->infer_sparse(img1_bgr);
-      k0_cpu = o0.kpts.to(torch::kCPU);
-      k1_cpu = o1.kpts.to(torch::kCPU);
-      d0_cpu = o0.desc.to(torch::kCPU);
-      d1_cpu = o1.desc.to(torch::kCPU);
-    }
-
-    if (is_cuda) torch::cuda::synchronize();
-    const auto t_inf1 = Clock::now();
-    out.ms_infer = ms_since(t_inf0, t_inf1) / 2.0;
-
-    // Store all keypoints and descriptors
-    {
-      const int N0 = (int)k0_cpu.size(0);
-      out.all_kpts0.reserve(N0);
-      auto acc = k0_cpu.accessor<float, 2>();
-      for (int i = 0; i < N0; ++i) {
-        out.all_kpts0.emplace_back(acc[i][0], acc[i][1]);
-      }
-    }
-    {
-      const int N1 = (int)k1_cpu.size(0);
-      out.all_kpts1.reserve(N1);
-      auto acc = k1_cpu.accessor<float, 2>();
-      for (int i = 0; i < N1; ++i) {
-        out.all_kpts1.emplace_back(acc[i][0], acc[i][1]);
-      }
-    }
-    {
-      const int N0 = (int)d0_cpu.size(0);
-      const int D = (int)d0_cpu.size(1);
-      out.all_desc0 = cv::Mat(N0, D, CV_32F);
-      std::memcpy(out.all_desc0.data, d0_cpu.contiguous().data_ptr<float>(),
-                  (size_t)N0 * (size_t)D * sizeof(float));
-    }
-    {
-      const int N1 = (int)d1_cpu.size(0);
-      const int D = (int)d1_cpu.size(1);
-      out.all_desc1 = cv::Mat(N1, D, CV_32F);
-      std::memcpy(out.all_desc1.data, d1_cpu.contiguous().data_ptr<float>(),
-                  (size_t)N1 * (size_t)D * sizeof(float));
-    }
-
-    // For now, use MNN matching as fallback.
-    const auto t_m0 = Clock::now();
-    std::vector<int> i0, i1;
-    mnn_match_cv(out.all_desc0, out.all_desc1, impl_->cfg.min_match_conf, i0, i1);
-    const auto t_m1 = Clock::now();
-    out.ms_match = ms_since(t_m0, t_m1);
-
-    for (size_t i = 0; i < i0.size(); ++i) {
-      out.matched_kpts0.push_back(out.all_kpts0[i0[i]]);
-      out.matched_kpts1.push_back(out.all_kpts1[i1[i]]);
-    }
   }
 
   // RANSAC for homography estimation

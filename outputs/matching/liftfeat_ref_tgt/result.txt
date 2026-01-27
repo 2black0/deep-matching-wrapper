@@ -4,17 +4,17 @@ Running liftfeat on cuda
 Loading images: assets/ref.png and assets/tgt.png
 
 Results:
-  Total Keypoints0: 0 (int)
-  Total Keypoints1: 0 (int)
-  Matched Keypoints: 778 (int)
-  Inliers: 309 (int)
-  Ratio: 0.40 (float)
-  All Keypoints0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
-  All Keypoints1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
-  All Descriptors0: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
-  All Descriptors1: [] (numpy.ndarray, dtype=float64, shape=(0, 2))
-  Matched Keypoints0: [[199 5],[750 5]], ... (numpy.ndarray, dtype=int64, shape=(778, 2))
-  Matched Keypoints1: [[514 7],[48 6]], ... (numpy.ndarray, dtype=int64, shape=(778, 2))
+  Total Keypoints0: 4096 (int)
+  Total Keypoints1: 4096 (int)
+  Matched Keypoints: 736 (int)
+  Inliers: 256 (int)
+  Ratio: 0.35 (float)
+  All Keypoints0: [[343 120],[502 8]], ... (numpy.ndarray, dtype=int64, shape=(4096, 2))
+  All Keypoints1: [[401 16],[200 333]], ... (numpy.ndarray, dtype=int64, shape=(4096, 2))
+  All Descriptors0: [[-0.00983161  0.18909623  0.10833739  0.09005272]...], ... (numpy.ndarray, dtype=float32, shape=(4096, 64))
+  All Descriptors1: [[0.01350145 0.00550619 0.13524917 0.11566307]...], ... (numpy.ndarray, dtype=float32, shape=(4096, 64))
+  Matched Keypoints0: [[395 257],[527 142]], ... (numpy.ndarray, dtype=int64, shape=(736, 2))
+  Matched Keypoints1: [[445 279],[503 220]], ... (numpy.ndarray, dtype=int64, shape=(736, 2))
 
-Time: 34 ms
+Time: 35 ms
 =======================================================
