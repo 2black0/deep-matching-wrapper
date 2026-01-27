@@ -167,7 +167,7 @@ static void extract_keypoints(const cv::Mat& heat,
     
     for (int y = 0; y < H; ++y) {
         for (int x = 0; x < W; ++x) {
-            if (peaks.at<uint8_t>(y, x) > 0) {  // Explicit check for non-zero
+            if (peaks.at<uint8_t>(y, x) > 0) {
                 x_coords.push_back(x);
                 y_coords.push_back(y);
                 scores_list.push_back(heat.at<float>(y, x));
