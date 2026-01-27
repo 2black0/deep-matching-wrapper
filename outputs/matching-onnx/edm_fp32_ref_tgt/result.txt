@@ -1,0 +1,19 @@
+
+==================== Testing edm (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 0 (int)
+  Total Keypoints1: 0 (int)
+  Matched Keypoints: 1680 (int)
+  Inliers: 740 (int)
+  Ratio: 0.44 (float)
+  All Keypoints0: [] (numpy.ndarray, dtype=float32, shape=(0, 2))
+  All Keypoints1: [] (numpy.ndarray, dtype=float32, shape=(0, 2))
+  All Descriptors0: [] (numpy.ndarray, dtype=float32, shape=(0, 1))
+  All Descriptors1: [] (numpy.ndarray, dtype=float32, shape=(0, 1))
+  Matched Keypoints0: [[629.9693603515625 390.0508117675781],[789.9658813476562 409.94244384765625]], ... (numpy.ndarray, dtype=float32, shape=(1680, 2))
+  Matched Keypoints1: [[540.0179443359375 339.8730773925781],[620.077392578125 360.0741271972656]], ... (numpy.ndarray, dtype=float32, shape=(1680, 2))
+
+Time: 249 ms
+=======================================================

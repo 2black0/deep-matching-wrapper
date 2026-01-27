@@ -1,4 +1,19 @@
-matcher: xfeat-lightglue-subpx_fp16_ref_tgt
-num_matches: 171
-num_inliers: 142
-base_latency_ms: 34.0
+
+==================== Testing xfeat-lightglue-subpx (onnx) ====================
+Loading images: assets/ref.png and assets/tgt.png
+
+Results:
+  Total Keypoints0: 1024 (int)
+  Total Keypoints1: 1024 (int)
+  Matched Keypoints: 179 (int)
+  Inliers: 148 (int)
+  Ratio: 0.83 (float)
+  All Keypoints0: [[332.5 292.5],[70.0 113.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Keypoints1: [[685.0 573.75],[670.0 497.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
+  All Descriptors0: [[ 0.13104504  0.02823801  0.10689232 -0.1461417 ]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[ 0.07156288  0.08361238 -0.02735212  0.06593793]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[333.3447265625 218.1103515625],[116.2646484375 73.3740234375]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
+  Matched Keypoints1: [[423.5107421875 258.3154296875],[352.0068359375 194.9462890625]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
+
+Time: 613 ms
+=======================================================

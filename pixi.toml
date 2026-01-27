@@ -6,7 +6,7 @@ platforms = ["linux-64"]
 version = "0.1.0"
 
 [activation]
-env = { PYTHONNOUSERSITE = "1", LD_LIBRARY_PATH = "$CONDA_PREFIX/lib" }
+env = { PYTHONNOUSERSITE = "1", LD_LIBRARY_PATH = "$CONDA_PREFIX/lib", PKG_CONFIG_PATH = "/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH" }
 
 [tasks]
 check = "bash scripts/check.sh"
@@ -14,6 +14,19 @@ test-torch = "python scripts/test_torch_cuda.py"
 test-onnx = "python scripts/test_ort_cuda.py"
 clean-libs = "bash scripts/clean_env.sh"
 link-opencv = { cmd = "bash scripts/link_opencv.sh", depends-on = ["clean-libs"] }
+
+# C++ ONNX Build tasks
+cpp-onnx-configure = "cmake -B build -S matcher-cpp-onnx -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$CONDA_PREFIX"
+cpp-onnx-build = { cmd = "cmake --build build -j$(nproc)", depends-on = ["cpp-onnx-configure"] }
+cpp-onnx-clean = "rm -rf build"
+cpp-onnx-test = { cmd = "./build/liftfeat_demo", depends-on = ["cpp-onnx-build"] }
+
+# C++ LibTorch Build tasks (uses system CUDA 13.0 + LibTorch)
+build-xfeat = "bash scripts/build_matcher_cpp.sh xfeat"
+build-liftfeat = "bash scripts/build_matcher_cpp.sh liftfeat"
+build-clidd = "bash scripts/build_matcher_cpp.sh clidd"
+build-all-cpp = "bash scripts/build_all_matchers_cpp.sh"
+clean-cpp = "rm -rf matcher-cpp/*/build"
 
 [dependencies]
 python = "3.10.*"
@@ -33,6 +46,11 @@ tabulate = "*"
 onnxscript = "*"
 scipy = "*"
 
+# C++ Build Dependencies
+cmake = ">=3.18"
+cxx-compiler = "*"
+eigen = "*"
+
 [pypi-dependencies]
 huggingface-hub = "*"
 omegaconf = "*"
@@ -48,6 +66,10 @@ cuda = "12.0"
 cuda-version = "12.*" 
 pytorch-gpu = "*"
 torchvision = "*"
+
+# CUDA Development Headers for C++
+cuda-cudart-dev = "12.*"
+cuda-nvrtc-dev = "12.*"
 
 [feature.gpu.pypi-dependencies]
 onnxruntime-gpu = "*" 

@@ -5,15 +5,15 @@ Loading images: assets/ref.png and assets/tgt.png
 Results:
   Total Keypoints0: 1024 (int)
   Total Keypoints1: 1024 (int)
-  Matched Keypoints: 454 (int)
-  Inliers: 26 (int)
-  Ratio: 0.06 (float)
+  Matched Keypoints: 453 (int)
+  Inliers: 11 (int)
+  Ratio: 0.02 (float)
   All Keypoints0: [[350.0 441.25],[380.0 161.25]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
   All Keypoints1: [[756.25 248.75],[331.25 522.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
-  All Descriptors0: [[ 0.150147    0.08665431  0.20313436 -0.15520252]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
-  All Descriptors1: [[ 0.17605744  0.11246648  0.11444664 -0.08638269]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
-  Matched Keypoints0: [[385.0 371.25],[433.75 387.5]], ... (numpy.ndarray, dtype=float32, shape=(454, 2))
-  Matched Keypoints1: [[37.5 548.75],[160.0 150.0]], ... (numpy.ndarray, dtype=float32, shape=(454, 2))
+  All Descriptors0: [[ 0.1499953   0.08639433  0.20337264 -0.1550896 ]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
+  All Descriptors1: [[ 0.17621262  0.11214753  0.11444654 -0.08630481]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 48))
+  Matched Keypoints0: [[385.0 371.25],[433.75 387.5]], ... (numpy.ndarray, dtype=float32, shape=(453, 2))
+  Matched Keypoints1: [[37.5 548.75],[160.0 150.0]], ... (numpy.ndarray, dtype=float32, shape=(453, 2))
 
-Time: 17 ms
+Time: 15 ms
 =======================================================

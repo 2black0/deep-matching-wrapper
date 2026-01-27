@@ -10,10 +10,10 @@ Results:
   Ratio: 0.29 (float)
   All Keypoints0: [[583.3333129882812 416.6666259765625],[133.3333282470703 83.33332824707031]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
   All Keypoints1: [[683.333251953125 566.6666259765625],[750.0 299.9999694824219]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
-  All Descriptors0: [[ 0.13461383  0.0142872   0.01878132 -0.01724696]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
-  All Descriptors1: [[0.06864944 0.10966492 0.03370544 0.00067518]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
-  Matched Keypoints0: [[581.4088745117188 398.2916564941406],[131.1657257080078 99.38056945800781]], ... (numpy.ndarray, dtype=float32, shape=(258, 2))
+  All Descriptors0: [[ 0.13442323  0.0141785   0.01880215 -0.01729719]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[0.06859133 0.10957557 0.03366993 0.00062912]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[581.408203125 398.2896728515625],[131.16482543945312 99.38189697265625]], ... (numpy.ndarray, dtype=float32, shape=(258, 2))
   Matched Keypoints1: [[515.3846435546875 339.4737243652344],[353.8461608886719 205.26318359375]], ... (numpy.ndarray, dtype=float32, shape=(258, 2))
 
-Time: 38 ms
+Time: 132 ms
 =======================================================

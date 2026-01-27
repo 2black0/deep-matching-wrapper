@@ -6,14 +6,14 @@ Results:
   Total Keypoints0: 1024 (int)
   Total Keypoints1: 1024 (int)
   Matched Keypoints: 179 (int)
-  Inliers: 149 (int)
+  Inliers: 148 (int)
   Ratio: 0.83 (float)
   All Keypoints0: [[332.5 292.5],[70.0 113.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
   All Keypoints1: [[685.0 573.75],[670.0 497.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
-  All Descriptors0: [[ 0.13118224  0.02851344  0.10701562 -0.14612411]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
-  All Descriptors1: [[ 0.07171232  0.08364385 -0.02743433  0.06572038]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
-  Matched Keypoints0: [[333.34344482421875 218.10623168945312],[116.26532745361328 73.37464141845703]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
-  Matched Keypoints1: [[423.5089416503906 258.3130187988281],[352.0072937011719 194.94400024414062]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
+  All Descriptors0: [[ 0.13109331  0.0283695   0.10700861 -0.14611639]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[ 0.07163347  0.0835303  -0.02736728  0.0656608 ]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  Matched Keypoints0: [[333.343505859375 218.10598754882812],[116.26510620117188 73.37471008300781]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
+  Matched Keypoints1: [[423.5085754394531 258.3130798339844],[352.0071105957031 194.94390869140625]], ... (numpy.ndarray, dtype=float32, shape=(179, 2))
 
-Time: 40 ms
+Time: 300 ms
 =======================================================

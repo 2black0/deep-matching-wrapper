@@ -129,6 +129,18 @@ def _filter_matches(log_assignment: np.ndarray, th: float = 0.1):
     return m0_out
 
 
+def _normalize_keypoints(kpts: np.ndarray, im_height: int, im_width: int) -> np.ndarray:
+    """Normalize keypoints to [-1, 1] range for L3 LighterGlue model."""
+    if len(kpts) == 0:
+        return kpts.astype(np.float32)
+    kpts = kpts.copy()
+    size = np.array([im_width, im_height], dtype=np.float32)
+    shift = size / 2
+    scale = size.max() / 2
+    kpts = (kpts - shift) / scale
+    return kpts.astype(np.float32)
+
+
 class XFeatONNXMatcher(BaseMatcher):
     def __init__(
         self,
@@ -146,12 +158,14 @@ class XFeatONNXMatcher(BaseMatcher):
         star_multiscale: bool = True,
         backbone_path: str | Path | None = None,
         lightglue_path: str | Path | None = None,
+        lightglue_variant: str = "l6",  # "l3" or "l6"
         finematcher_path: str | Path | None = None,
         **kwargs,
     ):
         super().__init__(device=device, **kwargs)
 
-        self.mode = str(mode).lower()  # "xfeat" | "lightglue" | "star"
+        self.mode = str(mode).lower()  # "xfeat" | "lightglue" | "lightglue-l3" | "lightglue-l6" | "star"
+        self.lightglue_variant = str(lightglue_variant).lower()  # "l3" or "l6"
         self.dtype = str(dtype).lower()
         self.size = (int(size[0]), int(size[1]))
         self.top_k = int(top_k)
@@ -227,12 +241,28 @@ class XFeatONNXMatcher(BaseMatcher):
             if not self.backbone_path.exists():
                 raise FileNotFoundError(f"Missing XFeat backbone ONNX: {self.backbone_path}")
 
-        if self.mode == "lightglue":
+        if self.mode in ["lightglue", "lightglue-l3", "lightglue-l6"]:
+            # Determine variant from mode or parameter
+            if self.mode == "lightglue-l3":
+                self.lightglue_variant = "l3"
+            elif self.mode == "lightglue-l6":
+                self.lightglue_variant = "l6"
+            
             if lightglue_path is None:
-                lightglue_path = weights_dir / f"xfeat_lighterglue_{self.dtype}_k{self.top_k}.onnx"
+                if self.lightglue_variant == "l3":
+                    # L3 model has different format - direct match output
+                    lightglue_path = weights_dir / f"xfeat_lighterglue_l3_{self.dtype}_k{self.top_k}.onnx"
+                else:
+                    # L6 model - assignment matrix output
+                    lightglue_path = weights_dir / f"xfeat_lighterglue_{self.dtype}_k{self.top_k}.onnx"
+            
             self.lightglue_path = Path(lightglue_path)
             if not self.lightglue_path.exists():
                 raise FileNotFoundError(f"Missing XFeat LighterGlue ONNX: {self.lightglue_path}")
+            
+            # Normalize mode to "lightglue"
+            if self.mode in ["lightglue-l3", "lightglue-l6"]:
+                self.mode = "lightglue"
         else:
             self.lightglue_path = None
 
@@ -299,48 +329,88 @@ class XFeatONNXMatcher(BaseMatcher):
             idx0, idx1 = _match_mnn(desc0, desc1, min_cossim=self.min_cossim)
         else:
             assert self.lg_sess is not None
-            n = self.top_k
             n0, n1 = len(kpts0), len(kpts1)
-            kp0 = np.zeros((1, n, 2), dtype=np.float32)
-            kp1 = np.zeros((1, n, 2), dtype=np.float32)
-            ds0 = np.zeros((1, n, 64), dtype=np.float32)
-            ds1 = np.zeros((1, n, 64), dtype=np.float32)
-            kp0[0, : min(n0, n)] = kpts0[: min(n0, n)]
-            kp1[0, : min(n1, n)] = kpts1[: min(n1, n)]
-            ds0[0, : min(n0, n)] = desc0[: min(n0, n)]
-            ds1[0, : min(n1, n)] = desc1[: min(n1, n)]
-
-            ow0, oh0 = orig0
-            ow1, oh1 = orig1
-            sz0 = np.array([[ow0, oh0]], dtype=np.int64)
-            sz1 = np.array([[ow1, oh1]], dtype=np.int64)
-
-            if self.dtype == "fp16":
-                kp0_i = kp0.astype(np.float16)
-                kp1_i = kp1.astype(np.float16)
-                ds0_i = ds0.astype(np.float16)
-                ds1_i = ds1.astype(np.float16)
+            
+            if self.lightglue_variant == "l3":
+                # L3 model expects normalized keypoints and dynamic shapes
+                ow0, oh0 = orig0
+                ow1, oh1 = orig1
+                
+                # Normalize keypoints to [-1, 1]
+                norm_kpts0 = _normalize_keypoints(kpts0, oh0, ow0)
+                norm_kpts1 = _normalize_keypoints(kpts1, oh1, ow1)
+                
+                # Prepare inputs (batch=1, dynamic num_keypoints)
+                kp0_in = norm_kpts0[None, :].astype(np.float32)
+                kp1_in = norm_kpts1[None, :].astype(np.float32)
+                ds0_in = desc0[None, :].astype(np.float32)
+                ds1_in = desc1[None, :].astype(np.float32)
+                
+                # Run L3 model - returns direct matches
+                matches, scores = self.lg_sess.run(
+                    None,
+                    {
+                        "kpts0": kp0_in,
+                        "desc0": ds0_in,
+                        "kpts1": kp1_in,
+                        "desc1": ds1_in,
+                    },
+                )
+                
+                # Filter by confidence threshold
+                valid = scores > self.min_conf
+                matches = matches[valid]
+                
+                if len(matches) > 0:
+                    idx0 = matches[:, 0].astype(np.int64)
+                    idx1 = matches[:, 1].astype(np.int64)
+                else:
+                    idx0 = np.empty((0,), dtype=np.int64)
+                    idx1 = np.empty((0,), dtype=np.int64)
+                
             else:
-                kp0_i, kp1_i, ds0_i, ds1_i = kp0, kp1, ds0, ds1
+                # L6 model expects fixed-size padded keypoints
+                n = self.top_k
+                kp0 = np.zeros((1, n, 2), dtype=np.float32)
+                kp1 = np.zeros((1, n, 2), dtype=np.float32)
+                ds0 = np.zeros((1, n, 64), dtype=np.float32)
+                ds1 = np.zeros((1, n, 64), dtype=np.float32)
+                kp0[0, : min(n0, n)] = kpts0[: min(n0, n)]
+                kp1[0, : min(n1, n)] = kpts1[: min(n1, n)]
+                ds0[0, : min(n0, n)] = desc0[: min(n0, n)]
+                ds1[0, : min(n1, n)] = desc1[: min(n1, n)]
 
-            (log_assignment,) = self.lg_sess.run(
-                None,
-                {
-                    "keypoints0": kp0_i,
-                    "descriptors0": ds0_i,
-                    "keypoints1": kp1_i,
-                    "descriptors1": ds1_i,
-                    "image_size0": sz0,
-                    "image_size1": sz1,
-                },
-            )
-            log_assignment = log_assignment.astype(np.float32)
-            m0 = _filter_matches(log_assignment, th=self.min_conf)
-            idx0 = np.where(m0[0] > -1)[0].astype(np.int64)
-            idx1 = m0[0, idx0].astype(np.int64)
+                ow0, oh0 = orig0
+                ow1, oh1 = orig1
+                sz0 = np.array([[ow0, oh0]], dtype=np.int64)
+                sz1 = np.array([[ow1, oh1]], dtype=np.int64)
 
-            keep = (idx0 < n0) & (idx1 < n1)
-            idx0, idx1 = idx0[keep], idx1[keep]
+                if self.dtype == "fp16":
+                    kp0_i = kp0.astype(np.float16)
+                    kp1_i = kp1.astype(np.float16)
+                    ds0_i = ds0.astype(np.float16)
+                    ds1_i = ds1.astype(np.float16)
+                else:
+                    kp0_i, kp1_i, ds0_i, ds1_i = kp0, kp1, ds0, ds1
+
+                (log_assignment,) = self.lg_sess.run(
+                    None,
+                    {
+                        "keypoints0": kp0_i,
+                        "descriptors0": ds0_i,
+                        "keypoints1": kp1_i,
+                        "descriptors1": ds1_i,
+                        "image_size0": sz0,
+                        "image_size1": sz1,
+                    },
+                )
+                log_assignment = log_assignment.astype(np.float32)
+                m0 = _filter_matches(log_assignment, th=self.min_conf)
+                idx0 = np.where(m0[0] > -1)[0].astype(np.int64)
+                idx1 = m0[0, idx0].astype(np.int64)
+
+                keep = (idx0 < n0) & (idx1 < n1)
+                idx0, idx1 = idx0[keep], idx1[keep]
 
         mkpts0 = kpts0[idx0] if len(idx0) else np.empty((0, 2), dtype=np.float32)
         mkpts1 = kpts1[idx1] if len(idx1) else np.empty((0, 2), dtype=np.float32)

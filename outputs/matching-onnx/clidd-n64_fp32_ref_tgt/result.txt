@@ -10,10 +10,10 @@ Results:
   Ratio: 0.21 (float)
   All Keypoints0: [[106.25 393.75],[522.5 187.5]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
   All Keypoints1: [[428.75 228.75],[756.25 248.75]], ... (numpy.ndarray, dtype=float32, shape=(1024, 2))
-  All Descriptors0: [[-0.08280475 -0.00988612  0.03065109  0.16786155]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
-  All Descriptors1: [[-0.09999178  0.17086604  0.01163576 -0.02894626]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors0: [[-0.0827025  -0.00978166  0.03065616  0.16772592]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
+  All Descriptors1: [[-0.10012395  0.1708796   0.01168466 -0.02902951]...], ... (numpy.ndarray, dtype=float32, shape=(1024, 64))
   Matched Keypoints0: [[420.0 418.75],[380.0 161.25]], ... (numpy.ndarray, dtype=float32, shape=(421, 2))
   Matched Keypoints1: [[406.25 328.75],[435.0 228.75]], ... (numpy.ndarray, dtype=float32, shape=(421, 2))
 
-Time: 17 ms
+Time: 16 ms
 =======================================================

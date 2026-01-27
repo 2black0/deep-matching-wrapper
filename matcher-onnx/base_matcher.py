@@ -122,6 +122,12 @@ def _discover_available_matchers() -> list[str]:
         has_finematcher = any(xfeat_dir.glob("xfeat_finematcher_*.onnx"))
         if has_finematcher and (has_backbone_star or any(xfeat_dir.glob("xfeat_backbone_*.onnx"))):
             out.append("xfeat-star")
+        # LighterGlue variants
+        if any(xfeat_dir.glob("xfeat_lighterglue_l3_*.onnx")):
+            out.append("xfeat-lightglue-l3")
+        if any(xfeat_dir.glob("xfeat_lighterglue_fp*_*.onnx")):
+            out.append("xfeat-lightglue-l6")
+        # Keep generic lightglue as alias for L6
         if any(xfeat_dir.glob("xfeat_lighterglue_*.onnx")):
             out.append("xfeat-lightglue")
 
@@ -151,6 +157,11 @@ def _discover_available_matchers() -> list[str]:
         for cfg in sorted(cfgs):
             out.append(f"clidd-{cfg}")
 
+    # EDM
+    edm_dir = weights_root / "edm"
+    if edm_dir.exists() and any(edm_dir.glob("edm_fp*_*.onnx")):
+        out.append("edm")
+
     # SubPX (Keypt2Subpx) refiners
     subpx_dir = weights_root / "subpx"
     if subpx_dir.exists():
@@ -168,12 +179,15 @@ def _discover_available_matchers() -> list[str]:
     primary = [
         "xfeat",
         "xfeat-star",
+        "xfeat-lightglue-l3",
+        "xfeat-lightglue-l6",
         "xfeat-lightglue",
         "xfeat-subpx",
         "xfeat-lightglue-subpx",
         "superpoint-lightglue",
         "superpoint-lightglue-subpx",
         "liftfeat",
+        "edm",
     ]
     ordered = [m for m in primary if m in out] + [m for m in out if m.startswith("clidd-")]
     return ordered
@@ -195,7 +209,15 @@ def get_matcher(name: str, device: str | None = None, **kwargs):
     if name == "xfeat-lightglue":
         from xfeat import XFeatONNXMatcher
 
-        return XFeatONNXMatcher(device=device, mode="lightglue", **kwargs)
+        return XFeatONNXMatcher(device=device, mode="lightglue", lightglue_variant="l6", **kwargs)
+    if name == "xfeat-lightglue-l3":
+        from xfeat import XFeatONNXMatcher
+
+        return XFeatONNXMatcher(device=device, mode="lightglue-l3", lightglue_variant="l3", **kwargs)
+    if name == "xfeat-lightglue-l6":
+        from xfeat import XFeatONNXMatcher
+
+        return XFeatONNXMatcher(device=device, mode="lightglue-l6", lightglue_variant="l6", **kwargs)
     if name == "xfeat-subpx":
         from subpx import SubPXONNXMatcher
 
@@ -220,5 +242,9 @@ def get_matcher(name: str, device: str | None = None, **kwargs):
         from clidd import CLIDDONNXMatcher
 
         return CLIDDONNXMatcher(device=device, model_name=name, **kwargs)
+    if name == "edm":
+        from edm import EDMONNXMatcher
+
+        return EDMONNXMatcher(device=device, **kwargs)
 
     raise ValueError(f"Unknown ONNX matcher: '{name}'. Available: {', '.join(AVAILABLE_MATCHERS)}")
