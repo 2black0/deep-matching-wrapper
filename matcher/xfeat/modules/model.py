@@ -110,14 +110,18 @@ class XFeatModel(nn.Module):
 											nn.Linear(512, 64),
 										)
 
-	def _unfold2d(self, x, ws = 2):
+	def _unfold2d(self, x, ws: int = 2):
 		"""
 			Unfolds tensor in 2D with desired ws (window size) and concat the channels
 		"""
 		B, C, H, W = x.shape
-		x = x.unfold(2,  ws , ws).unfold(3, ws,ws)                             \
-			.reshape(B, C, H//ws, W//ws, ws**2)
-		return x.permute(0, 1, 4, 2, 3).reshape(B, -1, H//ws, W//ws)
+		ws_squared = ws * ws  # Avoid ** operator which may produce float in TorchScript
+		# Direct integer division for TorchScript compatibility
+		x = x.unfold(2, ws, ws).unfold(3, ws, ws)
+		# Compute dimensions inline to avoid float conversion issues
+		x = x.reshape(B, C, -1, x.size(4), ws_squared)  # -1 infers the dimension
+		x = x.permute(0, 1, 4, 2, 3)
+		return x.reshape(B, -1, x.size(3), x.size(4))
 
 
 	def forward(self, x):
