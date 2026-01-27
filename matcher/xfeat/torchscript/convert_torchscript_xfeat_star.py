@@ -78,7 +78,9 @@ class XFeatStarTorchScript(nn.Module):
         
         feats = torch.gather(M1, 1, top_k_idx.unsqueeze(-1).expand(-1, -1, 64))
         mkpts = torch.gather(xy1, 1, top_k_idx.unsqueeze(-1).expand(-1, -1, 2))
-        mkpts = mkpts * torch.tensor([rw, rh], device=mkpts.device).view(1, -1)
+        # Use device-agnostic scaling by creating scale from mkpts tensor
+        scale = torch.tensor([[rw, rh]], dtype=mkpts.dtype, device=mkpts.device)
+        mkpts = mkpts * scale
         
         return mkpts, feats
     
@@ -197,6 +199,7 @@ def main():
     p.add_argument("--weights", type=str, default="matcher/xfeat/weights/xfeat.pt")
     p.add_argument("--topk", type=int, default=4096)
     p.add_argument("--fine-conf", type=float, default=0.25)
+    p.add_argument("--device", type=str, default="cpu", choices=["cpu", "cuda"], help="Device to trace on (cpu or cuda)")
     p.add_argument(
         "--out-dir",
         type=str,
@@ -208,16 +211,19 @@ def main():
     if not weights_path.exists():
         raise FileNotFoundError(f"Missing XFeat weights: {weights_path}")
     
+    device = torch.device(args.device)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"xfeat_star_fp32_k{int(args.topk)}.pt"
+    device_suffix = "_cuda" if args.device == "cuda" else ""
+    out_path = out_dir / f"xfeat_star_fp32_k{int(args.topk)}{device_suffix}.pt"
     
     m = XFeatStarTorchScript(weights_path, top_k=args.topk, fine_conf=args.fine_conf)
+    m.to(device)
     m.eval()
     
     # Use trace instead of script due to TorchScript limitations
-    dummy_input0 = torch.zeros((1, 3, 480, 640), dtype=torch.float32)
-    dummy_input1 = torch.zeros((1, 3, 480, 640), dtype=torch.float32)
+    dummy_input0 = torch.zeros((1, 3, 480, 640), dtype=torch.float32, device=device)
+    dummy_input1 = torch.zeros((1, 3, 480, 640), dtype=torch.float32, device=device)
     
     print("Tracing model with example inputs (1,3,480,640)...")
     print("Note: TracerWarnings about tensor->Python conversions are expected and safe for traced models.")

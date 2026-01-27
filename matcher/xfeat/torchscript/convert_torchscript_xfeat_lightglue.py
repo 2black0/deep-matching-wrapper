@@ -82,7 +82,7 @@ class XFeatLightGlueTorchScript(nn.Module):
         local_max = F.max_pool2d(x, kernel_size=kernel_size, stride=1, padding=pad)
         pos = (x == local_max) & (x > threshold)
         
-        pos_batched = [k.nonzero()[..., 1:].flip(-1) for k in pos[:, 0]]
+        pos_batched = [k.nonzero()[..., 1:].flip(-1) for k in pos]
         
         pad_val = max([len(p) for p in pos_batched])
         if pad_val == 0:
@@ -259,10 +259,9 @@ def main():
         m_simple = XFeatTorchScript(xfeat_weights_path, top_k=args.topk, detection_threshold=args.detection_threshold)
         m_simple.eval()
         
-        dummy_input = torch.zeros((1, 3, 480, 640), dtype=torch.float32)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            ts = torch.jit.trace(m_simple, dummy_input, strict=False)
+            ts = torch.jit.script(m_simple)
             ts = torch.jit.freeze(ts)
         
         out_path_simple = out_dir / f"xfeat_fp32_k{int(args.topk)}.pt"

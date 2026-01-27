@@ -86,6 +86,7 @@ def main():
         type=str,
         default=str(ROOT / "matcher-cpp" / "edm" / "weights"),
     )
+    p.add_argument("--device", type=str, default="cpu", choices=["cpu", "cuda"], help="Device to trace on")
     args = p.parse_args()
 
     # We export with torch.jit.trace (fixed-shape). The upstream EDM code contains
@@ -97,13 +98,20 @@ def main():
     weights_path = Path(args.weights)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"edm_fp32_w{int(args.w)}_h{int(args.h)}_topk{int(args.topk)}.pt"
+    
+    # Support CUDA export for models that will be used on CUDA
+    device_suffix = f"_{args.device}" if args.device == "cuda" else ""
+    out_path = out_dir / f"edm_fp32_w{int(args.w)}_h{int(args.h)}_topk{int(args.topk)}{device_suffix}.pt"
 
     m = EDMTorchScript(weights_path, w=args.w, h=args.h, topk=args.topk, mconf_thr=args.mconf, border_rm=args.border_rm)
     m.eval()
+    
+    # Move model to target device if CUDA requested
+    device = torch.device(args.device)
+    m = m.to(device)
 
-    # Trace on CPU for portability (fixed-shape export).
-    example = torch.zeros((1, 2, int(args.h), int(args.w)), dtype=torch.float32)
+    # Trace on target device
+    example = torch.zeros((1, 2, int(args.h), int(args.w)), dtype=torch.float32, device=device)
     ts = torch.jit.trace(m, example, strict=False)
     ts = torch.jit.freeze(ts)
     ts.save(str(out_path))

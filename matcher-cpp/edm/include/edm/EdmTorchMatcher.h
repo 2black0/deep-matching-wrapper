@@ -24,7 +24,7 @@ struct EdmConfig {
   bool sigma_selection = true;
   float sigma_thr = 0.0f;
 
-  std::string weights_path = "matcher-cpp/edm/weights/edm_fp32_w640_h480_topk1680.pt";
+  std::string weights_path = "";  // Auto-selected based on device if empty
 };
 
 struct MatchResult {

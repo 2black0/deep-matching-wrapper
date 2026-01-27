@@ -5,7 +5,11 @@ project(dmw_clidd LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(OpenCV REQUIRED)
+# Use pkg-config to avoid OpenCV's CUDA version requirement
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(OPENCV REQUIRED opencv4)
+set(OpenCV_INCLUDE_DIRS ${OPENCV_INCLUDE_DIRS})
+set(OpenCV_LIBS ${OPENCV_LIBRARIES})
 
 # Silence a harmless PyTorch CMake warning:
 # "Failed to compute shorthash for libnvrtc.so".

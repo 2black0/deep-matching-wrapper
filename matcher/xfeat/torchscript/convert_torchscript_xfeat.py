@@ -71,7 +71,7 @@ class XFeatTorchScript(nn.Module):
         pos = (x == local_max) & (x > threshold)
         
         # Extract positions
-        pos_batched = [k.nonzero()[..., 1:].flip(-1) for k in pos[:, 0]]  # (y,x) -> (x,y)
+        pos_batched = [k.nonzero()[..., 1:].flip(-1) for k in pos]  # (y,x) -> (x,y)
         
         pad_val = max([len(p) for p in pos_batched])
         if pad_val == 0:
@@ -190,22 +190,15 @@ def main():
     m = XFeatTorchScript(weights_path, top_k=args.topk, detection_threshold=args.detection_threshold)
     m.eval()
     
-    # Use trace instead of script due to TorchScript limitations with the model
-    # Create a dummy input for tracing
-    dummy_input = torch.zeros((1, 3, 480, 640), dtype=torch.float32)
-    
-    print("Tracing model with example input (1,3,480,640)...")
-    print("Note: TracerWarnings about tensor->Python conversions are expected and safe for traced models.")
-    
-    # Filter TracerWarnings to reduce output noise
+    print("Scripting model for TorchScript export...")
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        ts = torch.jit.trace(m, dummy_input, strict=False)
+        ts = torch.jit.script(m)
         ts = torch.jit.freeze(ts)
     
     ts.save(str(out_path))
     print(f"Saved: {out_path}")
-    print("Note: This model is traced, not scripted. It works with variable input sizes.")
+    print("Note: This model is scripted for variable input sizes.")
 
 
 if __name__ == "__main__":

@@ -24,7 +24,7 @@ struct XFeatConfig {
   float min_match_conf = 0.1f;        // For lightglue matching
   
   // Matching parameters (for XFEAT mode with MNN)
-  float min_cossim = 0.82f;  // Minimum cosine similarity for matches
+  float min_cossim = -1.0f;  // Minimum cosine similarity for matches (-1 disables threshold)
 };
 
 struct MatchResult {

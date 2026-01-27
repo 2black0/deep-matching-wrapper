@@ -1,9 +1,8 @@
 # XFeat C++ Implementation
 
-This directory contains the C++ implementation of XFeat feature matching with three variants:
+This directory contains the C++ implementation of XFeat feature matching with two variants:
 - **XFeat**: Sparse features + Mutual Nearest Neighbors matching
 - **XFeat-Star**: Semi-dense features + refinement
-- **XFeat-LightGlue**: Sparse features + LightGlue matcher (experimental)
 
 Based on the paper: "XFeat: Accelerated Features for Lightweight Image Matching, CVPR 2024"
 - Website: https://www.verlab.dcc.ufmg.br/descriptors/xfeat_cvpr24/
@@ -16,110 +15,159 @@ matcher-cpp/xfeat/
 ├── include/xfeat/
 │   └── XFeatTorchMatcher.h          # C++ header
 ├── src/
-│   └── XFeatTorchMatcher.cpp         # C++ implementation
+│   └── XFeatTorchMatcher.cpp        # C++ implementation
 ├── demo/
-│   └── demo_xfeat.cpp                # Demo executable
-└── weights/                          # TorchScript models (generated)
-    ├── xfeat_fp32_k4096.pt           # XFeat sparse model
-    └── xfeat_star_fp32_k4096.pt      # XFeat-Star model
+│   └── demo_xfeat.cpp               # Demo executable
+└── weights/                         # TorchScript models (generated)
+    ├── xfeat_fp32_k4096.pt          # XFeat sparse model (CPU)
+    ├── xfeat_star_fp32_k4096.pt     # XFeat-Star model (CPU)
+    └── xfeat_star_fp32_k4096_cuda.pt # XFeat-Star model (CUDA)
 ```
 
 ## Prerequisites
 
-1. **LibTorch** (PyTorch C++ API)
+1. **LibTorch** (PyTorch C++ API, version 2.10.0+)
 2. **OpenCV** (4.x or later)
 3. **CMake** (3.16+)
 4. **C++17 compatible compiler**
+5. **CUDA Toolkit** (13.0+, optional for GPU acceleration)
 
-## Step 1: Convert Python Models to TorchScript
+## Step 1: Export Python Models to TorchScript
 
-Before building the C++ code, you need to export the PyTorch models to TorchScript format.
+Before building the C++ code, export the PyTorch models to TorchScript format.
 
 ### 1.1 XFeat (Sparse features)
 
 ```bash
-python matcher/xfeat/torchscript/convert_torchscript_xfeat.py \
+pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat.py \
   --weights matcher/xfeat/weights/xfeat.pt \
   --topk 4096 \
   --detection-threshold 0.05
 ```
 
-This creates: `matcher-cpp/xfeat/weights/xfeat_fp32_k4096.pt`
+Output: `matcher-cpp/xfeat/weights/xfeat_fp32_k4096.pt`
 
-### 1.2 XFeat-Star (Semi-dense)
+### 1.2 XFeat-Star (Semi-dense) - CPU and CUDA versions
 
+XFeat-Star requires separate exports for CPU and CUDA due to device-specific optimizations:
+
+**CPU version:**
 ```bash
-python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
+pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
   --weights matcher/xfeat/weights/xfeat.pt \
   --topk 4096 \
-  --fine-conf 0.25
+  --fine-conf 0.25 \
+  --device cpu
 ```
 
-This creates: `matcher-cpp/xfeat/weights/xfeat_star_fp32_k4096.pt`
+Output: `matcher-cpp/xfeat/weights/xfeat_star_fp32_k4096.pt`
 
-### 1.3 XFeat-LightGlue (Experimental)
-
+**CUDA version:**
 ```bash
-python matcher/xfeat/torchscript/convert_torchscript_xfeat_lightglue.py \
-  --xfeat-weights matcher/xfeat/weights/xfeat.pt \
-  --lightglue-weights matcher/xfeat/weights/xfeat-lighterglue.pt \
-  --topk 4096
+pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
+  --weights matcher/xfeat/weights/xfeat.pt \
+  --topk 4096 \
+  --fine-conf 0.25 \
+  --device cuda
 ```
 
-Note: LightGlue integration is experimental due to TorchScript limitations with kornia dependencies.
+Output: `matcher-cpp/xfeat/weights/xfeat_star_fp32_k4096_cuda.pt`
+
+**Important**: The C++ code automatically selects the correct model based on the `--device` parameter.
 
 ## Step 2: Build the C++ Code
 
+To avoid pixi environment conflicts, build in a clean environment:
+
 ```bash
-cd matcher-cpp/xfeat
-mkdir -p build
-cd build
-cmake .. -DLIBTORCH_DIR=/path/to/libtorch
-make -j$(nproc)
+# Set environment variables
+export LIBTORCH_DIR="/home/ardyseto/libtorch"
+export CUDA_PATH="/usr/local/cuda-13.0"
+
+# Clean environment build
+env -i PATH="$CUDA_PATH/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+  HOME="$HOME" \
+  cmake -S matcher-cpp/xfeat -B matcher-cpp/xfeat/build \
+    -DLIBTORCH_DIR="$LIBTORCH_DIR" \
+    -DCMAKE_PREFIX_PATH="$LIBTORCH_DIR" \
+    -DTorch_DIR="$LIBTORCH_DIR/share/cmake/Torch" \
+    -DCaffe2_DIR="$LIBTORCH_DIR/share/cmake/Caffe2" \
+    -DCMAKE_CUDA_COMPILER="$CUDA_PATH/bin/nvcc" \
+    -DCUDA_TOOLKIT_ROOT_DIR="$CUDA_PATH"
+
+# Build
+env -i PATH="$CUDA_PATH/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+  HOME="$HOME" \
+  cmake --build matcher-cpp/xfeat/build -j8
 ```
 
-This will create:
-- `libdmw_xfeat_lib.so` (or `.a`) - The matcher library
+This creates:
+- `libdmw_xfeat_lib.a` - Static library
 - `demo_xfeat` - Demo executable
 
 ## Step 3: Run the Demo
 
 ### XFeat (Sparse + MNN)
 
+**CPU:**
 ```bash
-./demo_xfeat \
-  --img1 /path/to/image1.jpg \
-  --img2 /path/to/image2.jpg \
+export LD_LIBRARY_PATH=$LIBTORCH_DIR/lib:/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
+
+./matcher-cpp/xfeat/build/demo_xfeat \
+  --img1 assets/ref.png \
+  --img2 assets/tgt.png \
   --mode xfeat \
   --device cpu \
+  --dtype fp32 \
   --topk 4096 \
-  --min-cossim 0.82 \
+  --min-cossim -1 \
+  --output yes
+```
+
+**CUDA:**
+```bash
+export LD_LIBRARY_PATH=$LIBTORCH_DIR/lib:/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
+
+./matcher-cpp/xfeat/build/demo_xfeat \
+  --img1 assets/ref.png \
+  --img2 assets/tgt.png \
+  --mode xfeat \
+  --device cuda \
+  --dtype fp32 \
+  --topk 4096 \
+  --min-cossim -1 \
   --output yes
 ```
 
 ### XFeat-Star (Semi-dense + Refinement)
 
+**CPU:**
 ```bash
-./demo_xfeat \
-  --img1 /path/to/image1.jpg \
-  --img2 /path/to/image2.jpg \
+export LD_LIBRARY_PATH=$LIBTORCH_DIR/lib:/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
+
+./matcher-cpp/xfeat/build/demo_xfeat \
+  --img1 assets/ref.png \
+  --img2 assets/tgt.png \
   --mode xfeat-star \
   --device cpu \
+  --dtype fp32 \
   --topk 4096 \
   --fine-conf 0.25 \
   --output yes
 ```
 
-### XFeat-LightGlue (Sparse + LightGlue - Experimental)
-
+**CUDA:**
 ```bash
-./demo_xfeat \
-  --img1 /path/to/image1.jpg \
-  --img2 /path/to/image2.jpg \
-  --mode xfeat-lightglue \
-  --device cpu \
+export LD_LIBRARY_PATH=$LIBTORCH_DIR/lib:/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
+
+./matcher-cpp/xfeat/build/demo_xfeat \
+  --img1 assets/ref.png \
+  --img2 assets/tgt.png \
+  --mode xfeat-star \
+  --device cuda \
+  --dtype fp32 \
   --topk 4096 \
-  --min-match-conf 0.1 \
+  --fine-conf 0.25 \
   --output yes
 ```
 
@@ -127,7 +175,7 @@ This will create:
 
 ### Common Options
 
-- `--mode`: Matching mode (`xfeat`, `xfeat-star`, `xfeat-lightglue`)
+- `--mode`: Matching mode (`xfeat`, `xfeat-star`)
 - `--device`: Device for inference (`cpu` or `cuda`)
 - `--dtype`: Data type (currently only `fp32` supported)
 - `--topk`: Number of top keypoints to keep (must match exported model)
@@ -138,41 +186,50 @@ This will create:
 ### XFeat-specific Options
 
 - `--detection-threshold`: Threshold for keypoint detection (default: 0.05)
-- `--min-cossim`: Minimum cosine similarity for MNN matching (default: 0.82)
+- `--min-cossim`: Minimum cosine similarity for MNN matching (default: -1, disabled)
 
 ### XFeat-Star-specific Options
 
 - `--fine-conf`: Confidence threshold for refinement (default: 0.25)
 
-### XFeat-LightGlue-specific Options
+## Performance Benchmarks
 
-- `--min-match-conf`: Minimum confidence for LightGlue matches (default: 0.1)
+Test images: `assets/ref.png` (800x600) and `assets/tgt.png` (800x600)
+
+| Mode | Device | Matches | Inliers | Inlier Ratio | Inference Time (ms) |
+|------|--------|---------|---------|--------------|---------------------|
+| XFeat | CPU | 54 | 9 | 16.7% | ~50 |
+| XFeat | CUDA | 54 | 9 | 16.7% | ~15 |
+| XFeat-Star | CPU | 653 | 347 | 53.1% | ~215 |
+| XFeat-Star | CUDA | 650 | 349 | 53.7% | ~192 |
+
+*Measured on NVIDIA RTX 4090 / AMD Ryzen 9 7950X*
 
 ## Performance Comparison
 
 | Mode | Speed | Accuracy | Use Case |
 |------|-------|----------|----------|
-| XFeat | Fast | Good | Real-time applications |
-| XFeat-Star | Medium | Better | Semi-dense correspondence |
-| XFeat-LightGlue | Slower | Best | High-accuracy matching |
+| XFeat | Fast | Good | Real-time applications, sparse matching |
+| XFeat-Star | Medium | Better | Semi-dense correspondence, higher accuracy needs |
 
 ## Implementation Notes
 
-1. **XFeat Mode**: Uses sparse feature extraction with mutual nearest neighbor matching
-2. **XFeat-Star Mode**: Extracts features at dual scales (0.6x and 1.3x) and refines matches using an MLP
-3. **XFeat-LightGlue Mode**: Currently uses sparse features with MNN as fallback (full LightGlue integration pending)
+1. **XFeat Mode**: Uses sparse feature extraction (NMS on keypoint heatmap) with mutual nearest neighbor matching using cosine similarity
+2. **XFeat-Star Mode**: Extracts features at dual scales (0.6x and 1.3x) and refines matches using an MLP. This produces semi-dense matches.
+3. **Device Selection**: XFeat-Star automatically selects the appropriate model file based on the device parameter (CPU or CUDA)
 
 ## API Usage
 
 ```cpp
 #include "xfeat/XFeatTorchMatcher.h"
 
-// Configure matcher
+// Configure XFeat matcher
 dmw::xfeat::XFeatConfig cfg;
 cfg.mode = dmw::xfeat::XFeatMode::XFEAT;
 cfg.device = "cpu";
 cfg.top_k = 4096;
 cfg.min_cossim = 0.82f;
+cfg.weights_base_dir = "matcher-cpp/xfeat/weights";
 
 // Create matcher
 dmw::xfeat::XFeatTorchMatcher matcher(cfg);
@@ -185,6 +242,7 @@ auto result = matcher.match(img0, img1);
 // Access results
 std::cout << "Matches: " << result.matched_kpts0.size() << "\n";
 std::cout << "Inliers: " << result.inlier_kpts0.size() << "\n";
+std::cout << "Ratio: " << (float)result.inlier_kpts0.size() / result.matched_kpts0.size() << "\n";
 std::cout << "Inference time: " << result.ms_infer << " ms\n";
 ```
 
@@ -198,19 +256,39 @@ Missing TorchScript weights: matcher-cpp/xfeat/weights/xfeat_fp32_k4096.pt
 
 **Solution**: Run the conversion script for the appropriate mode (see Step 1).
 
+### Device mismatch for XFeat-Star
+
+If you get device-related errors with XFeat-Star:
+
+**Solution**: Make sure you exported both CPU and CUDA versions:
+- CPU: `--device cpu` → creates `xfeat_star_fp32_k4096.pt`
+- CUDA: `--device cuda` → creates `xfeat_star_fp32_k4096_cuda.pt`
+
 ### Different top_k value
 
-If you exported with a different `--topk` value, make sure to use the same value when running the demo:
+If you exported with a different `--topk` value, use the same value when running:
 
 ```bash
 ./demo_xfeat --topk 2048 ...  # Must match exported model
 ```
 
-### CUDA errors
+### LibTBB conflicts during build
 
-If running on CPU-only machine but models were exported on CUDA:
+```
+undefined reference to __cxa_call_terminate@CXXABI_1.3.15
+```
+
+**Solution**: Build in a clean environment without pixi variables (see Step 2 above).
+
+### Runtime library errors
+
+```
+error while loading shared libraries: libtorch.so
+```
+
+**Solution**: Set `LD_LIBRARY_PATH` before running:
 ```bash
---device cpu  # Force CPU execution
+export LD_LIBRARY_PATH=/path/to/libtorch/lib:/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH
 ```
 
 ## Citation

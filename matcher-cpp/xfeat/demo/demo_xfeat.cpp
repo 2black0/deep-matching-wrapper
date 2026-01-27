@@ -47,7 +47,8 @@ void usage() {
   std::cout << "  --topk 4096 (must match exported .pt)\n";
   std::cout << "  --detection-threshold 0.05 (for sparse detection)\n";
   std::cout << "  --fine-conf 0.25 (for xfeat-star refinement)\n";
-  std::cout << "  --min-cossim 0.82 (for xfeat MNN matching)\n";
+  std::cout << "  --min-cossim -1 (for xfeat MNN matching; -1 disables threshold)\n";
+  std::cout << "  --min-match-conf 0.1 (for xfeat-lightglue matching)\n";
   std::cout << "  --output yes|no (default no)\n";
   std::cout << "  --out <jpg_path> (optional; overrides --output)\n";
   std::cout << "  --draw-all (draw outliers too)\n";
@@ -83,7 +84,8 @@ int main(int argc, char** argv) {
   cfg.top_k = get_arg_i(argc, argv, "--topk", 4096);
   cfg.detection_threshold = get_arg_f(argc, argv, "--detection-threshold", 0.05f);
   cfg.fine_conf = get_arg_f(argc, argv, "--fine-conf", 0.25f);
-  cfg.min_cossim = get_arg_f(argc, argv, "--min-cossim", 0.82f);
+  cfg.min_cossim = get_arg_f(argc, argv, "--min-cossim", -1.0f);
+  cfg.min_match_conf = get_arg_f(argc, argv, "--min-match-conf", 0.1f);
   
   const bool draw_all = has_flag(argc, argv, "--draw-all");
   const std::string out_path = get_arg(argc, argv, "--out", "");

@@ -52,13 +52,24 @@ struct EdmTorchMatcher::Impl {
 
   explicit Impl(const EdmConfig& c)
       : cfg(c), device((c.device == "cuda" && torch::cuda::is_available()) ? torch::kCUDA : torch::kCPU) {
-    if (!std::filesystem::exists(cfg.weights_path)) {
+    
+    // Auto-select weights path based on device if not specified
+    std::string weights_path = cfg.weights_path;
+    if (weights_path.empty()) {
+      std::string device_suffix = (device.is_cuda()) ? "_cuda" : "";
+      weights_path = "matcher-cpp/edm/weights/edm_fp32_w" + std::to_string(cfg.input_w) + 
+                     "_h" + std::to_string(cfg.input_h) + "_topk" + std::to_string(cfg.topk) + 
+                     device_suffix + ".pt";
+    }
+    
+    if (!std::filesystem::exists(weights_path)) {
       throw std::runtime_error(
-          "Missing TorchScript weights: " + cfg.weights_path +
-          ". Export with matcher/edm/torchscript/convert_torchscript.py");
+          "Missing TorchScript weights: " + weights_path +
+          ". Export with matcher/edm/torchscript/convert_torchscript.py --device " + 
+          (device.is_cuda() ? "cuda" : "cpu"));
     }
 
-    module = torch::jit::load(cfg.weights_path, device);
+    module = torch::jit::load(weights_path, device);
     module.eval();
     module.to(device);
     module.to(torch::kFloat32);

@@ -128,7 +128,7 @@ class XFeat(nn.Module):
 
 
 	@torch.inference_mode()
-	def match_lighterglue(self, d0, d1, min_conf = 0.1):
+	def match_lighterglue(self, d0, d1, min_conf = 0.001):
 		"""
 			Match XFeat sparse features with LightGlue (smaller version) -- currently does NOT support batched inference because of padding, but its possible to implement easily.
 			input:
