@@ -1,10 +1,12 @@
 # XFeat C++ Implementation
 
 C++ implementation of XFeat feature matching with two variants:
+
 - **XFeat**: Sparse features + Mutual Nearest Neighbors matching
 - **XFeat-Star**: Semi-dense features + refinement
 
 Based on the paper: "XFeat: Accelerated Features for Lightweight Image Matching, CVPR 2024"
+
 - Website: https://www.verlab.dcc.ufmg.br/descriptors/xfeat_cvpr24/
 
 ## Prerequisites
@@ -20,6 +22,7 @@ Based on the paper: "XFeat: Accelerated Features for Lightweight Image Matching,
 ### 1. Export PyTorch Models to TorchScript
 
 **XFeat (Sparse):**
+
 ```bash
 pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat.py \
   --weights matcher/xfeat/weights/xfeat.pt \
@@ -28,6 +31,7 @@ pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat.py \
 ```
 
 **XFeat-Star (Semi-dense) - CPU:**
+
 ```bash
 pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
   --weights matcher/xfeat/weights/xfeat.pt \
@@ -37,6 +41,7 @@ pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
 ```
 
 **XFeat-Star (Semi-dense) - CUDA:**
+
 ```bash
 pixi run python matcher/xfeat/torchscript/convert_torchscript_xfeat_star.py \
   --weights matcher/xfeat/weights/xfeat.pt \
@@ -67,6 +72,7 @@ make -j$(nproc)
 ### 3. Run Demo
 
 **XFeat on CPU:**
+
 ```bash
 export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 
@@ -79,6 +85,7 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 ```
 
 **XFeat on CUDA:**
+
 ```bash
 export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 
@@ -91,6 +98,7 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 ```
 
 **XFeat-Star on CPU:**
+
 ```bash
 export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 
@@ -103,6 +111,7 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 ```
 
 **XFeat-Star on CUDA:**
+
 ```bash
 export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 
@@ -117,6 +126,7 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 ## Options
 
 ### Common Options
+
 - `--mode`: Matching mode (`xfeat` or `xfeat-star`)
 - `--device`: Device (`cpu` or `cuda`)
 - `--dtype`: Data type (`fp32` only)
@@ -126,10 +136,12 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 - `--draw-all`: Draw outliers too
 
 ### XFeat-specific
+
 - `--detection-threshold`: Keypoint detection threshold (default: 0.05)
 - `--min-cossim`: Minimum cosine similarity for MNN matching (default: -1, disabled)
 
 ### XFeat-Star-specific
+
 - `--fine-conf`: Confidence threshold for refinement (default: 0.25)
 
 ## Performance Benchmarks
@@ -137,18 +149,20 @@ export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 Test images: `assets/ref.png` and `assets/tgt.png` (800x600)
 
 ### XFeat (Sparse)
-| Device | Matches | Inliers | Ratio | Time |
-|--------|---------|---------|-------|------|
-| CPU | 832 | 157 | 18.9% | 366ms |
-| CUDA | 832 | 154 | 18.5% | 315ms |
+
+| Device | Matches | Inliers | Ratio | Time  |
+| ------ | ------- | ------- | ----- | ----- |
+| CPU    | 832     | 157     | 18.9% | 366ms |
+| CUDA   | 832     | 154     | 18.5% | 315ms |
 
 ### XFeat-Star (Semi-dense)
-| Device | Matches | Inliers | Ratio | Time |
-|--------|---------|---------|-------|------|
-| CPU | 653 | 347 | 53.1% | 101ms |
-| CUDA | 650 | 349 | 53.7% | 117ms |
 
-*Measured on NVIDIA RTX 4060 Ti / AMD Ryzen*
+| Device | Matches | Inliers | Ratio | Time  |
+| ------ | ------- | ------- | ----- | ----- |
+| CPU    | 653     | 347     | 53.1% | 101ms |
+| CUDA   | 650     | 349     | 53.7% | 117ms |
+
+_Measured on NVIDIA RTX 4060 Ti / AMD Ryzen_
 
 ## API Usage
 
@@ -178,25 +192,64 @@ std::cout << "Inliers: " << result.inlier_kpts0.size() << "\n";
 ## Troubleshooting
 
 **Missing TorchScript weights:**
+
 ```
 Missing TorchScript weights: matcher-cpp/xfeat/weights/xfeat_fp32_k4096.pt
 ```
+
 → Run the conversion script (see step 1).
 
 **TBB ABI errors during build:**
+
 ```
 undefined reference to __cxa_call_terminate@CXXABI_1.3.15
 ```
+
 → Already fixed in CMakeLists.txt with linker flag.
 
 **Runtime library errors:**
+
 ```
 error while loading shared libraries: libtorch.so
 ```
+
 → Set `LD_LIBRARY_PATH`:
+
 ```bash
 export LD_LIBRARY_PATH=/home/ardyseto/libtorch/lib:$LD_LIBRARY_PATH
 ```
+
+Fungsi dan Perbedaan Ketiga Script
+
+1. convert_torchscript_xfeat.py - Sparse Feature Extractor
+
+- Fungsi: Export XFeat sparse feature extractor untuk C++
+- Input: 1 gambar (1,C,H,W)
+- Output: Keypoints, scores, descriptors untuk satu gambar
+- Metode: NMS untuk detect keypoints, interpolasi bicubic untuk descriptors
+- Output file: xfeat_fp32_k{topk}.pt
+
+2. convert_torchscript_xfeat_star.py - Semi-Dense Matcher (End-to-End)
+
+- Fungsi: Export XFeat-Star dengan matching langsung
+- Input: 2 gambar (x0, x1)
+- Output: Matches (N,4) format (x0,y0,x1,y1) - hasil matching yang sudah direfine
+- Metode: Dual-scale semi-dense extraction + mutual NN + subpixel refinement
+- Output file: xfeat_star_fp32_k{topk}.pt
+
+3. convert_torchscript_xfeat_lightglue.py - XFeat + LightGlue Feature Extractor
+
+- Fungsi: Export XFeat sparse features untuk matching dengan LightGlue
+- Input: 2 gambar (x0, x1)
+- Output: Features untuk kedua gambar (kpts0, scores0, desc0, kpts1, scores1, desc1)
+- Metode: Sparse XFeat extraction saja, matching logic di C++
+- Output file: xfeat_lightglue_fp32_k{topk}.pt
+  Perbedaan Utama
+  | Script | Matching | Output | Use Case |
+  |--------|----------|--------|----------|
+  | xfeat.py | Tidak ada | Features per gambar | Ekstraksi fitur untuk matcher lain |
+  | xfeat_star.py | Ya (internal) | Matches langsung | End-to-end matching cepat |
+  | xfeat_lightglue.py | Tidak (di C++) | Features untuk 2 gambar | Matching dengan LightGlue transformer |
 
 ## Citation
 
