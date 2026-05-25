@@ -1,0 +1,2 @@
+/usr/bin/ar qc libclidd_trt_lib.a CMakeFiles/clidd_trt_lib.dir/src/clidd_trt.cpp.o
+/usr/bin/ranlib libclidd_trt_lib.a
