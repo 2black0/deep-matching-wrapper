@@ -1,0 +1,488 @@
+[
+  {
+    "path": "clidd_a48_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -1.070511817932129,
+        "max": 2.829305648803711
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          48
+        ],
+        "dtype": "float32",
+        "min": -0.5580564141273499,
+        "max": 0.49364110827445984
+      }
+    ]
+  },
+  {
+    "path": "clidd_e128_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 634.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -1.7740259170532227,
+        "max": 2.7783639430999756
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "dtype": "float32",
+        "min": -0.3731285333633423,
+        "max": 0.3777581751346588
+      }
+    ]
+  },
+  {
+    "path": "clidd_g128_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 633.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -1.3200722932815552,
+        "max": 3.3537850379943848
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "dtype": "float32",
+        "min": -0.3938790559768677,
+        "max": 0.38724690675735474
+      }
+    ]
+  },
+  {
+    "path": "clidd_l64_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -1.9009673595428467,
+        "max": 2.903254985809326
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.4880377948284149,
+        "max": 0.5334573984146118
+      }
+    ]
+  },
+  {
+    "path": "clidd_m64_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 634.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -1.2088310718536377,
+        "max": 3.920872449874878
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.5086792707443237,
+        "max": 0.5109806656837463
+      }
+    ]
+  },
+  {
+    "path": "clidd_n64_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -0.6934133768081665,
+        "max": 2.7528693675994873
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.44988900423049927,
+        "max": 0.5434274673461914
+      }
+    ]
+  },
+  {
+    "path": "clidd_s64_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -0.7639079689979553,
+        "max": 3.2950007915496826
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.5449115633964539,
+        "max": 0.503171443939209
+      }
+    ]
+  },
+  {
+    "path": "clidd_t64_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 4.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -0.6488707065582275,
+        "max": 2.959200859069824
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.46852999925613403,
+        "max": 0.4710692763328552
+      }
+    ]
+  },
+  {
+    "path": "clidd_u128_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 6.0,
+        "max": 635.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": -2.125335693359375,
+        "max": 2.957935333251953
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "dtype": "float32",
+        "min": -0.3749448359012604,
+        "max": 0.3852258622646332
+      }
+    ]
+  }
+]

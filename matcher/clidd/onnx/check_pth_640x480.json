@@ -1,0 +1,371 @@
+[
+  {
+    "cfg": "A48",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/A48.pth",
+    "device": "cuda",
+    "num_tensors": 62,
+    "total_weight_values": 4356,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -1.0705115795135498,
+        "max": 2.8293027877807617
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          48
+        ],
+        "min": -0.5580563545227051,
+        "max": 0.4936412274837494
+      }
+    }
+  },
+  {
+    "cfg": "N64",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/N64.pth",
+    "device": "cuda",
+    "num_tensors": 62,
+    "total_weight_values": 19324,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -0.6931812763214111,
+        "max": 2.7526915073394775
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "min": -0.4496375620365143,
+        "max": 0.5432337522506714
+      }
+    }
+  },
+  {
+    "cfg": "T64",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/T64.pth",
+    "device": "cuda",
+    "num_tensors": 66,
+    "total_weight_values": 43492,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -0.6490146517753601,
+        "max": 2.959134578704834
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "min": -0.4685068428516388,
+        "max": 0.4708057940006256
+      }
+    }
+  },
+  {
+    "cfg": "S64",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/S64.pth",
+    "device": "cuda",
+    "num_tensors": 66,
+    "total_weight_values": 100004,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -0.764764130115509,
+        "max": 3.295536994934082
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "min": -0.5449959635734558,
+        "max": 0.5031986832618713
+      }
+    }
+  },
+  {
+    "cfg": "M64",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/M64.pth",
+    "device": "cuda",
+    "num_tensors": 66,
+    "total_weight_values": 168444,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 634.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -1.2077797651290894,
+        "max": 3.920609474182129
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "min": -0.5086444616317749,
+        "max": 0.5110805034637451
+      }
+    }
+  },
+  {
+    "cfg": "L64",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/L64.pth",
+    "device": "cuda",
+    "num_tensors": 66,
+    "total_weight_values": 348220,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -1.901047706604004,
+        "max": 2.9032986164093018
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "min": -0.48793166875839233,
+        "max": 0.5335527062416077
+      }
+    }
+  },
+  {
+    "cfg": "G128",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/G128.pth",
+    "device": "cuda",
+    "num_tensors": 66,
+    "total_weight_values": 2256268,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 633.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -1.31930673122406,
+        "max": 3.3543450832366943
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "min": -0.3939317762851715,
+        "max": 0.38723018765449524
+      }
+    }
+  },
+  {
+    "cfg": "E128",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/E128.pth",
+    "device": "cuda",
+    "num_tensors": 90,
+    "total_weight_values": 3512208,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 4.0,
+        "max": 634.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -1.7727720737457275,
+        "max": 2.7788326740264893
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "min": -0.37312155961990356,
+        "max": 0.37775909900665283
+      }
+    }
+  },
+  {
+    "cfg": "U128",
+    "weights": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/U128.pth",
+    "device": "cuda",
+    "num_tensors": 90,
+    "total_weight_values": 4405072,
+    "input_shape": [
+      1,
+      3,
+      480,
+      640
+    ],
+    "outputs": {
+      "keypoints": {
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "min": 6.0,
+        "max": 635.0
+      },
+      "scores": {
+        "shape": [
+          1,
+          1024
+        ],
+        "min": -2.124868154525757,
+        "max": 2.958099603652954
+      },
+      "descriptors": {
+        "shape": [
+          1,
+          1024,
+          128
+        ],
+        "min": -0.37489885091781616,
+        "max": 0.38523322343826294
+      }
+    }
+  }
+]

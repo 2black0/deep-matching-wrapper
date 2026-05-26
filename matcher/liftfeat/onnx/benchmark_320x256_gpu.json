@@ -1,0 +1,195 @@
+{
+  "input_shape": [
+    1,
+    3,
+    256,
+    320
+  ],
+  "loops": 50,
+  "results": [
+    {
+      "name": "pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/liftfeat/weights/LiftFeat.pth",
+      "load_ms": 124.61441300547449,
+      "latency": {
+        "mean_ms": 2.1626195397402626,
+        "median_ms": 2.0834825008932967,
+        "min_ms": 2.0262449979782104,
+        "max_ms": 3.102635993855074,
+        "p95_ms": 2.7483703532197956,
+        "std_ms": 0.24682289375215266
+      }
+    },
+    {
+      "name": "liftfeat_320x256_fp32",
+      "path": "liftfeat_320x256_fp32.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 51.73189299966907,
+      "latency": {
+        "mean_ms": 1.7442883204785176,
+        "median_ms": 1.7063250015780795,
+        "min_ms": 1.590018997376319,
+        "max_ms": 2.6045470003737137,
+        "p95_ms": 2.2153232977871076,
+        "std_ms": 0.21113049318912233
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "kpt_logits",
+          "shape_ref": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "max_abs": 0.033350467681884766,
+          "mean_abs": 0.004856491461396217,
+          "rmse": 0.006171961314976215,
+          "cosine_mean": 0.9999971389770508
+        },
+        {
+          "name": "descriptors_map",
+          "shape_ref": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "max_abs": 0.0005508828908205032,
+          "mean_abs": 0.00010210218897555023,
+          "rmse": 0.0001281431468669325,
+          "cosine_mean": 0.9999994039535522
+        }
+      ]
+    },
+    {
+      "name": "liftfeat_320x256_fp16",
+      "path": "liftfeat_320x256_fp16.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 15.06580899877008,
+      "latency": {
+        "mean_ms": 1.7257774995232467,
+        "median_ms": 1.6189460002351552,
+        "min_ms": 1.558559000841342,
+        "max_ms": 3.2595910015515983,
+        "p95_ms": 2.355367398558881,
+        "std_ms": 0.3461056201094449
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "kpt_logits",
+          "shape_ref": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "max_abs": 0.10799217224121094,
+          "mean_abs": 0.01180531270802021,
+          "rmse": 0.015080386772751808,
+          "cosine_mean": 0.9999831914901733
+        },
+        {
+          "name": "descriptors_map",
+          "shape_ref": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "max_abs": 0.0012939795851707458,
+          "mean_abs": 0.00021395701332949102,
+          "rmse": 0.00026914995396509767,
+          "cosine_mean": 0.9999977350234985
+        }
+      ]
+    },
+    {
+      "name": "liftfeat_320x256_int8",
+      "path": "liftfeat_320x256_int8.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 39.576882001711056,
+      "latency": {
+        "mean_ms": 2.7976219603442587,
+        "median_ms": 2.7032935031456873,
+        "min_ms": 2.5133929957519285,
+        "max_ms": 4.06860800285358,
+        "p95_ms": 3.247979099614895,
+        "std_ms": 0.28203510582799385
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "kpt_logits",
+          "shape_ref": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            65,
+            32,
+            40
+          ],
+          "max_abs": 3.4004576206207275,
+          "mean_abs": 0.5746803283691406,
+          "rmse": 0.7266935706138611,
+          "cosine_mean": 0.9668920636177063
+        },
+        {
+          "name": "descriptors_map",
+          "shape_ref": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "shape_got": [
+            1,
+            64,
+            32,
+            40
+          ],
+          "max_abs": 0.20516826212406158,
+          "mean_abs": 0.04643706604838371,
+          "rmse": 0.05669950693845749,
+          "cosine_mean": 0.8971253633499146
+        }
+      ]
+    }
+  ]
+}

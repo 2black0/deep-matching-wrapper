@@ -1,0 +1,732 @@
+{
+  "input_shape": [
+    1,
+    3,
+    480,
+    640
+  ],
+  "topk": 1024,
+  "loops": 50,
+  "results": [
+    {
+      "name": "A48_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/A48.pth",
+      "device": "cuda",
+      "load_ms": 186.52365999878384,
+      "latency": {
+        "mean_ms": 1.581672900938429,
+        "median_ms": 1.502541002992075,
+        "min_ms": 1.3051709975115955,
+        "max_ms": 2.6133170031243935,
+        "p95_ms": 2.247264995821751,
+        "std_ms": 0.31058019367316686
+      }
+    },
+    {
+      "name": "clidd_a48_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_a48_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 58.73189399426337,
+      "latency": {
+        "mean_ms": 2.4398847605334595,
+        "median_ms": 2.3083944979589432,
+        "min_ms": 2.181350006139837,
+        "max_ms": 3.7853980029467493,
+        "p95_ms": 3.3725530025549233,
+        "std_ms": 0.38272186117169354
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 0.0,
+          "mean_abs": 0.0,
+          "rmse": 0.0
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 8.612871170043945e-06,
+          "mean_abs": 1.8215416730527068e-06,
+          "rmse": 2.354173830099171e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            48
+          ],
+          "shape_got": [
+            1,
+            1024,
+            48
+          ],
+          "max_abs": 6.943941116333008e-06,
+          "mean_abs": 2.5667276304375264e-07,
+          "rmse": 3.803429535764735e-07,
+          "cosine_mean": 1.0
+        }
+      ]
+    },
+    {
+      "name": "N64_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/N64.pth",
+      "device": "cuda",
+      "load_ms": 6.244557007448748,
+      "latency": {
+        "mean_ms": 1.6998521206551231,
+        "median_ms": 1.5503885006182827,
+        "min_ms": 1.4577160036424175,
+        "max_ms": 2.9075440106680617,
+        "p95_ms": 2.410974997474113,
+        "std_ms": 0.32858928840550006
+      }
+    },
+    {
+      "name": "clidd_n64_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_n64_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 14.366706993314438,
+      "latency": {
+        "mean_ms": 2.495805299549829,
+        "median_ms": 2.322156506124884,
+        "min_ms": 2.2273429931374267,
+        "max_ms": 3.412782010855153,
+        "p95_ms": 3.3622760922298767,
+        "std_ms": 0.3702294812830503
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 527.0,
+          "mean_abs": 36.48046875,
+          "rmse": 98.77729797363281
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0013376474380493164,
+          "mean_abs": 0.0002612920943647623,
+          "rmse": 0.00032923658727668226
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.5868304371833801,
+          "mean_abs": 0.025532741099596024,
+          "rmse": 0.07008690387010574,
+          "cosine_mean": 0.8428104519844055
+        }
+      ]
+    },
+    {
+      "name": "T64_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/T64.pth",
+      "device": "cuda",
+      "load_ms": 5.8114910061703995,
+      "latency": {
+        "mean_ms": 1.7745487790671177,
+        "median_ms": 1.546071500342805,
+        "min_ms": 1.4756129967281595,
+        "max_ms": 3.026102000148967,
+        "p95_ms": 2.6344804013206153,
+        "std_ms": 0.4169281504779814
+      }
+    },
+    {
+      "name": "clidd_t64_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_t64_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 17.011192001518793,
+      "latency": {
+        "mean_ms": 2.5535615600529127,
+        "median_ms": 2.3925510031403974,
+        "min_ms": 2.263980990392156,
+        "max_ms": 3.5115650098305196,
+        "p95_ms": 3.411028401023941,
+        "std_ms": 0.3695816410793537
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 580.0,
+          "mean_abs": 46.3828125,
+          "rmse": 108.24897766113281
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.001406848430633545,
+          "mean_abs": 0.00032737175934016705,
+          "rmse": 0.0004144367703702301
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.6427921056747437,
+          "mean_abs": 0.03480881080031395,
+          "rmse": 0.08346635103225708,
+          "cosine_mean": 0.7770677804946899
+        }
+      ]
+    },
+    {
+      "name": "S64_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/S64.pth",
+      "device": "cuda",
+      "load_ms": 7.7544119994854555,
+      "latency": {
+        "mean_ms": 1.752187619858887,
+        "median_ms": 1.5623275030520745,
+        "min_ms": 1.4856939960736781,
+        "max_ms": 3.902056996594183,
+        "p95_ms": 2.345903299283236,
+        "std_ms": 0.40765108122337207
+      }
+    },
+    {
+      "name": "clidd_s64_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_s64_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 17.476318011176772,
+      "latency": {
+        "mean_ms": 2.597430339665152,
+        "median_ms": 2.407216998108197,
+        "min_ms": 2.3236120032379404,
+        "max_ms": 3.784170010476373,
+        "p95_ms": 3.476070652686758,
+        "std_ms": 0.3926664795527305
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 617.0,
+          "mean_abs": 48.8046875,
+          "rmse": 114.53907775878906
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0023676156997680664,
+          "mean_abs": 0.0004098547506146133,
+          "rmse": 0.0005226918146945536
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.6995726227760315,
+          "mean_abs": 0.03652973845601082,
+          "rmse": 0.08727172762155533,
+          "cosine_mean": 0.7562767267227173
+        }
+      ]
+    },
+    {
+      "name": "M64_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/M64.pth",
+      "device": "cuda",
+      "load_ms": 8.336397004313767,
+      "latency": {
+        "mean_ms": 1.8759460406727158,
+        "median_ms": 1.6730540010030381,
+        "min_ms": 1.5767680015414953,
+        "max_ms": 2.6382820069557056,
+        "p95_ms": 2.5606625516957138,
+        "std_ms": 0.3287442016820641
+      }
+    },
+    {
+      "name": "clidd_m64_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_m64_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 15.965766986482777,
+      "latency": {
+        "mean_ms": 2.770097540342249,
+        "median_ms": 2.5349999996251427,
+        "min_ms": 2.4207660026149824,
+        "max_ms": 3.9151620003394783,
+        "p95_ms": 3.7640317052137107,
+        "std_ms": 0.46423809509102587
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 542.0,
+          "mean_abs": 39.1845703125,
+          "rmse": 100.8492431640625
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.002109527587890625,
+          "mean_abs": 0.00043160715722478926,
+          "rmse": 0.0005370147409848869
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.6813024282455444,
+          "mean_abs": 0.030210940167307854,
+          "rmse": 0.07970169931650162,
+          "cosine_mean": 0.7967244982719421
+        }
+      ]
+    },
+    {
+      "name": "L64_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/L64.pth",
+      "device": "cuda",
+      "load_ms": 25.32406100363005,
+      "latency": {
+        "mean_ms": 2.0357489195885137,
+        "median_ms": 1.9054109943681397,
+        "min_ms": 1.6938789922278374,
+        "max_ms": 3.315491005196236,
+        "p95_ms": 2.8138712506915904,
+        "std_ms": 0.3819398699449643
+      }
+    },
+    {
+      "name": "clidd_l64_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_l64_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 15.963321988238022,
+      "latency": {
+        "mean_ms": 2.8929026203695685,
+        "median_ms": 2.6656205009203404,
+        "min_ms": 2.5281879934482276,
+        "max_ms": 4.537596003501676,
+        "p95_ms": 3.774440594133921,
+        "std_ms": 0.4869431369717347
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 581.0,
+          "mean_abs": 43.7998046875,
+          "rmse": 110.27693939208984
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0014808177947998047,
+          "mean_abs": 0.00034117556060664356,
+          "rmse": 0.00043389335041865706
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.6204075813293457,
+          "mean_abs": 0.03290441259741783,
+          "rmse": 0.08450097590684891,
+          "cosine_mean": 0.7715067863464355
+        }
+      ]
+    },
+    {
+      "name": "G128_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/G128.pth",
+      "device": "cuda",
+      "load_ms": 16.97689900174737,
+      "latency": {
+        "mean_ms": 3.0291376801324077,
+        "median_ms": 2.768210004433058,
+        "min_ms": 2.5385949993506074,
+        "max_ms": 4.722443001810461,
+        "p95_ms": 4.067968490562634,
+        "std_ms": 0.5437568131070301
+      }
+    },
+    {
+      "name": "clidd_g128_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_g128_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 43.19067599135451,
+      "latency": {
+        "mean_ms": 4.126098879205529,
+        "median_ms": 4.0934665012173355,
+        "min_ms": 3.5540429962566122,
+        "max_ms": 5.305227998178452,
+        "p95_ms": 4.819326748838648,
+        "std_ms": 0.4610189064698127
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 599.0,
+          "mean_abs": 38.748046875,
+          "rmse": 100.7249526977539
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0033431202173233032,
+          "mean_abs": 0.0011037997901439667,
+          "rmse": 0.001192351570352912
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            128
+          ],
+          "shape_got": [
+            1,
+            1024,
+            128
+          ],
+          "max_abs": 0.4772034287452698,
+          "mean_abs": 0.022896934300661087,
+          "rmse": 0.05921188369393349,
+          "cosine_mean": 0.7756130695343018
+        }
+      ]
+    },
+    {
+      "name": "E128_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/E128.pth",
+      "device": "cuda",
+      "load_ms": 20.867896993877366,
+      "latency": {
+        "mean_ms": 3.253896420064848,
+        "median_ms": 2.882875000068452,
+        "min_ms": 2.742261000094004,
+        "max_ms": 5.320679003489204,
+        "p95_ms": 4.546069156640442,
+        "std_ms": 0.6306988975659076
+      }
+    },
+    {
+      "name": "clidd_e128_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_e128_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 32.85770300135482,
+      "latency": {
+        "mean_ms": 4.492422400508076,
+        "median_ms": 4.388994500914123,
+        "min_ms": 3.7499519967241213,
+        "max_ms": 5.730609002057463,
+        "p95_ms": 5.353680651023751,
+        "std_ms": 0.5250849780529632
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 569.0,
+          "mean_abs": 40.912109375,
+          "rmse": 104.6249008178711
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0023099780082702637,
+          "mean_abs": 0.0006875405670143664,
+          "rmse": 0.0007932185544632375
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            128
+          ],
+          "shape_got": [
+            1,
+            1024,
+            128
+          ],
+          "max_abs": 0.5420625805854797,
+          "mean_abs": 0.02236126735806465,
+          "rmse": 0.05857469514012337,
+          "cosine_mean": 0.7804163694381714
+        }
+      ]
+    },
+    {
+      "name": "U128_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/U128.pth",
+      "device": "cuda",
+      "load_ms": 25.684895997983404,
+      "latency": {
+        "mean_ms": 4.154394239012618,
+        "median_ms": 3.926457000488881,
+        "min_ms": 3.5539629898266867,
+        "max_ms": 5.624102006549947,
+        "p95_ms": 5.258424846397247,
+        "std_ms": 0.5553894092722974
+      }
+    },
+    {
+      "name": "clidd_u128_fp32_640x480_k1024",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/onnx/clidd_u128_fp32_640x480_k1024.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 32.08888100925833,
+      "latency": {
+        "mean_ms": 5.2177301395568065,
+        "median_ms": 5.336111506039742,
+        "min_ms": 4.395003998070024,
+        "max_ms": 6.32280700665433,
+        "p95_ms": 6.13190624571871,
+        "std_ms": 0.60623587492836
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 623.0,
+          "mean_abs": 51.923828125,
+          "rmse": 124.25963592529297
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.002872362732887268,
+          "mean_abs": 0.0009336511138826609,
+          "rmse": 0.0010801939060911536
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            128
+          ],
+          "shape_got": [
+            1,
+            1024,
+            128
+          ],
+          "max_abs": 0.5243364572525024,
+          "mean_abs": 0.027570925652980804,
+          "rmse": 0.06470129638910294,
+          "cosine_mean": 0.7320795655250549
+        }
+      ]
+    }
+  ]
+}

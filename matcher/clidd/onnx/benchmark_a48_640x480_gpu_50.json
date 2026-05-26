@@ -1,0 +1,224 @@
+{
+  "input_shape": [
+    1,
+    3,
+    480,
+    640
+  ],
+  "topk": 1024,
+  "loops": 50,
+  "results": [
+    {
+      "name": "A48_pth",
+      "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/clidd/weights/A48.pth",
+      "device": "cuda",
+      "load_ms": 199.51261699316092,
+      "latency": {
+        "mean_ms": 1.3589528988813981,
+        "median_ms": 1.2872014995082282,
+        "min_ms": 1.258734002476558,
+        "max_ms": 1.9697200041264296,
+        "p95_ms": 1.6562700948270501,
+        "std_ms": 0.1461593787094356
+      }
+    },
+    {
+      "name": "clidd_a48_fp32_640x480",
+      "path": "clidd_a48_fp32_640x480.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 55.94967999786604,
+      "latency": {
+        "mean_ms": 2.2451812197687104,
+        "median_ms": 2.203212003223598,
+        "min_ms": 2.170710009522736,
+        "max_ms": 3.231548995245248,
+        "p95_ms": 2.380836293741595,
+        "std_ms": 0.15455269687332646
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 0.0,
+          "mean_abs": 0.0,
+          "rmse": 0.0
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 8.612871170043945e-06,
+          "mean_abs": 1.8215416730527068e-06,
+          "rmse": 2.354173830099171e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            48
+          ],
+          "shape_got": [
+            1,
+            1024,
+            48
+          ],
+          "max_abs": 6.943941116333008e-06,
+          "mean_abs": 2.5667276304375264e-07,
+          "rmse": 3.803429535764735e-07,
+          "cosine_mean": 1.0
+        }
+      ]
+    },
+    {
+      "name": "clidd_a48_fp16_640x480",
+      "path": "clidd_a48_fp16_640x480.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 16.74332500260789,
+      "latency": {
+        "mean_ms": 2.2727999798371457,
+        "median_ms": 2.183902994147502,
+        "min_ms": 2.1586340008070692,
+        "max_ms": 2.9480530065484345,
+        "p95_ms": 2.7893146434507794,
+        "std_ms": 0.19701615023637983
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 604.0,
+          "mean_abs": 163.0498046875,
+          "rmse": 211.41741943359375
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.03351116180419922,
+          "mean_abs": 0.009876972064375877,
+          "rmse": 0.010658210143446922
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            48
+          ],
+          "shape_got": [
+            1,
+            1024,
+            48
+          ],
+          "max_abs": 0.6719146966934204,
+          "mean_abs": 0.11778058856725693,
+          "rmse": 0.15586067736148834,
+          "cosine_mean": 0.4169810116291046
+        }
+      ]
+    },
+    {
+      "name": "clidd_a48_int8_640x480",
+      "path": "clidd_a48_int8_640x480.onnx",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 29.309197008842602,
+      "latency": {
+        "mean_ms": 2.4807813408551738,
+        "median_ms": 2.4025159946177155,
+        "min_ms": 2.376165008172393,
+        "max_ms": 3.5905480035580695,
+        "p95_ms": 2.5952872550988104,
+        "std_ms": 0.22530117719738824
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 619.058837890625,
+          "mean_abs": 174.85504150390625,
+          "rmse": 217.82374572753906
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.2196812629699707,
+          "mean_abs": 0.08265676349401474,
+          "rmse": 0.090614914894104
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            48
+          ],
+          "shape_got": [
+            1,
+            1024,
+            48
+          ],
+          "max_abs": 0.7959953546524048,
+          "mean_abs": 0.129409059882164,
+          "rmse": 0.16299253702163696,
+          "cosine_mean": 0.3624024987220764
+        }
+      ]
+    }
+  ]
+}

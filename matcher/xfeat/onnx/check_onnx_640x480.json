@@ -1,0 +1,500 @@
+[
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_fp16_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float16)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 638.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": 0.00013477228640113026,
+        "max": 0.015988091006875038
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.37915053963661194,
+        "max": 0.41159769892692566
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_fp16_640x480_k2048.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float16)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          2048,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 638.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          2048
+        ],
+        "dtype": "float32",
+        "min": 9.556783334119245e-05,
+        "max": 0.015994807705283165
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          2048,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.3800220787525177,
+        "max": 0.4215009808540344
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_fp32_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 638.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": 0.0001330781524302438,
+        "max": 0.015994850546121597
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.37946200370788574,
+        "max": 0.4120161235332489
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_fp32_640x480_k2048.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          2048,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 638.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          2048
+        ],
+        "dtype": "float32",
+        "min": 9.51273541431874e-05,
+        "max": 0.016026029363274574
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          2048,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.3808843195438385,
+        "max": 0.4191412925720215
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_int8_640x480_k1024.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          1024,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 638.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          1024
+        ],
+        "dtype": "float32",
+        "min": 0.0002681335317902267,
+        "max": 0.016088012605905533
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          1024,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.37535855174064636,
+        "max": 0.42466092109680176
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_e2e_int8_640x480_k2048.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "keypoints",
+        "shape": [
+          1,
+          2048,
+          2
+        ],
+        "dtype": "float32",
+        "min": 0.0,
+        "max": 639.0
+      },
+      {
+        "name": "scores",
+        "shape": [
+          1,
+          2048
+        ],
+        "dtype": "float32",
+        "min": 0.0002681335317902267,
+        "max": 0.016713658347725868
+      },
+      {
+        "name": "descriptors",
+        "shape": [
+          1,
+          2048,
+          64
+        ],
+        "dtype": "float32",
+        "min": -0.3764480650424957,
+        "max": 0.4233531057834625
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_raw_fp16_640x480.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float16)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "descriptors_map",
+        "shape": [
+          1,
+          64,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -0.388427734375,
+        "max": 0.472900390625
+      },
+      {
+        "name": "kpt_logits",
+        "shape": [
+          1,
+          65,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -25.09375,
+        "max": 7.4609375
+      },
+      {
+        "name": "reliability",
+        "shape": [
+          1,
+          1,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": 0.0004076957702636719,
+        "max": 0.0517578125
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_raw_fp32_640x480.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "descriptors_map",
+        "shape": [
+          1,
+          64,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -0.3888424336910248,
+        "max": 0.47321948409080505
+      },
+      {
+        "name": "kpt_logits",
+        "shape": [
+          1,
+          65,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -25.099437713623047,
+        "max": 7.4611496925354
+      },
+      {
+        "name": "reliability",
+        "shape": [
+          1,
+          1,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": 0.00040477514266967773,
+        "max": 0.0516432523727417
+      }
+    ]
+  },
+  {
+    "path": "/home/ardyseto/Documents/GitHub/OpenVINS-Lite-RPI/refs/deep-matching-wrapper/matcher/xfeat/onnx/xfeat_raw_int8_640x480.onnx",
+    "onnx_ok": true,
+    "providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "inputs": [
+      {
+        "name": "image",
+        "shape": [
+          1,
+          3,
+          480,
+          640
+        ],
+        "type": "tensor(float)"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "descriptors_map",
+        "shape": [
+          1,
+          64,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -0.38862496614456177,
+        "max": 0.46881499886512756
+      },
+      {
+        "name": "kpt_logits",
+        "shape": [
+          1,
+          65,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": -25.53809928894043,
+        "max": 7.418889045715332
+      },
+      {
+        "name": "reliability",
+        "shape": [
+          1,
+          1,
+          60,
+          80
+        ],
+        "dtype": "float32",
+        "min": 0.0008105895249173045,
+        "max": 0.0506618469953537
+      }
+    ]
+  }
+]

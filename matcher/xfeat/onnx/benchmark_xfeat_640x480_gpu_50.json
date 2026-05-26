@@ -1,0 +1,835 @@
+{
+  "input_shape": [
+    1,
+    3,
+    480,
+    640
+  ],
+  "topks": [
+    1024,
+    2048
+  ],
+  "loops": 50,
+  "results": [
+    {
+      "name": "xfeat_pth_k1024",
+      "kind": "pth",
+      "device": "cuda",
+      "load_ms": 198.3783850009786,
+      "latency": {
+        "mean_ms": 2.2072617584490217,
+        "median_ms": 2.103304497723002,
+        "min_ms": 1.8879650015151128,
+        "max_ms": 3.382062990567647,
+        "p95_ms": 2.8439126064768057,
+        "std_ms": 0.3455704859878934
+      }
+    },
+    {
+      "name": "xfeat_e2e_fp16_640x480_k1024",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 60.312212008284405,
+      "latency": {
+        "mean_ms": 2.7918761398177594,
+        "median_ms": 2.671469505003188,
+        "min_ms": 2.552394988015294,
+        "max_ms": 4.038819999550469,
+        "p95_ms": 3.4381191522697914,
+        "std_ms": 0.3112083954527144
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 626.0,
+          "mean_abs": 128.48876953125,
+          "rmse": 193.2999267578125
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0002092011272907257,
+          "mean_abs": 8.008033546502702e-06,
+          "rmse": 1.7081893020076677e-05
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.3772490620613098,
+          "mean_abs": 0.030020542442798615,
+          "rmse": 0.04756574332714081,
+          "cosine_mean": 0.9276000261306763
+        }
+      ]
+    },
+    {
+      "name": "xfeat_e2e_fp32_640x480_k1024",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 12.500794997322373,
+      "latency": {
+        "mean_ms": 2.9159681586315855,
+        "median_ms": 2.81688199902419,
+        "min_ms": 2.59044898848515,
+        "max_ms": 5.328187995473854,
+        "p95_ms": 3.6664833474787883,
+        "std_ms": 0.4571971796816028
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 614.0,
+          "mean_abs": 71.2880859375,
+          "rmse": 138.02944946289062
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 2.2843480110168457e-05,
+          "mean_abs": 1.8985422229889082e-06,
+          "rmse": 3.215066726625082e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.3245898187160492,
+          "mean_abs": 0.016171878203749657,
+          "rmse": 0.03309022635221481,
+          "cosine_mean": 0.9649612307548523
+        }
+      ]
+    },
+    {
+      "name": "xfeat_e2e_int8_640x480_k1024",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 28.100045994506218,
+      "latency": {
+        "mean_ms": 3.2649147999472916,
+        "median_ms": 3.0971040032454766,
+        "min_ms": 3.0262439977377653,
+        "max_ms": 5.053264991147444,
+        "p95_ms": 3.6627025467169,
+        "std_ms": 0.3431416207307928
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 622.498046875,
+          "mean_abs": 178.767578125,
+          "rmse": 228.8093719482422
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0018906332552433014,
+          "mean_abs": 0.0005730087868869305,
+          "rmse": 0.0006125605432316661
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.4329547882080078,
+          "mean_abs": 0.0467478483915329,
+          "rmse": 0.062038347125053406,
+          "cosine_mean": 0.876839816570282
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_fp16_640x480_post_k1024",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 8.159554010489956,
+      "latency": {
+        "mean_ms": 2.763614461000543,
+        "median_ms": 2.6311230030842125,
+        "min_ms": 2.5106800021603703,
+        "max_ms": 4.101319005712867,
+        "p95_ms": 3.406042541610077,
+        "std_ms": 0.3103173145210981
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 622.0,
+          "mean_abs": 129.82177734375,
+          "rmse": 194.4129180908203
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0002016127109527588,
+          "mean_abs": 7.93444451119285e-06,
+          "rmse": 1.6619860616629012e-05
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.37725478410720825,
+          "mean_abs": 0.030238959938287735,
+          "rmse": 0.0477820560336113,
+          "cosine_mean": 0.9269400835037231
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_fp32_640x480_post_k1024",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 8.213658991735429,
+      "latency": {
+        "mean_ms": 2.9516066584619693,
+        "median_ms": 2.7945414985879324,
+        "min_ms": 2.663887004018761,
+        "max_ms": 3.827560998615809,
+        "p95_ms": 3.6102478501561563,
+        "std_ms": 0.3090108987255583
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 622.0,
+          "mean_abs": 72.77099609375,
+          "rmse": 139.38848876953125
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 5.461089313030243e-05,
+          "mean_abs": 2.3928243990667397e-06,
+          "rmse": 4.5092087930243e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.4100111722946167,
+          "mean_abs": 0.016772471368312836,
+          "rmse": 0.03374907374382019,
+          "cosine_mean": 0.9635521173477173
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_int8_640x480_post_k1024",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 18.083754999679513,
+      "latency": {
+        "mean_ms": 3.3495408002636395,
+        "median_ms": 3.176077996613458,
+        "min_ms": 2.9826410027453676,
+        "max_ms": 6.994979004957713,
+        "p95_ms": 4.043895801441977,
+        "std_ms": 0.5996233674961203
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            1024,
+            2
+          ],
+          "shape_got": [
+            1,
+            1024,
+            2
+          ],
+          "max_abs": 632.0,
+          "mean_abs": 179.07421875,
+          "rmse": 227.27735900878906
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            1024
+          ],
+          "shape_got": [
+            1,
+            1024
+          ],
+          "max_abs": 0.0023673400282859802,
+          "mean_abs": 0.0005960356211289763,
+          "rmse": 0.0006507530342787504
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            1024,
+            64
+          ],
+          "shape_got": [
+            1,
+            1024,
+            64
+          ],
+          "max_abs": 0.34204986691474915,
+          "mean_abs": 0.04685232788324356,
+          "rmse": 0.06212211027741432,
+          "cosine_mean": 0.876507043838501
+        }
+      ]
+    },
+    {
+      "name": "xfeat_pth_k2048",
+      "kind": "pth",
+      "device": "cuda",
+      "load_ms": 17.54435000475496,
+      "latency": {
+        "mean_ms": 2.1053323603700846,
+        "median_ms": 1.9545430041034706,
+        "min_ms": 1.9105480023426935,
+        "max_ms": 3.4537739993538707,
+        "p95_ms": 2.5471247485256754,
+        "std_ms": 0.31552611815341114
+      }
+    },
+    {
+      "name": "xfeat_e2e_fp16_640x480_k2048",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 13.288028014358133,
+      "latency": {
+        "mean_ms": 2.9955843585776165,
+        "median_ms": 2.8206065035192296,
+        "min_ms": 2.747933001955971,
+        "max_ms": 4.984459999832325,
+        "p95_ms": 3.4778207991621457,
+        "std_ms": 0.3676453008755905
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 629.0,
+          "mean_abs": 149.462890625,
+          "rmse": 205.5186004638672
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 0.0002016127109527588,
+          "mean_abs": 4.929390797769884e-06,
+          "rmse": 1.2137108569731936e-05
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.3350110352039337,
+          "mean_abs": 0.035891734063625336,
+          "rmse": 0.05200423672795296,
+          "cosine_mean": 0.913457989692688
+        }
+      ]
+    },
+    {
+      "name": "xfeat_e2e_fp32_640x480_k2048",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 12.910864999867044,
+      "latency": {
+        "mean_ms": 2.913321000232827,
+        "median_ms": 2.7618625026661903,
+        "min_ms": 2.687700995011255,
+        "max_ms": 5.010948996641673,
+        "p95_ms": 3.370495248964289,
+        "std_ms": 0.362838630309645
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 632.0,
+          "mean_abs": 114.146240234375,
+          "rmse": 179.41412353515625
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 7.173046469688416e-05,
+          "mean_abs": 2.7814226086775307e-06,
+          "rmse": 5.0291159823245835e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.412728875875473,
+          "mean_abs": 0.026944054290652275,
+          "rmse": 0.04422108083963394,
+          "cosine_mean": 0.9374239444732666
+        }
+      ]
+    },
+    {
+      "name": "xfeat_e2e_int8_640x480_k2048",
+      "kind": "onnx_e2e",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 27.851592996739782,
+      "latency": {
+        "mean_ms": 3.416695880005136,
+        "median_ms": 3.208878493751399,
+        "min_ms": 3.135992999887094,
+        "max_ms": 5.075552006019279,
+        "p95_ms": 4.310199352039489,
+        "std_ms": 0.40916372350674296
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 626.9882202148438,
+          "mean_abs": 176.29290771484375,
+          "rmse": 224.59228515625
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 0.0011305222287774086,
+          "mean_abs": 0.00044249044731259346,
+          "rmse": 0.00047261922736652195
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.4319336414337158,
+          "mean_abs": 0.046724770218133926,
+          "rmse": 0.0617501474916935,
+          "cosine_mean": 0.8779814839363098
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_fp16_640x480_post_k2048",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 8.097660000203177,
+      "latency": {
+        "mean_ms": 2.9027809205581434,
+        "median_ms": 2.753676009888295,
+        "min_ms": 2.573106001364067,
+        "max_ms": 4.7488420095760375,
+        "p95_ms": 3.524747151095652,
+        "std_ms": 0.3814896027913965
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 633.0,
+          "mean_abs": 150.3447265625,
+          "rmse": 206.99778747558594
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 0.0002016127109527588,
+          "mean_abs": 5.003285878046881e-06,
+          "rmse": 1.2312364560784772e-05
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.3807942271232605,
+          "mean_abs": 0.03639070689678192,
+          "rmse": 0.0523919016122818,
+          "cosine_mean": 0.9121628999710083
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_fp32_640x480_post_k2048",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 7.309258988243528,
+      "latency": {
+        "mean_ms": 3.12067959952401,
+        "median_ms": 3.0010489936103113,
+        "min_ms": 2.661622012965381,
+        "max_ms": 4.419803008204326,
+        "p95_ms": 3.882864892511861,
+        "std_ms": 0.41510909094006176
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 632.0,
+          "mean_abs": 105.912841796875,
+          "rmse": 169.8129425048828
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 2.8393231332302094e-05,
+          "mean_abs": 1.424714128006599e-06,
+          "rmse": 2.832864311130834e-06
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.40999966859817505,
+          "mean_abs": 0.024535534903407097,
+          "rmse": 0.04131142795085907,
+          "cosine_mean": 0.9453877210617065
+        }
+      ]
+    },
+    {
+      "name": "xfeat_raw_int8_640x480_post_k2048",
+      "kind": "onnx_raw_plus_post",
+      "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "load_ms": 18.440280997310765,
+      "latency": {
+        "mean_ms": 3.4109666998847388,
+        "median_ms": 3.227070003049448,
+        "min_ms": 3.019748008227907,
+        "max_ms": 5.600611999398097,
+        "p95_ms": 4.294002603273838,
+        "std_ms": 0.4837718931036771
+      },
+      "accuracy_vs_pth": [
+        {
+          "name": "keypoints",
+          "shape_ref": [
+            1,
+            2048,
+            2
+          ],
+          "shape_got": [
+            1,
+            2048,
+            2
+          ],
+          "max_abs": 634.0,
+          "mean_abs": 173.716796875,
+          "rmse": 222.6930389404297
+        },
+        {
+          "name": "scores",
+          "shape_ref": [
+            1,
+            2048
+          ],
+          "shape_got": [
+            1,
+            2048
+          ],
+          "max_abs": 0.002351362258195877,
+          "mean_abs": 0.0004653691139537841,
+          "rmse": 0.0005020229727961123
+        },
+        {
+          "name": "descriptors",
+          "shape_ref": [
+            1,
+            2048,
+            64
+          ],
+          "shape_got": [
+            1,
+            2048,
+            64
+          ],
+          "max_abs": 0.4014332890510559,
+          "mean_abs": 0.04669326916337013,
+          "rmse": 0.061693884432315826,
+          "cosine_mean": 0.8782037496566772
+        }
+      ]
+    }
+  ]
+}
